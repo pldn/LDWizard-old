@@ -12,11 +12,9 @@ A generic framework for converting common datasources to Linked Data.
 
 ### 1.2 Document Conventions
 
-### 1.3 Intended Audience and Reading Suggestions
+### 1.3 Product Scope
 
-### 1.4 Product Scope
-
-### 1.5 References
+### 1.4 References
 
 ## 2.Overall Description
 
@@ -24,13 +22,11 @@ A generic framework for converting common datasources to Linked Data.
 
 ### 2.2 Product Functions
 
-### 2.3 User Classes and Characteristics
+### 2.3 Operating Environment
 
-### 2.4 Operating Environment
+### 2.4 Design and Implementation Constraints
 
-### 2.5 Design and Implementation Constraints
-
-### 2.6 Assumptions and Dependencies
+### 2.5 Assumptions and Dependencies
 
 ## 3. External Interface Requirements
 
