@@ -4,7 +4,7 @@
 
 A generic framework for converting common datasources to Linked Data.
 
-# Software Requirements Document Template (Preliminary)
+# Software Requirements and Design Document (Preliminary)
 
 ## 1. Introduction
 
