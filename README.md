@@ -7,10 +7,10 @@ A generic framework for converting common datasources to Linked Data.
 # Software Requirements and Design Document (Preliminary)
 
 ## 1. Introduction
-The advent of Linked Data is evident through the ever increasing activitiets within [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/) and [social and economic history](https://stories.datalegend.net). However, for most part these initiatives still rely on expert technical knowledge regarding vocabularies and data-transformation. Confronted with the question, 'so how can we do that (Linked Data)?', when presenting the results from the 2019 Hack-a-LOD to the commmunity in a local drugstore, Erwin Folmer sparked the idea for LDWizard. A limited, but useful first gauge at transposing data to Linked Data for non-experts, yet with the ability for experts to advaance on the output by the LDWizard.
+The advent of Linked Data is evident through the ever increasing activities within [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/) and [social and economic history](https://stories.datalegend.net). However, for most part these initiatives still rely on expert technical knowledge regarding vocabularies and data-transformation. Confronted with the question, 'so how can we do that (Linked Data)?', when presenting the results from the [2019 Hack-a-LOD](https://hackalod.com/index.php/2019/12/24/teams-en-resultaten-2019/) to the commmunity in a local drugstore, Erwin Folmer sparked the idea for LDWizard. A limited, but useful first gauge at transposing data to Linked Data for non-experts, yet with the ability for experts to advance on the output by the LDWizard.
 
 ### 1.1 Purpose
-To transpose a csv file in a simple yet meaningful way to Linked Data that can be expanded upon by more advanced LD converters such as RML and [CoW](https://github.com/clariah/cow/wiki).
+To transpose a csv file in a simple yet meaningful way to Linked Data that can be expanded upon by more advanced LD converters such as [RMLeditor](https://rml.io/tools/rmleditor/) and [CoW](https://github.com/clariah/cow/wiki).
 
 ### 1.2 Document Conventions
 
