@@ -2,7 +2,7 @@
 
 # LDWizard
 
-A generic framework for creating Linked Data in Spell.
+A generic framework for creating Linked Data in one Spell.
 
 # Software Requirements and Design Document (Preliminary)
 
