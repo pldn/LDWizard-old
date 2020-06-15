@@ -22,7 +22,8 @@ To transpose a csv file in a simple yet meaningful way to Linked Data that can b
 | Abbreviation |   	                                                                                                                                                      |
 |---	         |---	                                                                                                                                                      |
 | csv        	 | Comma-separated values, a tabular format, used as non-proprietary format for tabular data. described in [RFC4180](https://tools.ietf.org/html/rfc4180)  	|
-| ETL          | an abbreviation for Extract data, Transform data, Load data. Which is used to describe pipelines that transform data from one type to another type. 	    |
+| ETL          | An abbreviation for Extract data, Transform data, Load data. Which is used to describe pipelines that transform data from one type to another type. 	    |
+| baseIRI      | An IRI that forms the basis link, which can be expanded with an extra path-element that will point to a specific resource                                |
 
 
 ## 2.Overall Description
@@ -69,23 +70,53 @@ The basic LDWizard will consist out of 4 basic components:
 
 ### 4.1 upload/input component
 
+#### csv upload
+
+For the csv upload we will need to make a choice about how we interpret a correct csv document. This is due to the ambiguity of a correct csv file. A csv file can have multiple different delimiter formats, e.g. "," or ";". This could occur natural if the user uses the Dutch notation for decimal numbers. When this happens, the csv split will differ from what is expected.
+
+Secondly a csv can have multiple different methods for declaring strings with quotations marks, e.g. """ or "'". Finally there are also different Implementations for spaces at the beginning and the end of the fields. These can also be handled different from csv to csv.
+
+For this problem there are three solutions, we can either declare that:
+ - A correct csv document, is something that the developers from LDWizard decide.
+ - A correct csv document, is something the implementer of an instantiated LDwizard will decide.
+ - A correct csv document, is something the user of a specific instantiated LDWizard will decide on a limited basis.
+
+I would recommend that we implement the second solution as leading. The domain expert that will help create the instantiation of the LDWizard will probably also know which csv template is leading the domain. The domain expert can also help if users have the incorrect csv, and help them transform the csv file.
+
+We do not expect that a csv will always have a header line. If the file does not have a header file we should use a baseIRI + the letter of the column as the IRI for the predicate.
+
+The LDWizard will follow the <https://www.w3.org/TR/trig/> specifications for the handling of special characters. The LDWizard will handle these special characters as errors.
+
+##### Limitations
+
+The second decision we should take is the size of the csv documents. Here two factors can be limiting for us in how large the size of the file can be. The performance of the conversion script, and the size of the document that can be handled in the browser, without significant performance loss.
+
+To make sure we can handle both limits I would recommend using a file limit of 50 mb. If we notice that we can improve or enlarge one or both we could always improve it.
+
+A final hard limitation would be the amount of columns, and a limit on the amount of rows. Let's set the limit for the amount of rows on 30, for now. As it is expected that this would not improve the usability of the LDWizard if we enlarge this number any further. But we can always decide different.
+Let's set the amount of rows on 1.048.576, the same limit as excel for the amount of rows. With the same footnote as for the amount of columns.
+
+
 ### 4.1.1 Description and Priority
 
 ### 4.1.2 Stimulus/Response Sequences
 
-Stimulus: the user uploads a correct csv document
+Stimulus: the user uploads a correct csv document. <br>
 Response: The continue/transform button will enable and the document will be stored in the browser memory.
 
-Stimulus: The user uploads an incorrect document
-Response: The user will get a warning that the document is incorrect.
+Stimulus: The user uploads an incorrect document.<br>
+Response: The user will get a error saying that the document is incorrect and show the location of the error.
 
-Stimulus: The user uploads multiple csv documents
-Response: The user will get a warning saying it can only upload a single csv document
+Stimulus: The user uploads an correct csv document, with incorrect special characters according to the <https://www.w3.org/TR/trig/> specifications.<br>
+Response: The user will get a error saying that the document is incorrect and show the location of the error.
 
-Stimulus: The user uploads a correct conversion script
+Stimulus: The user uploads multiple csv documents.<br>
+Response: The user will get a warning saying it can only upload a single csv document.
+
+Stimulus: The user uploads a correct conversion script.<br>
 Response: The script will be handled accordingly. The user will see a transform instead of a continue button.
 
-Stimulus: The user uploads an incorrect script
+Stimulus: The user uploads an incorrect script.<br>
 Response: The user will get a warning that the script is incorrect.
 
 ### 4.1.3 Functional Requirements
