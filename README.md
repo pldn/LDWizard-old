@@ -62,7 +62,7 @@ The LDWizard assumes that all three types of users have a general knowledge of l
 ## 4. System Features
 
 The basic LDWizard will consist out of 4 basic components:
- - The upload/input component, for uploading the to be transformed csv and a possible tranformation script.
+ - The upload/input component, for uploading the to be transformed csv and a possible transformation script.
  - Wizard GUI component, GUI components that will handle one or multiple transformation processes.
  - Download/export component, For downloading/exporting the linked data and transformation script to your local file system.
  - Upload/publish component, For uploading/publishing the linked data and transformation script on the web.
@@ -72,6 +72,21 @@ The basic LDWizard will consist out of 4 basic components:
 ### 4.1.1 Description and Priority
 
 ### 4.1.2 Stimulus/Response Sequences
+
+Stimulus: the user uploads a correct csv document
+Response: The continue/transform button will enable and the document will be stored in the browser memory.
+
+Stimulus: The user uploads an incorrect document
+Response: The user will get a warning that the document is incorrect.
+
+Stimulus: The user uploads multiple csv documents
+Response: The user will get a warning saying it can only upload a single csv document
+
+Stimulus: The user uploads a correct conversion script
+Response: The script will be handled accordingly. The user will see a transform instead of a continue button.
+
+Stimulus: The user uploads an incorrect script
+Response: The user will get a warning that the script is incorrect.
 
 ### 4.1.3 Functional Requirements
 
