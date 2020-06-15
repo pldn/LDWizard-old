@@ -145,6 +145,32 @@ Response: The user will get a warning that the script is incorrect.
 
 ### 4.4.3 Functional Requirements
 
+### 4.5 ETL script && conversion bindings
+
+Instead of developing a new ETL-tool we will use an existing ETL-tool to execute the transformation step. We decided to use a client based transformation tool [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt) as the tool to transform the csv to RDF. The LDWizard uses this language due to it's expandability and ease of use.
+
+Due to the limitations of the LDWizard, the ETL script inside the browser is limited to a max set of rows and columns. To use the ETL-script on a larger csv the LDWizard has an export button to export the ETL-script. This has two advantages.
+ - To use the script the user designed in the LDWizard outside of the LDWizard.
+ - To import to the ETL-script for a different csv in the LDWizard.
+
+To make the use of the ETL-script more generic we will give the user the possibility to export the ETL-script into different languages. At the moment LDWizard will make it possible to export the ETL-script into ([RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt), [RMLeditor](https://rml.io/tools/rmleditor/) or [CoW](https://github.com/clariah/cow/wiki)) language.
+
+
+#### RATT <-> COW
+
+
+
+#### RATT <-> RML
+
+
+### 4.5.1 Description and Priority
+
+### 4.5.2 Stimulus/Response Sequences
+
+### 4.5.3 Functional Requirements
+
+
+
 ## 5. Other Nonfunctional Requirements
 
 ### 5.1 Performance Requirements
