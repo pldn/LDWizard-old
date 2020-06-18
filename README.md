@@ -53,6 +53,8 @@ The LDWizard assumes that there are three different types of users of the LDWiza
 
 The LDWizard assumes that all three types of users have a general knowledge of linked data. We also assume that the developer will have a general knowledge about Javascript and/or typescript.
 
+The LDWizard will at this moment assume that per row only one subject is allowed. (This assumption could be removed at a latter stage.)
+
 ## 3. External Interface Requirements
 
 ### 3.1 User Interfaces
@@ -182,7 +184,7 @@ import-script(file)
 
 ### 4.3 Export component
 
-Leesbaarheid: TriG (*), JSON-LD
+Leesbaarheid: TriG (\*), JSON-LD
 
 ### 4.3.1 Description and Priority
 
@@ -217,21 +219,51 @@ Due to the limitations of the LDWizard, the ETL script inside the browser is lim
 
 To make the use of the ETL-script more generic we will give the user the possibility to export the ETL-script into different languages. At the moment LDWizard will make it possible to export the ETL-script into ([RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt), [RMLeditor](https://rml.io/tools/rmleditor/) or [CoW](https://github.com/clariah/cow/wiki)) language.
 
-
-#### RATT <-> COW
-
-
-
-#### RATT <-> RML
-
-
 ### 4.5.1 Description and Priority
 
 ### 4.5.2 Stimulus/Response Sequences
 
+Stimulus: The user uploads a correct RATT script .<br>
+Response: The script gets loaded into the LDWizard.
+
+Stimulus: The user uploads a correct RML script. <br>
+Response: The script gets converted to a correctly working RATT script and loaded into the LDWizard.
+
+Stimulus: The user uploads a correct COW script. <br>
+Response: The script gets converted to a correctly working RATT script and loaded into the LDWizard.
+
+Stimulus: The user uploads an incorrect RATT script. <br>
+Response: The user gets a warning, that the script is incorrect.
+
+Stimulus: The user uploads an incorrect RML script. <br>
+Response: The LDWizard tries to convert the script. But the user gets a warning, stating that the script is incorrect.
+
+Stimulus: The user uploads an incorrect COW script. <br>
+Response: The LDWizard tries to convert the script. But the user gets a warning, stating that the script is incorrect.
+
 ### 4.5.3 Functional Requirements
 
+The conversion from RATT to RML and from RML to RATT, as also from RATT to COW and from COW to RATT should be deterministic. Thus when you download a RML script for example and then reupload the RML script is should create the exact same RATT script from the RML script, as from which the RML script was created.
 
+The following guidelines for the transform between RATT and COW/RML and between COW/RML and RATT are recommended.(These can be expanded upon when new information arises)
+
+To keep it simpler for now I will make a few assumptions about the data for now. But some/all of these restrictions could be removed in a later point of the process.
+
+ - We assume that there is only one subject in the script/csv/template
+ - We assume that the description about the subject in the script is handled as high as possible in the template.  
+
+Step 1: Find the subject in the row, either the rownumber or the predefined column, set as subject.
+Step 2: If needed convert the subject to a proper IRI.
+Step 3: Move from left to right to the column, starting from the first/second depending on the location of the subject.
+Step 4: Skip the column if the column is not mentioned in RATT, RML, or set to skip in COW.
+Step 5a: Clean the value in the column we do want to parse, for now with template based cleaning.
+Step 5b: Set the datatype of the column we do want to parse. If the object is an IRI, make sure that we set it correctly.
+Step 5c: (Set/Parse column as predicate) and link the subject and the object together with the correct predicate.
+Step 6: Move back to step 3, until it the end of the table is reached.
+
+With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.
+
+When supporting multiple subjects per row we need to expand the steps 1,3 and 4. As then we need to move through the columns and skip not only based on if a column is used, but also if the column is used w.r.t the choosen subject.  
 
 ## 5. Other Nonfunctional Requirements
 
