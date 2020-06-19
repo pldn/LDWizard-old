@@ -221,6 +221,28 @@ To make the use of the ETL-script more generic we will give the user the possibi
 
 ### 4.5.1 Description and Priority
 
+The conversion from RATT to RML and from RML to RATT, as also from RATT to COW and from COW to RATT should be deterministic. Thus when you download a RML script for example and then reupload the RML script is should create the exact same RATT script from the RML script, as from which the RML script was created.
+
+The following guidelines for the transform between RATT and COW/RML and between COW/RML and RATT are recommended.(These can be expanded upon when new information arises)
+
+To keep it simpler for now I will make a few assumptions about the data for now. But some/all of these restrictions could be removed in a later point of the process.
+
+ - We assume that there is only one subject in the script/csv/template
+ - We assume that the description about the subject in the script is handled as high as possible in the template.  
+
+Step 1: Find the subject in the row, either the rownumber or the predefined column, set as subject.
+Step 2: If needed convert the subject to a proper IRI.
+Step 3: Move from left to right to the column, starting from the first/second depending on the location of the subject.
+Step 4: Skip the column if the column is not mentioned in RATT, RML, or set to skip in COW.
+Step 5a: Clean the value in the column we do want to parse, for now with template based cleaning.
+Step 5b: Set the datatype of the column we do want to parse. If the object is an IRI, make sure that we set it correctly.
+Step 5c: (Set/Parse column as predicate) and link the subject and the object together with the correct predicate.
+Step 6: Move back to step 3, until it the end of the table is reached.
+
+With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.
+
+When supporting multiple subjects per row we need to expand the steps 1,3 and 4. As then we need to move through the columns and skip not only based on if a column is used, but also if the column is used w.r.t the choosen subject.  
+
 ### 4.5.2 Stimulus/Response Sequences
 
 Stimulus: The user uploads a correct RATT script .<br>
@@ -243,27 +265,20 @@ Response: The LDWizard tries to convert the script. But the user gets a warning,
 
 ### 4.5.3 Functional Requirements
 
-The conversion from RATT to RML and from RML to RATT, as also from RATT to COW and from COW to RATT should be deterministic. Thus when you download a RML script for example and then reupload the RML script is should create the exact same RATT script from the RML script, as from which the RML script was created.
+Core requirements:
+  - The ability to transform a RATT script into a RML script.
+  - The ability to transform a RATT script into a COW script.
+  - The ability to transform a RML script into a RATT script.
+  - The ability to transform a COW script into a RATT script.
 
-The following guidelines for the transform between RATT and COW/RML and between COW/RML and RATT are recommended.(These can be expanded upon when new information arises)
+Additional requirements:
 
-To keep it simpler for now I will make a few assumptions about the data for now. But some/all of these restrictions could be removed in a later point of the process.
-
- - We assume that there is only one subject in the script/csv/template
- - We assume that the description about the subject in the script is handled as high as possible in the template.  
-
-Step 1: Find the subject in the row, either the rownumber or the predefined column, set as subject.
-Step 2: If needed convert the subject to a proper IRI.
-Step 3: Move from left to right to the column, starting from the first/second depending on the location of the subject.
-Step 4: Skip the column if the column is not mentioned in RATT, RML, or set to skip in COW.
-Step 5a: Clean the value in the column we do want to parse, for now with template based cleaning.
-Step 5b: Set the datatype of the column we do want to parse. If the object is an IRI, make sure that we set it correctly.
-Step 5c: (Set/Parse column as predicate) and link the subject and the object together with the correct predicate.
-Step 6: Move back to step 3, until it the end of the table is reached.
-
-With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.
-
-When supporting multiple subjects per row we need to expand the steps 1,3 and 4. As then we need to move through the columns and skip not only based on if a column is used, but also if the column is used w.r.t the choosen subject.  
+Limiting scope:
+  - The transformation will transform the RATT script to a single script file in a different language.  
+  - The transformation to a working RATT script is only guaranteed if other script file was also generated by LDWizard.
+  - It is not possible to tranform multiple script files.
+  - Only `.cow`, `.rml`, `.ts` source scripts are supported.
+  - File decompression is not supported.
 
 ## 5. Other Nonfunctional Requirements
 
