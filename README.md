@@ -111,7 +111,7 @@ The second decision we should take is the size of the csv documents. Here two fa
 
 To make sure we can handle both limits I would recommend using a file limit of 50 mb. If we notice that we can improve or enlarge one or both we could always improve it.
 
-A final hard limitation would be the amount of columns, and a limit on the amount of rows. Let's set the limit for the amount of rows on 30, for now. As it is expected that this would not improve the usability of the LDWizard if we enlarge this number any further. But we can always decide different.
+A final hard limitation would be the amount of columns, and a limit on the amount of rows. Let's set the limit for the amount of columns on 30, for now. As it is expected that this would not improve the usability of the LDWizard if we enlarge this number any further. But we can always decide different.
 Let's set the amount of rows on 1.048.576, the same limit as excel for the amount of rows. With the same footnote as for the amount of columns.
 
 
