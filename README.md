@@ -12,7 +12,7 @@ The advent of Linked Data is evident through the ever increasing activities with
 
 ### 1.1 Purpose
 
-The purpose of LD Wizard is to transpose a CSV input file in a simple yet meaningful way in Linked Open Data.  LD Wizard specifically forcusses on establishing an initial transformation that requires no prior knowledge of Linked Data technologies to establish.  At the same time, LD Wizard allows this initial transformation to be exported into a widely used data transformation language.  This export can be used with more advanced Linked Data transformation tools in order to expand upon the initial transformation created with LD Wizard.
+The purpose of LD Wizard is to transpose a CSV input file in a simple yet meaningful way in Linked Open Data. LD Wizard specifically forcusses on establishing an initial transformation that requires no prior knowledge of Linked Data technologies to establish. At the same time, LD Wizard allows this initial transformation to be exported into a widely used data transformation language. This export can be used with more advanced Linked Data transformation tools in order to expand upon the initial transformation created with LD Wizard.
 
 ### 1.2 Document Conventions
 
@@ -20,16 +20,15 @@ The purpose of LD Wizard is to transpose a CSV input file in a simple yet meanin
 
 ### 1.4 References
 
-| Abbreviation |   	                                                                                                                                                      |
-|---	         |---	                                                                                                                                                      |
-| csv        	 | Comma-separated values, a tabular format, used as non-proprietary format for tabular data. described in [RFC4180](https://tools.ietf.org/html/rfc4180)  	|
-| ETL          | An abbreviation for Extract data, Transform data, Load data. Which is used to describe pipelines that transform data from one type to another type. 	    |
-| baseIRI      | An IRI that forms the basis link, which can be expanded with an extra path-element that will point to a specific resource                                |
-
+| Abbreviation |                                                                                                                                                        |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| csv          | Comma-separated values, a tabular format, used as non-proprietary format for tabular data. described in [RFC4180](https://tools.ietf.org/html/rfc4180) |
+| ETL          | An abbreviation for Extract data, Transform data, Load data. Which is used to describe pipelines that transform data from one type to another type.    |
+| baseIRI      | An IRI that forms the basis link, which can be expanded with an extra path-element that will point to a specific resource                              |
 
 ## 2.Overall Description
 
-The LDWizard is designed to be a starting framework for transformations from csv to linked data. The LDwizard is designed to be the starting point of a generic pipeline that can be customized and expanded to cater specified needs in designated fields.  
+The LDWizard is designed to be a starting framework for transformations from csv to linked data. The LDwizard is designed to be the starting point of a generic pipeline that can be customized and expanded to cater specified needs in designated fields.
 
 ### 2.1 Product Perspective
 
@@ -47,13 +46,14 @@ To make sure the LDWizard can still perform. We will assume that the user will u
 ### 2.5 Assumptions and Dependencies
 
 The LDWizard assumes that there are three different types of users of the LDWizard.
- - A general user, somebody who will use an instantiated product set up by developers and domain experts.
- - A Linked data specialist, somebody who will use an instantiated product set up by the developers to kick start the development of a ETL.
- - A developers and domain experts, people who will use the LDWizard framework to set up their own instantiated version of the LDWizard. Catered for their domain/specific usecase.
 
-The LDWizard assumes that all three types of users have a general knowledge of linked data. We also assume that the developer will have a general knowledge about Javascript and/or typescript.
+- A general user, somebody who will use an instantiated product set up by developers and domain experts.
+- A Linked data specialist, somebody who will use an instantiated product set up by the developers to kick start the development of a ETL.
+- A developers and domain experts, people who will use the LDWizard framework to set up their own instantiated version of the LDWizard. Catered for their domain/specific usecase.
 
-The LDWizard will at this moment assume that per row only one subject is allowed. (This assumption could be removed at a latter stage.)
+The LDWizard assumes that all three types of users have a general knowledge of linked data. We also assume that the developer will have a general knowledge about Javascript and/or Typescript.
+
+The LDWizard will at this moment assume that per row only one subject is allowed.
 
 ## 3. External Interface Requirements
 
@@ -66,12 +66,14 @@ The LDWizard will at this moment assume that per row only one subject is allowed
 ## 4. System Features
 
 The basic LDWizard will consist out of 4 basic components:
- - The upload/input component, for uploading the to be transformed csv and a possible transformation script.
- - Wizard GUI component, GUI components that will handle one or multiple transformation processes.
- - Download/export component, For downloading/exporting the linked data and transformation script to your local file system.
- - Upload/publish component, For uploading/publishing the linked data and transformation script on the web.
+
+- The upload/input component, for uploading the to be transformed csv and a possible transformation script.
+- Wizard GUI component, GUI components that will handle one or multiple transformation processes.
+- Download/export component, For downloading/exporting the linked data and transformation script to your local file system.
+- Upload/publish component, For uploading/publishing the linked data and transformation script on the web.
 
 ### 4.1 upload/input component
+
 ### 4.1 Import component
 
 ### 4.1.1 Description and Priority
@@ -80,13 +82,13 @@ The import component allows the initial information that is needed by LD Wizard 
 
 There are two kinds of initial information that a user might provide:
 
-  - Exactly one source data file (required; high priority).
-  - At most one script file (optional; medium priority).
+- Exactly one source data file (required; high priority).
+- At most one script file (optional; medium priority).
 
 There are two ways in which initial information can be imported by a user:
 
-  - Import from a local file.
-  - Import from a remote URL.
+- Import from a local file.
+- Import from a remote URL.
 
 #### csv upload
 
@@ -95,11 +97,12 @@ For the csv upload we will need to make a choice about how we interpret a correc
 Secondly a csv can have multiple different methods for declaring strings with quotations marks, e.g. """ or "'". Finally there are also different Implementations for spaces at the beginning and the end of the fields. These can also be handled different from csv to csv.
 
 For this problem there are three solutions, we can either declare that:
- - A correct csv document, is something that the developers from LDWizard decide.
- - A correct csv document, is something the implementer of an instantiated LDwizard will decide.
- - A correct csv document, is something the user of a specific instantiated LDWizard will decide on a limited basis.
 
-I would recommend that we implement the second solution as leading. The domain expert that will help create the instantiation of the LDWizard will probably also know which csv template is leading the domain. The domain expert can also help if users have the incorrect csv, and help them transform the csv file.
+- A correct csv document, is something that the developers from LDWizard decide.
+- A correct csv document, is something the implementer of an instantiated LDwizard will decide.
+- A correct csv document, is something the user of a specific instantiated LDWizard will decide on a limited basis.
+
+<!-- I would recommend that we implement the second solution as leading. The domain expert that will help create the instantiation of the LDWizard will probably also know which csv template is leading the domain. The domain expert can also help if users have the incorrect csv, and help them transform the csv file. -->
 
 We do not expect that a csv will always have a header line. If the file does not have a header file we should use a baseIRI + the letter of the column as the IRI for the predicate.
 
@@ -114,23 +117,29 @@ To make sure we can handle both limits I would recommend using a file limit of 5
 A final hard limitation would be the amount of columns, and a limit on the amount of rows. Let's set the limit for the amount of columns on 30, for now. As it is expected that this would not improve the usability of the LDWizard if we enlarge this number any further. But we can always decide different.
 Let's set the amount of rows on 1.048.576, the same limit as excel for the amount of rows. With the same footnote as for the amount of columns.
 
-
 ### 4.1.1 Description and Priority
 
 ### 4.1.2 Stimulus/Response Sequences
 
-- This component must block further componets/steps in case no source file is specified.
+- This component must block further components/steps in case no source file is specified.
+
 Stimulus: the user uploads a correct csv document. <br>
 Response: The continue/transform button will enable and the document will be stored in the browser memory.
 
+Stimulus: The user uploads a correct csv document but the csv document is too large.
+Response: The user will get a error saying that the document is large.
+
+Stimulus: The user wants to upload a csv via URL, but the URL not available.
+Response: The user will get a error saying that LDWizard failed to retrieve the data.
+
 Stimulus: The user uploads an incorrect document.<br>
-Response: The user will get a error saying that the document is incorrect and show the location of the error.
+Response: The user will get a error saying that the document is incorrect and the LDWizard will show the location of the error.
 
 Stimulus: The user uploads an correct csv document, with incorrect special characters according to the <https://www.w3.org/TR/trig/> specifications.<br>
 Response: The user will get a error saying that the document is incorrect and show the location of the error.
 
 Stimulus: The user uploads multiple csv documents.<br>
-Response: The user will get a warning saying it can only upload a single csv document.
+Response: The user will get a error saying it can only upload a single csv document.
 
 Stimulus: The user uploads a correct conversion script.<br>
 Response: The script will be handled accordingly. The user will see a transform instead of a continue button.
@@ -146,26 +155,29 @@ Response: The user will get a warning that the script is incorrect.
 - Drag & drop (low priority).
 
 Core requirements:
-  - The ability to import exactly one data source file.
-  - The ability to import exactly one script file.
-  - The ability to import from a local file:
-  - The ability to import from a publically accessible online location (URL).
+
+- The ability to import exactly one data source file.
+- The ability to import exactly one script file.
+- The ability to import from a local file:
+- The ability to import from a publically accessible online location (URL).
 
 Additional requirements:
-  - TBD: Specify a soft limit for the file size:
-    - There may be a limit to the file size that can be held in browser memory.
-    - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.
-  - TBD: Automatically recognize the file format:
-    - Not at all: the function signature determines how the file will be processed.
-    - Based on file name: `.csv` for data imports; `.cow`, `.rml`, or `.rq` for script imports.
-    - Based on a (partial) parse of the file.
+
+- TBD: Specify a soft limit for the file size:
+  - There may be a limit to the file size that can be held in browser memory.
+  - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.
+- TBD: Automatically recognize the file format:
+  - Not at all: the function signature determines how the file will be processed.
+  - Based on file name: `.csv` for data imports; `.cow`, `.rml`, or `.rq` for script imports.
+  - Based on a (partial) parse of the file.
 
 Limiting scope:
-  - Importing from non-SSL URLs (i.e., HTTP rather than HTTPS) is not supported.
-  - Importing from SSL URLs on servers that do not emit the correct headers (e.g., CORS) is not supported.
-  - It is not possible to import multiple source files or multiple script files.
-  - Only CSV source data is supported.
-  - File decompression is not supported.
+
+- Importing from non-SSL URLs (i.e., HTTP rather than HTTPS) is not supported.
+- Importing from SSL URLs on servers that do not emit the correct headers (e.g., CORS) is not supported.
+- It is not possible to import multiple source files or multiple script files.
+- Only CSV source data is supported.
+- File decompression is not supported.
 
 ```
 import-data(URL)
@@ -188,7 +200,7 @@ Leesbaarheid: TriG (\*), JSON-LD
 
 ### 4.3.1 Description and Priority
 
-The export component allows the results of a LD Wizard transformation to be stored in simple text files.  The text files are formatted in such a way that they allow direct reuse in more advanced Linked Data transformation tools.
+The export component allows the results of a LD Wizard transformation to be stored in simple text files. The text files are formatted in such a way that they allow direct reuse in more advanced Linked Data transformation tools.
 
 ### 4.3.2 Stimulus/Response Sequences
 
@@ -196,10 +208,10 @@ The export component allows the results of a LD Wizard transformation to be stor
 
 Potential export formats for scripts:
 
-  - [CoW](https://github.com/clariah/cow/wiki).
-  - [RMLeditor](https://rml.io/tools/rmleditor/)
-  - RATT (RDF All The Things)
-  - SPARQL CONSTRUCT (for RDF-to-RDF conversions)
+- [CoW](https://github.com/clariah/cow/wiki).
+- [RMLeditor](https://rml.io/tools/rmleditor/)
+- RATT (RDF All The Things)
+- SPARQL CONSTRUCT (for RDF-to-RDF conversions)
 
 ### 4.4 Upload/publish component
 
@@ -214,8 +226,9 @@ Potential export formats for scripts:
 Instead of developing a new ETL-tool we will use an existing ETL-tool to execute the transformation step. We decided to use a client based transformation tool [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt) as the tool to transform the csv to RDF. The LDWizard uses this language due to it's expandability and ease of use.
 
 Due to the limitations of the LDWizard, the ETL script inside the browser is limited to a max set of rows and columns. To use the ETL-script on a larger csv the LDWizard has an export button to export the ETL-script. This has two advantages.
- - To use the script the user designed in the LDWizard outside of the LDWizard.
- - To import to the ETL-script for a different csv in the LDWizard.
+
+- To use the script the user designed in the LDWizard outside of the LDWizard.
+- To import to the ETL-script for a different csv in the LDWizard.
 
 To make the use of the ETL-script more generic we will give the user the possibility to export the ETL-script into different languages. At the moment LDWizard will make it possible to export the ETL-script into ([RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt), [RMLeditor](https://rml.io/tools/rmleditor/) or [CoW](https://github.com/clariah/cow/wiki)) language.
 
@@ -227,21 +240,21 @@ The following guidelines for the transform between RATT and COW/RML and between 
 
 To keep it simpler for now I will make a few assumptions about the data for now. But some/all of these restrictions could be removed in a later point of the process.
 
- - We assume that there is only one subject in the script/csv/template
- - We assume that the description about the subject in the script is handled as high as possible in the template.  
+- We assume that there is only one subject in the script/csv/template
+- We assume that the description about the subject in the script is handled as high as possible in the template.
 
-Step 1: Find the subject in the row, either the rownumber or the predefined column, set as subject.
-Step 2: If needed convert the subject to a proper IRI.
-Step 3: Move from left to right to the column, starting from the first/second depending on the location of the subject.
-Step 4: Skip the column if the column is not mentioned in RATT, RML, or set to skip in COW.
-Step 5a: Clean the value in the column we do want to parse, for now with template based cleaning.
-Step 5b: Set the datatype of the column we do want to parse. If the object is an IRI, make sure that we set it correctly.
-Step 5c: (Set/Parse column as predicate) and link the subject and the object together with the correct predicate.
-Step 6: Move back to step 3, until it the end of the table is reached.
+Step 1: Find the subject in the row, either the rownumber or the predefined column, set as subject.<br>
+Step 2: If needed convert the subject to a proper IRI.<br>
+Step 3: Move from left to right to the column, starting from the first/second depending on the location of the subject.<br>
+Step 4: Skip the column if the column is not mentioned in RATT, RML, or set to skip in COW.<br>
+Step 5a: Clean the value in the column we do want to parse, for now with template based cleaning.<br>
+Step 5b: Set the datatype of the column we do want to parse. If the object is an IRI, make sure that we set it correctly.<br>
+Step 5c: (Set/Parse column as predicate) and link the subject and the object together with the correct predicate.<br>
+Step 6: Move back to step 3, until it the end of the table is reached.<br>
 
-With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.
+With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.<br>
 
-When supporting multiple subjects per row we need to expand the steps 1,3 and 4. As then we need to move through the columns and skip not only based on if a column is used, but also if the column is used w.r.t the choosen subject.  
+<!-- When supporting multiple subjects per row we need to expand the steps 1,3 and 4. As then we need to move through the columns and skip not only based on if a column is used, but also if the column is used w.r.t the choosen subject.   -->
 
 ### 4.5.2 Stimulus/Response Sequences
 
@@ -255,7 +268,7 @@ Stimulus: The user uploads a correct COW script. <br>
 Response: The script gets converted to a correctly working RATT script and loaded into the LDWizard.
 
 Stimulus: The user uploads an incorrect RATT script. <br>
-Response: The user gets a warning, that the script is incorrect.
+Response: The user gets a error, that the script is incorrect.
 
 Stimulus: The user uploads an incorrect RML script. <br>
 Response: The LDWizard tries to convert the script. But the user gets a warning, stating that the script is incorrect.
@@ -266,19 +279,21 @@ Response: The LDWizard tries to convert the script. But the user gets a warning,
 ### 4.5.3 Functional Requirements
 
 Core requirements:
-  - The ability to transform a RATT script into a RML script.
-  - The ability to transform a RATT script into a COW script.
-  - The ability to transform a RML script into a RATT script.
-  - The ability to transform a COW script into a RATT script.
+
+- The ability to transform a RATT script into a RML script.
+- The ability to transform a RATT script into a COW script.
+- The ability to transform a RML script into a RATT script.
+- The ability to transform a COW script into a RATT script.
 
 Additional requirements:
 
 Limiting scope:
-  - The transformation will transform the RATT script to a single script file in a different language.  
-  - The transformation to a working RATT script is only guaranteed if other script file was also generated by LDWizard.
-  - It is not possible to tranform multiple script files.
-  - Only `.cow`, `.rml`, `.ts` source scripts are supported.
-  - File decompression is not supported.
+
+- The transformation will transform the RATT script to a single script file in a different language.
+- The transformation to a working RATT script is only guaranteed if other script file was also generated by LDWizard.
+- It is not possible to tranform multiple script files.
+- Only `.cow`, `.rml`, `.ts` source scripts are supported.
+- File decompression is not supported.
 
 ## 5. Other Nonfunctional Requirements
 
