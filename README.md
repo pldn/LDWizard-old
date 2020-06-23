@@ -16,7 +16,11 @@ The purpose of LD Wizard is to transpose a CSV input file in a simple yet meanin
 
 ### 1.2 Document Conventions
 
+`code`: Code of any kind will be added in the document between two "\`"-marks. For multi line code this document uses "\`\`\`"-marks to start and stop a code-block.
+
 ### 1.3 Product Scope
+
+The scope of the project is to create a two working LDWizard tools, a hello-world LDWizard tool, and the cultural heritage LDWizard. The hello-world LDWizard will serve as basic testing tool for implementation of the advanced tooling needed for the second LDWizard. The hello-world LDWizard will also serve as starting point for creating more specialized tooling for a specific domain. The hello-world LDWizard will be the product of the second milestone. The second LDWizard will be designed according to the specifications of the domain expert in the cultural heritage expert and will serve as a tool to transform excel sheets from the cultural heritage sector to Linked data. The cultural heritage LDWizard will be the product for the third milestone. The Software requirements as written in this document, are written for an uninstantiated LDWizard, unless specified otherwise.
 
 ### 1.4 References
 
@@ -36,7 +40,17 @@ The goal of this product is to have a framework that can handle most of the basi
 
 ### 2.2 Product Functions
 
+With the hello-world LDWizard, a developer is able to create an instantiated LDWizard based on the functions and interfaces that are available to the developer. Each of the functions/Interface are described and defined in chapter 3 and 4.
+
+With the instantiated LDWizard, the user is able to import a csv. With the imported csv the user will get an overview of the data and can create an step by step conversion schema to convert the csv to a TriG linked data file.
+
 ### 2.3 Operating Environment
+
+The product will operate inside one of the major browser and will be designed to work as a client-side application only. The application should work independent of the operating software, but it is expected that the product will only work in the newer browsers.
+
+- Operating system: All
+- Browsers: Firefox, Chrome, Chromium, Edge.
+- platform: Typescript/csv/RML/JSON
 
 ### 2.4 Design and Implementation Constraints
 
@@ -73,8 +87,6 @@ The basic LDWizard will consist out of 4 basic components:
 - Upload/publish component, For uploading/publishing the linked data and transformation script on the web.
 
 ### 4.1 upload/input component
-
-### 4.1 Import component
 
 ### 4.1.1 Description and Priority
 
@@ -146,8 +158,6 @@ Response: The script will be handled accordingly. The user will see a transform 
 
 Stimulus: The user uploads an incorrect script.<br>
 Response: The user will get a warning that the script is incorrect.
-
-### 4.1.3 Functional Requirements
 
 ### 4.1.3 Functional Requirements
 
@@ -295,16 +305,26 @@ Limiting scope:
 - Only `.cow`, `.rml`, `.ts` source scripts are supported.
 - File decompression is not supported.
 
-## 5. Other Nonfunctional Requirements
+## 5. Other (Non)functional Requirements
+
+Each of the requirements below are requirements important to note, but do not belong to an interface, or an functional component.
 
 ### 5.1 Performance Requirements
 
+There are no explicit performance requirements. The performance of the application should feel smooth while clicking through the steps. When the conversion process is running let's give the user then feedback on how the process is doing.
+
 ### 5.2 Safety Requirements
+
+The app is a clientside only app. This will limited the amount of safety requirements needed for the software application stack.
 
 ### 5.3 Security Requirements
 
-### 5.4 Software Quality Attributes
+The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so. All the
 
-### 5.5 User Documentation
+<!-- ### 5.4 Software Quality Attributes -->
 
-## 6. Other Requirements
+### 5.4 User Documentation
+
+For this product we will need to types of documentation. An user documentation for an instantiated product and a second developers documentation for an uninstantiated product.
+
+<!-- ## 6. Other Requirements -->
