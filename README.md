@@ -86,6 +86,8 @@ The specific user interface requirements are written in chapter 4 and describe i
 
 The general user interface will be designed as a flexible and easily updatable configurable system to create multiple different instantiated LDWizards from a single framework.
 
+For the implementation of the interface the product will rely on fontawesome, material-ui, recoil, react.
+
 ### 3.2 Communications Interface
 
 The first type of communication will happen between the interface and the local file system. This type of communication will happen via buttons in the product. These buttons will open the file system folder structure. The user can select a file to upload to the LDWizard, or when downloading the user can select an folder where the LDWizard will store the files to.
@@ -153,7 +155,7 @@ To make sure we can handle both limits I would recommend using a file limit of 5
 A final hard limitation would be the amount of columns, and a limit on the amount of rows. Let's set the limit for the amount of columns on 30, for now. As it is expected that this would not improve the usability of the LDWizard if we enlarge this number any further. But we can always decide different.
 Let's set the amount of rows on 1.048.576, the same limit as excel for the amount of rows. With the same footnote as for the amount of columns.
 
-Priority: High
+**Priority: High**
 
 ### 4.1.2 Stimulus/Response Sequences
 
@@ -220,38 +222,205 @@ import-script(URL)
 import-script(file)
 ```
 
-### 4.2 wizard GUI component
+### 4.2 LDWizard GUI component
+
+The configure compontent of the LDWizard. This component describes all the steps that can be taken to create the transformation from csv to RDF.
 
 ### 4.2.1 Description and Priority
 
-Priority: High
+The configure step consists out of, a general configuration, and a column specific part. In the general configure step the user or a developer can set configurations that have an effect on complete document. For the column specific part we can were for each column the user can tweak a number of configurations on a column per column basis.
+
+#### Setting a baseIRI
+
+General configuration setting the baseIRI for the document. The baseIRI can be used to generate IRI's from datapoints in the csv.
+
+#### Setting a Prefix
+
+General configuration setting the prefixes for the document. The prefixes can be used to generate IRI's from datapoints in the csv.
+
+#### Setting a vocabulary
+
+The user or the developer can add vocabularies, either linked data vocabularies or datalists, to supplement auto-complete functionality and cleaning functions. the added data helps the the user to give suggestions based on the added vocabularies.
+
+#### Setting a subject column
+
+The user can set a column to be the subject of that row. The subject should be able to be transformed into a correct IRI. The user can also choose to not select a subject column. Then the rownumber will be taken as a subject column.
+
+#### Setting a class/type for the subject column
+
+The user can set a class for the subject column. The subject class is an IRI and can either be found with the help of autosuggest from the vocabularies, or be filled in by the user.
+
+#### Setting a predicate term for each column
+
+The user can set a predicate for each of the other non subject columns. The predicate is an IRI and can either be found with the help of autosuggest from the vocabularies, or be filled in by the user.
+
+#### Setting a datatype for a column
+
+The user can set a predicate for each of the other non subject columns. The predicate is an IRI and can either be found with the help of autosuggest from the list of standard added in vocabularies, added in vocabularies, or be filled in by the user. If no
+
+#### Cleaning values in a column
+
+The user is able to create a function or template which the conversion script can use to format/clean a column following a certain description.<!--  Here we need to be more specific -->
+
+#### Mark the object term for column as IRI
+
+The user is able to mark the object term of a column as IRI. The object term will now be handled as an IRI and wont be needing a datatype/language.
+
+#### Skipping a column
+
+The user is able to skip a column, notifying the ETL-conversion that this column should not be taken in account in the conversion script.
+
+**Priority: High**
 
 ### 4.2.2 Stimulus/Response Sequences
 
-Stimulus: <br>
-Response:
+- This section should block next sections if the ETL-conversion script is not finished.
+
+#### Setting a baseIRI
+
+Stimulus: The user sets an correct baseIRI<br>
+Response: The baseIRI is stored in the ETL-configuration and will be applied to all selected columns
+
+Stimulus: The user sets an incorrect baseIRI<br>
+Response: The baseIRI is validated and an error is returned to the user to set a correct baseIRI.
+
+#### Setting a prefix
+
+Stimulus: The user sets an correct prefix<br>
+Response: The prefix is stored in the ETL-configuration and will be applied to all selected columns
+
+Stimulus: The user sets an incorrect prefix<br>
+Response: The prefix is validated and an error is returned to the user to set a correct prefix.
+
+#### Setting a vocabulary
+
+Stimulus: The developer sets a correct vocabulary to complement the csv.<br>
+Response: The vocabulary link is stored in the ETL-configuration and can be used for cleaning/configuring object terms and setting predicate terms.
+
+Stimulus: The developer sets multiple correct vocabularies to complement the csv.<br>
+Response: All vocabulary links are stored in the ETL-configuration and can be used for cleaning/configuring object terms and setting predicate terms.
+
+Stimulus: The developer sets one or multiple incorrect vocabularies to complement the csv.<br>
+Response: The vocabularies can not be retrieved from their respective locations. The user will not be able to use the vocabularies, but will not notice no errors of missing vocabularies.
+
+#### Setting a subject column
+
+Stimulus: The user sets an allowed column as a key/subject column.<br>
+Response: The subject column is stored in the ETL-configuration.
+
+Stimulus: The user does not set an key/subject column.<br>
+Response: The subject is now generated based on the rownumber and the baseIRI.
+
+Stimulus: The user removes the key/subject column selection.<br>
+Response: The user is shown a warning that it should set a subject column. The subject column is removed from the ETL-configuration and the subject is now generated based on the rownumber and the baseIRI.
+
+Stimulus: The user wants to set a different column as a key/subject column.<br>
+Response: The user is shown a warning that the subject column will be changed to the new column.
+
+Stimulus: The user sets a different column as a key/subject column.<br>
+Response: The old subject column is removed from the ETL-configuration and the new column is added as subject column to the ETL-configuration.
+
+#### Setting a class/type for the subject column
+
+Stimulus: The user sets an allowed subject type.<br>
+Response: The subject type is stored in the ETL-configuration.
+
+Stimulus: The user removes the subject type.<br>
+Response: The user is shown a warning that it should set a subject type. The subject type is removed from the ETL-configuration.
+
+Stimulus: The user removes the class/type column selection.<br>
+Response: The subject type is removed from the ETL-configuration.
+
+#### Setting a predicate for a column
+
+Stimulus: The user sets a predicate for a column.<br>
+Response: The predicate is stored in the ETL-configuration.
+
+Stimulus: The user does not set a predicate for a column.<br>
+Response: The predicate is now generated based on the column header name and the baseIRI.
+
+Stimulus: The user removes the predicate term column selection.<br>
+Response: The predicate type is removed from the ETL-configuration and the predicate is now generated based on the column header name and the baseIRI.
+
+#### Setting a datatype for a column
+
+Stimulus: The user sets a datatype for a column.<br>
+Response: The datatype is stored in the ETL-configuration.
+
+Stimulus: The user does not set a datatype for a column.
+Response: If the column is not set to contains IRI's, The datatype `xsd:string` is stored in the ETL-configuration. Else no datatype is set.
+
+Stimulus: The user removes the cleaning function for a column .<br>
+Response: The old datatype is removed in the ETL-configuration and the datatype `xsd:string` is stored in the ETL-configuration.
+
+#### Setting term for column as IRI.
+
+Stimulus: The user marks the column as IRI.<br>
+Response: The IRI configuration is stored in the ETL-configuration.
+
+Stimulus: The user does mark the column as IRI.<br>
+Response: do nothing.
+
+Stimulus: The user removes the mark as IRI from the column.<br>
+Response: The IRI configuration is removed from the ETL-configuration.
+
+#### Cleaning values in a column
+
+Stimulus: The user sets a cleaning function for a column.<br>
+Response: The cleaning function is stored in the ETL-configuration.
+
+Stimulus: The user does not set a cleaning function for a column.<br>
+Response: do nothing.
+
+Stimulus: The user removes the cleaning function for a column .<br>
+Response: The cleaning function is removed in the ETL-configuration.
+
+#### Skipping a column
+
+Stimulus: The user checks the skip flag for a column.<br>
+Response: The skip flag is stored in the ETL-configuration.
+
+Stimulus: The user does not set the skip flag for a column.<br>
+Response: do nothing.
+
+Stimulus: The user removes the skip flag from column selection.<br>
+Response: The skip flag is removed in the ETL-configuration.
 
 ### 4.2.3 Functional Requirements
 
--
-
 Core requirements:
 
-- The ability to set a prefix global prefix.
-- The ability to select a subject, either a column or the rownumber.
-- The ability to set a predicate for each column:
+- The ability to set a baseIRI. (M)
+- The ability to set one or more vocabularies to search in.
+- The ability to select a subject column. (M)
+- The ability to set an class for a subject.
+- The ability to set a predicate for each column. (M)
+- The ability to skip a column.
+- The ability to mark the object term for column as IRI.
 - The ability to clean the values in a column for each column.
-- The ability to set a datatype for the values in a column for each column.
+- The ability to set a datatype for the values in a column for each column. (M)
 
 Additional requirements:
 
-- TBD: Specify a soft limit for the file size:
-
-- TBD: Automatically recognize the file format:
+- For all of the mandatory core requirements an basic solution is required.
+  - Use the URL of the instance, account, and datasetName (The ability to set a baseIRI).
+  - Use the rownumber to create the IRI (The ability to select a subject).
+  - Use the columnheader names to to create the predicate terms (The ability to set a predicate for each column).
+  - Set `xsd:string` as datatype for all object terms(The ability to set a datatype for the values in a column for each column).
 
 Limiting scope:
 
--
+- All core requirements, that are (M)andatory are at a minimum required to have a working LDWizard.
+
+```
+set-baseIRI(baseIRI)
+set-availableVocabulary(URL)
+set-subject(column)
+set-class(IRI)
+set-predicate(column,IRI)
+set-cleaningOperation(function|template)
+set-datatype(datatype)
+```
 
 ### 4.3 Export component
 
@@ -261,7 +430,7 @@ Leesbaarheid: TriG (\*), JSON-LD
 
 The export component allows the results of a LD Wizard transformation to be stored in simple text files. The text files are formatted in such a way that they allow direct reuse in more advanced Linked Data transformation tools.
 
-Priority: High
+**Priority: High**
 
 ### 4.3.2 Stimulus/Response Sequences
 
@@ -278,7 +447,7 @@ Potential export formats for scripts:
 
 ### 4.4.1 Description and Priority
 
-Priority: medium
+**Priority: Medium**
 
 ### 4.4.2 Stimulus/Response Sequences
 
@@ -317,7 +486,7 @@ Step 6: Move back to step 3, until it the end of the table is reached.<br>
 
 With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.<br>
 
-Priority: medium
+**Priority: Medium**
 
 <!-- When supporting multiple subjects per row we need to expand the steps 1,3 and 4. As then we need to move through the columns and skip not only based on if a column is used, but also if the column is used w.r.t the choosen subject.   -->
 
