@@ -80,7 +80,7 @@ The specific user interface requirements are written in chapter 4 and describe i
 <figure id="GeneralUserInterface">
   <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
   <figcaption>
-    Figure 1 ― A generic user interface, general look of the LDWizard.
+    Figure 1 ― Minimalistic generic user interface.
   </figcaption>
 </figure>
 
