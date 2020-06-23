@@ -71,22 +71,46 @@ The LDWizard will at this moment assume that per row only one subject is allowed
 
 ## 3. External Interface Requirements
 
+This section provides information to ensure that the system will communicate properly with external components.
+
 ### 3.1 User Interfaces
 
-### 3.2 Software Interfaces
+The specific user interface requirements are written in chapter 4 and describe in more detail the possible steps and actions a user can take per step in the process of the LDWizard. The general interface as shown in [Figure 1](#GeneralUserInterface), is designed with a specific interface for each step inside of a general interface outside of the specific interfaces, with buttons to move between the Sections in the LDWizard, ow with the section buttons on the top. The LDWizard logo is shown in the top right corner, and in the bottom left corner the logo of the instance hosting the LDWizard and important links can be shown, configurable as well.
 
-### 3.3 Communications Interface
+<figure id="GeneralUserInterface">
+  <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 1 ― A generic user interface, general look of the LDWizard.
+  </figcaption>
+</figure>
+
+The general user interface will be designed as a flexible and easily updatable configurable system to create multiple different instantiated LDWizards from a single framework.
+
+### 3.2 Communications Interface
+
+The first type of communication will happen between the interface and the local file system. This type of communication will happen via buttons in the product. These buttons will open the file system folder structure. The user can select a file to upload to the LDWizard, or when downloading the user can select an folder where the LDWizard will store the files to.
+The second line of communication that will happen from inside the project to outside the project is the download of csv into the product.
+The third case of communication that happens, is between the product and the platform on which the data will be published. To establish this connection to a dataplatform from the product, the product might need extra information and possible authorizations tokens. These tokens need to be stored in the product itself or have a specialized field to fill in the authorization tokens.
 
 ## 4. System Features
 
-The basic LDWizard will consist out of 4 basic components:
+The basic LDWizard consists out of 4 basic components as shown in [Figure 2](#FlowDiagramforLDWizard):
 
 - The upload/input component, for uploading the to be transformed csv and a possible transformation script.
 - Wizard GUI component, GUI components that will handle one or multiple transformation processes.
 - Download/export component, For downloading/exporting the linked data and transformation script to your local file system.
 - Upload/publish component, For uploading/publishing the linked data and transformation script on the web.
 
+<figure id="FlowDiagramforLDWizard">
+  <img src="/docs/img/FlowDiagramforLDWizard.svg">
+  <figcaption>
+    Figure 2 ― Flow chart for the LDWizard, dividing the 4 basic components for the LDWizard
+  </figcaption>
+</figure>
+
 ### 4.1 upload/input component
+
+Software component for uploading files to the LDWizard or inputting files to the LDWizard.
 
 ### 4.1.1 Description and Priority
 
@@ -129,7 +153,7 @@ To make sure we can handle both limits I would recommend using a file limit of 5
 A final hard limitation would be the amount of columns, and a limit on the amount of rows. Let's set the limit for the amount of columns on 30, for now. As it is expected that this would not improve the usability of the LDWizard if we enlarge this number any further. But we can always decide different.
 Let's set the amount of rows on 1.048.576, the same limit as excel for the amount of rows. With the same footnote as for the amount of columns.
 
-### 4.1.1 Description and Priority
+Priority: High
 
 ### 4.1.2 Stimulus/Response Sequences
 
@@ -138,10 +162,10 @@ Let's set the amount of rows on 1.048.576, the same limit as excel for the amoun
 Stimulus: the user uploads a correct csv document. <br>
 Response: The continue/transform button will enable and the document will be stored in the browser memory.
 
-Stimulus: The user uploads a correct csv document but the csv document is too large.
+Stimulus: The user uploads a correct csv document but the csv document is too large.<br>
 Response: The user will get a error saying that the document is large.
 
-Stimulus: The user wants to upload a csv via URL, but the URL not available.
+Stimulus: The user wants to upload a csv via URL, but the URL not available.<br>
 Response: The user will get a error saying that LDWizard failed to retrieve the data.
 
 Stimulus: The user uploads an incorrect document.<br>
@@ -200,9 +224,34 @@ import-script(file)
 
 ### 4.2.1 Description and Priority
 
+Priority: High
+
 ### 4.2.2 Stimulus/Response Sequences
 
+Stimulus: <br>
+Response:
+
 ### 4.2.3 Functional Requirements
+
+-
+
+Core requirements:
+
+- The ability to set a prefix global prefix.
+- The ability to select a subject, either a column or the rownumber.
+- The ability to set a predicate for each column:
+- The ability to clean the values in a column for each column.
+- The ability to set a datatype for the values in a column for each column.
+
+Additional requirements:
+
+- TBD: Specify a soft limit for the file size:
+
+- TBD: Automatically recognize the file format:
+
+Limiting scope:
+
+-
 
 ### 4.3 Export component
 
@@ -211,6 +260,8 @@ Leesbaarheid: TriG (\*), JSON-LD
 ### 4.3.1 Description and Priority
 
 The export component allows the results of a LD Wizard transformation to be stored in simple text files. The text files are formatted in such a way that they allow direct reuse in more advanced Linked Data transformation tools.
+
+Priority: High
 
 ### 4.3.2 Stimulus/Response Sequences
 
@@ -226,6 +277,8 @@ Potential export formats for scripts:
 ### 4.4 Upload/publish component
 
 ### 4.4.1 Description and Priority
+
+Priority: medium
 
 ### 4.4.2 Stimulus/Response Sequences
 
@@ -263,6 +316,8 @@ Step 5c: (Set/Parse column as predicate) and link the subject and the object tog
 Step 6: Move back to step 3, until it the end of the table is reached.<br>
 
 With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.<br>
+
+Priority: medium
 
 <!-- When supporting multiple subjects per row we need to expand the steps 1,3 and 4. As then we need to move through the columns and skip not only based on if a column is used, but also if the column is used w.r.t the choosen subject.   -->
 
@@ -315,11 +370,11 @@ There are no explicit performance requirements. The performance of the applicati
 
 ### 5.2 Safety Requirements
 
-The app is a clientside only app. This will limited the amount of safety requirements needed for the software application stack.
+The app is a client-side only app. This will limited the amount of safety requirements needed for the software application stack.
 
 ### 5.3 Security Requirements
 
-The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so. All the
+The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so.
 
 <!-- ### 5.4 Software Quality Attributes -->
 
