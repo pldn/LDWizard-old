@@ -1,8 +1,8 @@
 <img src="/docs/img/LDWizard.png" align="right">
 
-# LDWizard
+# LD Wizard: create Linked Data in one Spell
 
-A generic framework for creating Linked Data in one Spell.
+LD Wizard is a generic framework for converting tabular data sources to Linked Data.
 
 # Software Requirements and Design Document (Preliminary)
 
@@ -12,7 +12,9 @@ The advent of Linked Data is evident through the ever-increasing activities with
 
 ### 1.1 Purpose
 
-The purpose of LD Wizard is to transpose a CSV input file in a simple yet meaningful way in Linked Open Data. LD Wizard specifically focuses on establishing an initial transformation that requires no prior knowledge of Linked Data technologies to establish. At the same time, LD Wizard allows this initial transformation to be exported into a widely used data transformation language. This export can be used with more advanced Linked Data transformation tools in order to expand upon the initial transformation created with LD Wizard.
+The purpose of LD Wizard is to transform simple tabular data files into standards-compliant Linked Data. LD Wizard specifically focuses on the beginning user: it does not presuppose any prior knowledge of existing vocabularies or Linked Data technologies.
+
+At the same time, LD Wizard allows transformations to be exported into several widely used data transformation languages. These exports can be used in more advanced Linked Data transformation tools in order to expand upon the initial transformation created with LD Wizard.
 
 ### 1.2 Document Conventions
 
@@ -24,50 +26,113 @@ The scope of the project is to create two working LDWizard tools, a hello-world 
 
 ### 1.4 References
 
-| Abbreviation |                                                                                                                                                          |
+| Abbreviation | Description                                                                                                                                                         |
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CSV          | Comma-separated values, a tabular format, used as a non-proprietary format for tabular data. described in [RFC4180](https://tools.ietf.org/html/rfc4180) |
-| ETL          | An abbreviation for Extract data, Transform data, Load data. Which is used to describe pipelines that transform data from one type to another type.      |
-| baseIRI      | An IRI that forms the basis link, which can be expanded with an extra path-element that will point to a specific resource                                |
+| CSV          | Comma-Separated Values: a standardize and non-proprietary tabular data format (see IETF [RFC 4180](https://tools.ietf.org/html/rfc4180)). |
+| ETL          | Extract-Transform-Load: a generic approach for creating Linked Data out of other source data formats (in this case: tabular source data).      |
+| Base IRI     | The IRI that is used to transform relative IRIs into absolute IRIs.                                |
 
 ## 2.Overall Description
 
-The LDWizard is designed to be a starting framework for transformations from CSV to linked data. The LDwizard is designed to be the starting point of a generic pipeline that can be customized and expanded to cater specified needs in designated fields.
+LD Wizard is designed to be a starting framework for transformations from CSV to Linked Data.  LD Wizard is designed to be the starting point of a generic pipeline that can be customized and expanded to cater specified needs in designated fields.
 
 ### 2.1 Product Perspective
 
-The goal of this product is to have a framework that can handle most of the basic transformations needed to transform CSV into good linked data. Secondly the framework will be designed to be customizable and expandable. Such that developers and users can customize the framework to fit their domains.
+The transformation of Linked Data requires the combination of expertise in the following three roles:
+
+LD Wizard distinguishes between the following types of users:
+
+<dl>
+  <dt>General user</dt>
+  <dd>Uses an LD Wizard Application.</dd>
+  <dt>Linked Data Expert</dt>
+  <dd>Uses an LD Wizard Application to create an initial transformation.</dd>
+  <dt>Developer</dt>
+  <dd>Creates an LD Wizard Application by implementing the LD Wizard Interface for a specific domain or use case.</dd>
+</dl>
+
+  1. Domain Expert: has knowledge about the domain that is described in the data.
+
+  2. Linked Data Expert: is able to create a semantic data model, and is able to define the structure of the source data in Linked Data.
+
+  3. Programmer: is able to implement the transformation from tabular source data to Linked Data, using a programming language.
+
+Because the combination of expertise of these three roles in one person is quite rare, Linked Data transformation often required multiple people working together.  This also means that the domain expert is dependent on the Linked Data Expert and the Programmer in order to make a change to the transformation (even for small changes).
+
+This traditional Linked Data transformation approach is characterized
+in [Figure 1](#traditional-etl).
+
+<figure id="traditional-etl">
+  <img src="/docs/img/traditional-etl.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 1 ― Schematic overview of a traditional Linked Data ETL.
+  </figcaption>
+</figure>
+
+Linked Data tools generalize work normally performed by a Programmer, so that a Domain Expert and a Linked Data Expert are able to transform Linked Data without the involvement of a Programmer.  Examples of such approaches are COW and RML.
+
+LD Wizard further separates the roles required for Linked Data transformation: it also generalizes work normally performed by a Linked Data Expert, so that a Domain Expert is able to transform Linked Data
+herself.
+
+The LD Wizard approach is depicted in [Figure 2](#ld-wizard-approach).  The grey horizontal bar represents the 'happy flow' of a general user.  This user is able to transform tabular source data into standards-compliant Linked Data without continuous dependencies on a Linked Data Expert or Developer.
+
+Developers are able to create new LD Wizard Applications, to support general users in specific domains or use cases.  Linked Data Expert are able to take the transformation that a general user has created, allowing them to extend it using more advanced transformer tools (i.e., outside LD Wizard).
+
+<figure id="ld-wizard-approach">
+  <img src="/docs/img/ld-wizard-approach.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 2 ― Schematic overview of the LD Wizard approach.  The grey horizontal bar represents the 'happy flow' of a general user.
+  </figcaption>
+</figure>
 
 ### 2.2 Product Functions
 
-With the hello-world LDWizard, a developer is able to create an instantiated LDWizard based on the functions and interfaces that are available to the developer. Each of the functions/Interface is defined in chapter 3 and 4.
+We distinguish between the generic LD Wizard Interface and various LD Wizard Applications.  Each LD Wizard Application is a specific implementation of the LD Wizard Interface.
 
-With the instantiated LDWizard, the user is able to import a CSV. With the imported CSV the user will get an overview of the data and can create a step by step conversion schema to convert the CSV to a TriG linked data file.
+#### LD Wizard Interface
+
+The generic specification of functionalities that must be implemented, resulting in a specific LD Wizard Application.
+
+The goal of LD Wizard is to provide an interface that can be implemented for a specific domain.
+
+Secondly the framework will be designed to be customizable and expandable.  Such that developers and users can customize the framework to fit their domains.
+
+(see [Chapter 3](#ch3) and [Chapter 4](#ch4))
+
+#### LD Wizard Applications
+
+The following LD Wizard Applications are included in this repository.  They serve as example implementations of the LD Wizard Interface:
+
+<dl>
+  <dt>Hello World Wizard</dt>
+  <dd>A minimal configuration that implements the LW Wizard Interface.  This wizard is fully functional, but does not serve a particular domain.  It is intended to be used by developers who want to configure their own wizard, since it shows how interfaces can be implemented in practice.  The Hello World Wizard is also an ideal basis for a new, domain-specific configuration.</dd>
+  <dt>NDE Wizard</dt>
+  <dd>A configuration that implements the LD Wizard Interface for the cultural heritage domain.  This wizard is fully functional and serves a particular domain.  It is intended to be used by domain experts from the cultural heritage domain who want to transform their tabular source data into standards-compliant Linked Data.</dd>
+</dl>
 
 ### 2.3 Operating Environment
 
 The product will operate inside one of the major browsers and will be designed to work as a client-side application only. The application should work independent of the operating software, but it is expected that the product will only work in the newer browsers.
 
-- Operating system: All
-- Browsers: Firefox, Chrome, Chromium, Edge.
-- platform: Typescript/CSV/RML/JSON
+- Operating System: any
+- Web browser: recent versions of Firefox, Chrome, Edge, and Safari.
+- Technology: TypeScript, JavaScript, HTML, CSS
 
-### 2.4 Design and Implementation Constraints
+### 2.4 Implementation Constraints
 
-The LDWizard will be a clientside, browser only framework. This means that the framework will have limits based on the hardware and the software the users have installed and which browsers the users currently have.
-To make sure the LDWizard can still perform. We will assume that the user will use the recent versions of the browsers available on their machine.
+Since LD Wizard Applications are client-side web applications that runs in regular and up-to-date web browsers, there are limits to the amount of data that can processed.
 
 ### 2.5 Assumptions and Dependencies
 
-The LDWizard assumes that there are three different types of users of the LDWizard.
+#### 2.5.1 Application assumptions
 
-- A general user, somebody who will use an instantiated product set up by developers and domain experts.
-- A Linked data specialist, somebody who will use an instantiated product set up by the developers to kick start the development of an ETL.
-- Developers and domain experts, people who will use the LDWizard framework to set up their own instantiated version of the LDWizard. Catered for their domain/specific use case.
+LD Wizard currently assumes that every row of the tabular source data represents exactly one instance in the transformed Linked Data output.
 
-The LDWizard assumes that all three types of users have a general knowledge of linked data. We also assume that the developer will have a general knowledge about JavaScript and/or Typescript.
+#### 2.5.2 User assumptions
 
-The LDWizard will at this moment assume that per row only one subject is allowed.
+We me the following assumptions regarding these users:
+
+  - An LD Wizard developer must have a general knowledge about JavaScript and TypeScript.
 
 ## 3. External Interface Requirements
 
