@@ -402,7 +402,7 @@ Core requirements:
 
 Additional requirements:
 
-- For all of the mandatory core requirements a basic solution is required.
+- For all of the mandatory core requirements a basic solution is required, thus are required to have default behavior.
   - Use the URL of the instance, account, and datasetName (The ability to set a baseIRI).
   - Use the row number to create the IRI (The ability to select a subject).
   - Use the column header names to to create the predicate terms (The ability to set a predicate for each column).
@@ -426,24 +426,64 @@ set-IRI(column)
 
 ### 4.3 Export component
 
-Leesbaarheid: TriG (\*), JSON-LD
+The export component of the LDWizard. This component describes all the export features.
 
 ### 4.3.1 Description and Priority
 
+#### Export transformation output
+
+The transformed CSV data is made available for download in TriG. The LDWizard will export TriG as this format is better readable when opened. First time users will likely open their transformed files and harder to read formats such as N-Quads and N-Triples will harder to understand. TriG is able to include the graph component, so TriG is able to return complete RDF. Initially we will not allow the graph component to be set in LD Wizard, as this is normally thought of as an expert feature.
+
+#### Export transformation script
+
+Due to the limitations of the LDWizard as a client-side application, the ETL script inside the browser is limited to a max set of rows and columns. To use the transformation script outside of the LDWizard an export component will be made available.
 The export component allows the results of an LD Wizard transformation to be stored in simple text files. The text files are formatted in such a way that they allow direct reuse in more advanced Linked Data transformation tools.
+
+- To use the script the user designed in the LDWizard outside of the LDWizard.
+- To improve/change and understand the transformation steps of the LDWizard.
+- To import to the ETL-script for a different CSV in the LDWizard.
+
+The LDWizard will be able to export the transformation script into different languages. The LDWizard will make it possible to export the ETL-script into ([RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt), [RMLeditor](https://rml.io/tools/rmleditor/) or [CoW](https://github.com/clariah/cow/wiki)) language. The default exportation language will be [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt)
 
 **Priority: High**
 
 ### 4.3.2 Stimulus/Response Sequences
 
+Stimulus: The user selects an export transformation script language.<br>
+Response: The user the transformation script can now be exported in the selected language.
+
+Stimulus: The user sends a request to the export transformation script.<br>
+Response: The user will receive a window to specify the location to where the transformation script is stored. The transformation script is stored in the selected language (default [RATT](https://www.npmjs.com/package/@triply/ratt)).
+
+Stimulus: The user sends a request to the export transformation output.<br>
+Response: The user will receive a window to specify the location to where the transformation output is stored.
+
+Stimulus: The user sends a request to the export source file.<br>
+Response: The user will receive a window to specify the location to where the source file is stored.
+
 ### 4.3.3 Functional Requirements
 
-Potential export formats for scripts:
+Core requirements:
 
-- [CoW](https://github.com/clariah/cow/wiki).
-- [RMLeditor](https://rml.io/tools/rmleditor/)
-- RATT (RDF All The Things)
-- SPARQL CONSTRUCT (for RDF-to-RDF conversions)
+- The ability to set the transformation script language.
+- The ability to export the source file.
+- The ability to export the transformation output.
+- The ability to export the transformation script.
+
+Additional requirements:
+
+- Potential export formats for scripts:
+  - [CoW](https://github.com/clariah/cow/wiki).
+  - [RMLeditor](https://rml.io/tools/rmleditor/)
+  - RATT (RDF All The Things)
+  - SPARQL CONSTRUCT (for RDF-to-RDF conversions)
+
+```
+export-sourceFile(location)
+export-transformationScript(location)
+export-transformationOutput(location)
+set-transformationOutput(language)
+```
 
 ### 4.4 Upload/publish component
 
@@ -455,27 +495,18 @@ Potential export formats for scripts:
 
 ### 4.4.3 Functional Requirements
 
-### 4.5 ETL script && conversion bindings
+### 4.5 ETL conversion script
 
-Instead of developing a new ETL-tool, we will use an existing ETL-tool to execute the transformation step. We decided to use a client-based transformation tool [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt) as the tool to transform the CSV to RDF. The LDWizard uses this language due to its expandability and ease of use.
-
-Due to the limitations of the LDWizard, the ETL script inside the browser is limited to a max set of rows and columns. To use the ETL-script on a larger CSV the LDWizard has an export button to export the ETL-script. This has two advantages.
-
-- To use the script the user designed in the LDWizard outside of the LDWizard.
-- To import to the ETL-script for a different CSV in the LDWizard.
-
-To make the use of the ETL-script more generic we will give the user the possibility to export the ETL-script into different languages. At the moment LDWizard will make it possible to export the ETL-script into ([RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt), [RMLeditor](https://rml.io/tools/rmleditor/) or [CoW](https://github.com/clariah/cow/wiki)) language.
+The LDWizard will use the predefined ETL-script RATT to perform the transformation step. [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt) is picked as the tool can be used in a client-based setting to transform CSV into RDF. [RATT](https://www.npmjs.com/package/@triply/ratt) also gives the LDWizard an expressive and expandable toolkit to create complex transformation procedures if necessary.
 
 ### 4.5.1 Description and Priority
 
-The conversion from RATT to RML and from RML to RATT, as also from RATT to COW and from COW to RATT should be deterministic. Thus when you download a RML script for example and then reupload the RML script is should create the exact same RATT script from the RML script, as from which the RML script was created.
-
-The following guidelines for the transform between RATT and COW/RML and between COW/RML and RATT are recommended.(These can be expanded upon when new information arises)
-
-To keep it simpler for now I will make a few assumptions about the data for now. But some/all of these restrictions could be removed in a later point of the process.
+The LDWizard will make a few assumptions about the CSV format.
 
 - We assume that there is only one subject in the script/CSV/template
 - We assume that the description about the subject in the script is handled as high as possible in the template.
+
+The steps below are guidelines to transform a CSV file to an RDF file.
 
 Step 1: Find the subject in the row, either the rownumber or the predefined column, set as subject.<br>
 Step 2: If needed convert the subject to a proper IRI.<br>
@@ -486,15 +517,15 @@ Step 5b: Set the datatype of the column we do want to parse. If the object is an
 Step 5c: (Set/Parse column as predicate) and link the subject and the object together with the correct predicate.<br>
 Step 6: Move back to step 3, until it the end of the table is reached.<br>
 
+The conversion from RATT to RML and from RML to RATT, as also from RATT to COW and from COW to RATT should be deterministic. Thus when you download a RML script for example and then reupload the RML script is should create the exact same RATT script from the RML script, as from which the RML script was created.
+
 With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.<br>
 
 **Priority: Medium**
 
-<!-- When supporting multiple subjects per row we need to expand the steps 1,3 and 4. As then we need to move through the columns and skip not only based on if a column is used, but also if the column is used w.r.t the chosen subject.   -->
-
 ### 4.5.2 Stimulus/Response Sequences
 
-Stimulus: The user uploads a correct RATT script .<br>
+Stimulus: The user uploads a correct RATT script.<br>
 Response: The script gets loaded into the LDWizard.
 
 Stimulus: The user uploads a correct RML script. <br>
@@ -547,10 +578,10 @@ The app is a client-side only app. This will limit the number of safety requirem
 
 The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so.
 
-<!-- ### 5.4 Software Quality Attributes -->
-
 ### 5.4 User Documentation
 
 For this product we will need to types of documentation. User documentation for an instantiated product and a second developers documentation for an uninstantiated product.
+
+<!-- ### 5.5 Software Quality Attributes -->
 
 <!-- ## 6. Other Requirements -->
