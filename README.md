@@ -587,11 +587,11 @@ The conversion from RATT to RML and from RML to RATT, as also from RATT to COW a
 
 With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.<br>
 
-For a particular csv: [csv](/docs/conversionScripts/example-1.csv)
-The hello-world-LDWizard is expected to create the following conversionscripts:
-[RATT](https://www.npmjs.com/package/@triply/ratt): [RATT](/docs/conversionScripts/example-1-RATT.ts)
-[CoW](https://github.com/clariah/cow/wiki): [CoW](/docs/conversionScripts/example-1.csv-metadata.json)
-[RMLeditor](https://rml.io/tools/rmleditor/): [RML](/docs/conversionScripts/example-1-RML.ttl)
+For a particular csv: [csv](/docs/conversionScripts/example-1.csv)</br>
+The hello-world-LDWizard is expected to create the following conversionscripts:</br>
+[RATT](https://www.npmjs.com/package/@triply/ratt): [RATT](/docs/conversionScripts/example-1-RATT.ts)</br>
+[CoW](https://github.com/clariah/cow/wiki): [CoW](/docs/conversionScripts/example-1.csv-metadata.json)</br>
+[RMLeditor](https://rml.io/tools/rmleditor/): [RML](/docs/conversionScripts/example-1-RML.ttl)</br>
 
 **Priority: Medium**
 
