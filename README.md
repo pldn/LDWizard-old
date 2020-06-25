@@ -26,15 +26,15 @@ The scope of the project is to create two working LDWizard tools, a hello-world 
 
 ### 1.4 References
 
-| Abbreviation | Description                                                                                                                                                         |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Abbreviation | Description                                                                                                                               |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | CSV          | Comma-Separated Values: a standardize and non-proprietary tabular data format (see IETF [RFC 4180](https://tools.ietf.org/html/rfc4180)). |
-| ETL          | Extract-Transform-Load: a generic approach for creating Linked Data out of other source data formats (in this case: tabular source data).      |
-| Base IRI     | The IRI that is used to transform relative IRIs into absolute IRIs.                                |
+| ETL          | Extract-Transform-Load: a generic approach for creating Linked Data out of other source data formats (in this case: tabular source data). |
+| Base IRI     | The IRI that is used to transform relative IRIs into absolute IRIs.                                                                       |
 
 ## 2.Overall Description
 
-LD Wizard is designed to be a starting framework for transformations from CSV to Linked Data.  LD Wizard is designed to be the starting point of a generic pipeline that can be customized and expanded to cater specified needs in designated fields.
+LD Wizard is designed to be a starting framework for transformations from CSV to Linked Data. LD Wizard is designed to be the starting point of a generic pipeline that can be customized and expanded to cater specified needs in designated fields.
 
 ### 2.1 Product Perspective
 
@@ -51,13 +51,13 @@ LD Wizard distinguishes between the following types of users:
   <dd>Creates an LD Wizard Application by implementing the LD Wizard Interface for a specific domain or use case.</dd>
 </dl>
 
-  1. Domain Expert: has knowledge about the domain that is described in the data.
+1. Domain Expert: has knowledge about the domain that is described in the data.
 
-  2. Linked Data Expert: is able to create a semantic data model, and is able to define the structure of the source data in Linked Data.
+2. Linked Data Expert: is able to create a semantic data model, and is able to define the structure of the source data in Linked Data.
 
-  3. Programmer: is able to implement the transformation from tabular source data to Linked Data, using a programming language.
+3. Programmer: is able to implement the transformation from tabular source data to Linked Data, using a programming language.
 
-Because the combination of expertise of these three roles in one person is quite rare, Linked Data transformation often required multiple people working together.  This also means that the domain expert is dependent on the Linked Data Expert and the Programmer in order to make a change to the transformation (even for small changes).
+Because the combination of expertise of these three roles in one person is quite rare, Linked Data transformation often required multiple people working together. This also means that the domain expert is dependent on the Linked Data Expert and the Programmer in order to make a change to the transformation (even for small changes).
 
 This traditional Linked Data transformation approach is characterized
 in [Figure 1](#traditional-etl).
@@ -69,14 +69,14 @@ in [Figure 1](#traditional-etl).
   </figcaption>
 </figure>
 
-Linked Data tools generalize work normally performed by a Programmer, so that a Domain Expert and a Linked Data Expert are able to transform Linked Data without the involvement of a Programmer.  Examples of such approaches are COW and RML.
+Linked Data tools generalize work normally performed by a Programmer, so that a Domain Expert and a Linked Data Expert are able to transform Linked Data without the involvement of a Programmer. Examples of such approaches are COW and RML.
 
 LD Wizard further separates the roles required for Linked Data transformation: it also generalizes work normally performed by a Linked Data Expert, so that a Domain Expert is able to transform Linked Data
 herself.
 
-The LD Wizard approach is depicted in [Figure 2](#ld-wizard-approach).  The grey horizontal bar represents the 'happy flow' of a general user.  This user is able to transform tabular source data into standards-compliant Linked Data without continuous dependencies on a Linked Data Expert or Developer.
+The LD Wizard approach is depicted in [Figure 2](#ld-wizard-approach). The grey horizontal bar represents the 'happy flow' of a general user. This user is able to transform tabular source data into standards-compliant Linked Data without continuous dependencies on a Linked Data Expert or Developer.
 
-Developers are able to create new LD Wizard Applications, to support general users in specific domains or use cases.  Linked Data Expert are able to take the transformation that a general user has created, allowing them to extend it using more advanced transformer tools (i.e., outside LD Wizard).
+Developers are able to create new LD Wizard Applications, to support general users in specific domains or use cases. Linked Data Expert are able to take the transformation that a general user has created, allowing them to extend it using more advanced transformer tools (i.e., outside LD Wizard).
 
 <figure id="ld-wizard-approach">
   <img src="/docs/img/ld-wizard-approach.svg" width="70%" height="50%">
@@ -87,7 +87,7 @@ Developers are able to create new LD Wizard Applications, to support general use
 
 ### 2.2 Product Functions
 
-We distinguish between the generic LD Wizard Interface and various LD Wizard Applications.  Each LD Wizard Application is a specific implementation of the LD Wizard Interface.
+We distinguish between the generic LD Wizard Interface and various LD Wizard Applications. Each LD Wizard Application is a specific implementation of the LD Wizard Interface.
 
 #### LD Wizard Interface
 
@@ -95,13 +95,13 @@ The generic specification of functionalities that must be implemented, resulting
 
 The goal of LD Wizard is to provide an interface that can be implemented for a specific domain.
 
-Secondly the framework will be designed to be customizable and expandable.  Such that developers and users can customize the framework to fit their domains.
+Secondly the framework will be designed to be customizable and expandable. Such that developers and users can customize the framework to fit their domains.
 
 (see [Chapter 3](#ch3) and [Chapter 4](#ch4))
 
 #### LD Wizard Applications
 
-The following LD Wizard Applications are included in this repository.  They serve as example implementations of the LD Wizard Interface:
+The following LD Wizard Applications are included in this repository. They serve as example implementations of the LD Wizard Interface:
 
 <dl>
   <dt>Hello World Wizard</dt>
@@ -132,7 +132,7 @@ LD Wizard currently assumes that every row of the tabular source data represents
 
 We me the following assumptions regarding these users:
 
-  - An LD Wizard developer must have a general knowledge about JavaScript and TypeScript.
+- An LD Wizard developer must have a general knowledge about JavaScript and TypeScript.
 
 ## 3. External Interface Requirements
 
@@ -289,11 +289,11 @@ import-script(file)
 
 ### 4.2 LDWizard GUI component
 
-The configure component of the LDWizard. This component describes all the steps that can be taken to create the transformation from CSV to RDF.
+The LDWizard GUI component and interfaces. This component builds the GUI that the general user will interact with to convert their CSV file into a linked data file.
 
 ### 4.2.1 Description and Priority
 
-The configure step consists out of, a general configuration, and a column specific part. In the general configure step the user or a developer can set configurations that have an effect on complete document. For the column specific part we can be for each column the user can tweak a number of configurations on a column per column basis.
+The configuration of the GUI is based on a number of smaller components that together create an GUI with which the user can interact to convert it's CSV to RDF. The GUI interface has two distinct groups of interfaces, ones interfaces that interact with the entire CSV document and interfaces that only interact with a single column.
 
 #### Setting a baseIRI
 
@@ -479,14 +479,15 @@ Limiting scope:
 
 ```
 set-baseIRI(baseIRI)
-set-availableVocabulary(URL)
-set-subject(column)
+set-Prefix(IRI)
+import-vocabulary(URL)
+set-subjectColumn(Column)
 set-class(IRI)
 set-predicate(column,IRI)
 set-cleaningOperation(function|template)
 set-datatype(datatype)
-set-skipColumn(column)
-set-IRI(column)
+set-skipColumn(Column)
+set-IRI(Column)
 ```
 
 ### 4.3 Export component
@@ -585,6 +586,12 @@ Step 6: Move back to step 3, until it the end of the table is reached.<br>
 The conversion from RATT to RML and from RML to RATT, as also from RATT to COW and from COW to RATT should be deterministic. Thus when you download a RML script for example and then reupload the RML script is should create the exact same RATT script from the RML script, as from which the RML script was created.
 
 With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.<br>
+
+For a particular csv: [csv](/docs/conversionScripts/example-1.csv)
+The hello-world-LDWizard is expected to create the following conversionscripts:
+[RATT](https://www.npmjs.com/package/@triply/ratt): [RATT](/docs/conversionScripts/example-1-RATT.ts)
+[CoW](https://github.com/clariah/cow/wiki): [CoW](/docs/conversionScripts/example-1.csv-metadata.json)
+[RMLeditor](https://rml.io/tools/rmleditor/): [RML](/docs/conversionScripts/example-1-RML.ttl)
 
 **Priority: Medium**
 
