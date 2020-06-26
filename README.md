@@ -145,7 +145,7 @@ The specific user interface requirements are written in chapter 4 and describe i
 <figure id="GeneralUserInterface">
   <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
   <figcaption>
-    Figure 1 ― Minimalistic generic user interface.
+    Figure 3 ― Minimalistic generic user interface.
   </figcaption>
 </figure>
 
@@ -171,13 +171,20 @@ The basic LDWizard consists out of 4 basic components as shown in [Figure 2](#Fl
 <figure id="FlowDiagramforLDWizard">
   <img src="/docs/img/FlowDiagramforLDWizard.svg">
   <figcaption>
-    Figure 2 ― Flow chart for the LDWizard, dividing the 4 basic components for the LDWizard
+    Figure 4 ― Flow chart for the LDWizard, dividing the 4 basic components for the LDWizard
   </figcaption>
 </figure>
 
 ### 4.1 upload/input component
 
 Software component for uploading files to the LDWizard or inputting files to the LDWizard.
+
+<figure id="ImportComponent">
+  <img src="/docs/img/ImportComponent.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 5 ― Import Component.
+  </figcaption>
+</figure>
 
 ### 4.1.1 Description and Priority
 
@@ -290,6 +297,13 @@ import-script(file)
 ### 4.2 LDWizard GUI component
 
 The LDWizard GUI component and interfaces. This component builds the GUI that the general user will interact with to convert their CSV file into a linked data file.
+
+<figure id="GUIComponent">
+  <img src="/docs/img/GUIComponent.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 6 ― LDWizard GUI component.
+  </figcaption>
+</figure>
 
 ### 4.2.1 Description and Priority
 
@@ -494,6 +508,13 @@ set-IRI(Column)
 
 The export component of the LDWizard. This component describes all the export features.
 
+<figure id="exportComponent">
+  <img src="/docs/img/exportComponent.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 7 ― LDWizard Export component.
+  </figcaption>
+</figure>
+
 ### 4.3.1 Description and Priority
 
 #### Export transformation output
@@ -552,6 +573,13 @@ set-transformationOutput(language)
 ```
 
 ### 4.4 Upload/publish component
+
+<figure id="PublishComponent">
+  <img src="/docs/img/PublishComponent.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 8 ― LDWizard publish component.
+  </figcaption>
+</figure>
 
 ### 4.4.1 Description and Priority
 
