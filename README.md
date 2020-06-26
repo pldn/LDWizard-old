@@ -276,7 +276,7 @@ Additional requirements:
   - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.
 - TBD: Automatically recognize the file format:
   - Not at all: the function signature determines how the file will be processed.
-  - Based on file name: `.CSV` for data imports; `.cow`, `.rml`, or `.rq` for script imports.
+  - Based on file name: `.CSV` for data imports.
   - Based on a (partial) parse of the file.
 
 Limiting scope:
@@ -502,6 +502,7 @@ set-cleaningOperation(function|template)
 set-datatype(datatype)
 set-skipColumn(Column)
 set-IRI(Column)
+convert()
 ```
 
 ### 4.3 Export component
@@ -563,7 +564,6 @@ Additional requirements:
   - [CoW](https://github.com/clariah/cow/wiki).
   - [RMLeditor](https://rml.io/tools/rmleditor/)
   - RATT (RDF All The Things)
-  - SPARQL CONSTRUCT (for RDF-to-RDF conversions)
 
 ```
 export-sourceFile(location)
@@ -661,6 +661,75 @@ Limiting scope:
 - It is not possible to tranform multiple script files.
 - Only `.cow`, `.rml`, `.ts` source scripts are supported.
 - File decompression is not supported.
+
+Conversion from string to IRI
+
+```
+"1" => http://example.org/character/1
+```
+
+```
+# RATT
+app.use(middleware.convertToNamedNode("id", "http://example.org/character/"));
+
+# Cow
+"aboutUrl": "http://example.org/character/{id}"
+
+# RML
+rr:template "http://example.org/character/{id}"
+```
+
+Set subject type
+
+```
+http://example.org/character/1 rdf:type http://schema.org/Person
+```
+
+```
+# RATT
+app.use(middleware.addQuad("id",prefixes.rdf("type"),prefixes.schema("Person")));
+
+# Cow
+{
+ "@id": "https://iisg.amsterdam/example-1.csv/column/id",
+ "name": "id",
+ "propertyUrl": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+ "valueUrl": "http://schema.org/Person"
+}
+
+# RML
+:TriplesMap rr:predicateObjectMap [
+  rr:predicate rdf:type;
+  rr:objectMap [
+   rr:constant schema:Person
+ ]
+].
+```
+
+Set predicate
+
+```
+http://example.org/character/1 http://schema.org/givenName <>
+```
+
+```
+# RATT
+app.use(middleware.addQuad("id", prefixes.schema("givenName"), "firstname"));
+# Cow
+{
+  "@id": "http://schema.org/givenName",
+  "name": "firstname",
+  "propertyUrl": "http://schema.org/givenName"
+},
+
+# RML
+:TriplesMap rr:predicateObjectMap [
+  rr:predicate schema:givenName;
+  rr:objectMap [
+    rml:reference "firstname"
+  ]
+].
+```
 
 ## 5. Other (Non)functional Requirements
 
