@@ -44,7 +44,7 @@ LD Wizard distinguishes between the following types of users:
 
 <dl>
   <dt>General user</dt>
-  <dd>Uses an LD Wizard Application.</dd>
+  <dd>Uses an LD Wizard Application in a specific domain.</dd>
   <dt>Linked Data Expert</dt>
   <dd>Uses an LD Wizard Application to create an initial transformation.</dd>
   <dt>Developer</dt>
@@ -126,21 +126,24 @@ Since LD Wizard Applications are client-side web applications that runs in regul
 
 #### 2.5.1 Application assumptions
 
-LD Wizard currently assumes that every row of the tabular source data represents exactly one instance in the transformed Linked Data output.
+LD Wizard currently assumes that every row of the tabular source data represents exactly one entity/thing in the transformed Linked Data output.
 
 #### 2.5.2 User assumptions
 
-We me the following assumptions regarding these users:
+We make the following assumptions regarding these users:
 
 - An LD Wizard developer must have a general knowledge about JavaScript and TypeScript.
+- An LD Wizard developer may need some knowledge of Linked Data (TBD).
 
 ## 3. External Interface Requirements
 
-This section provides information to ensure that the system will communicate properly with external components.
+This section specifies how LD Wizard communicates with external components.
 
 ### 3.1 User Interfaces
 
-The specific user interface requirements are written in chapter 4 and describe in more detail the possible steps and actions a user can take per step in the process of the LDWizard. The general interface as shown in [Figure 1](#GeneralUserInterface), is designed with a specific interface for each step inside of a general interface outside of the specific interfaces, with buttons to move between the Sections in the LDWizard, ow with the section buttons on the top. The LDWizard logo is shown in the top right corner, and in the bottom left corner the logo of the instance hosting the LDWizard and important links can be shown, configurable as well.
+The User Interface requirements are specified in Chapter 4. They specify in more detail the possible steps and actions a user can take per step in the process of the LD Wizard.
+
+The general interface as shown in [Figure 3](#GeneralUserInterface) is designed with a specific interface for each step inside of a general interface outside of the specific interfaces, with buttons to move between the Steps in the LD Wizard, with the section buttons on the top. The LD Wizard logo is shown in the top-right corner, and in the bottom-left corner the logo of the LD Wizard Application. Important links can be shown, configurable as well.
 
 <figure id="GeneralUserInterface">
   <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
@@ -152,6 +155,11 @@ The specific user interface requirements are written in chapter 4 and describe i
 The general user interface will be designed as a flexible and easily updatable configurable system to create multiple different instantiated LDWizards from a single framework.
 
 For the implementation of the interface the product will rely on fontawesome, material-UI, recoil, react.
+
+Steps:
+  - import
+  - configuration
+  - publish & export
 
 ### 3.2 Communications Interface
 
