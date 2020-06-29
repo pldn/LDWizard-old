@@ -8,7 +8,11 @@ LD Wizard is a generic framework for converting tabular data sources to Linked D
 
 ## 1. Introduction
 
-The advent of Linked Data is evident through the ever-increasing activities within [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/) and [social and economic history](https://stories.datalegend.net). However, for the most part, these initiatives still rely on expert technical knowledge regarding vocabularies and data-transformation. Confronted with the question, 'so how can we do that (Linked Data)?', when presenting the results from the [2019 Hack-a-LOD](https://hackalod.com/index.php/2019/12/24/teams-en-resultaten-2019/) to the community in a local drugstore, Erwin Folmer sparked the idea for LDWizard. A limited, but useful first gauge at transposing data to Linked Data for non-experts, yet with the ability for experts to advance on the output by the LDWizard.
+Linked Data is an increasingly more popular paradigm for publishing open data.  This is especially true in the [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/) and [social and economic history](https://stories.datalegend.net) domains.  The publication of Linked Data usually requires extensive knowledge of Linked Data principles and technologies.  This means that only a relatively small group of technology enthusiasts has been able to publish Linked Data up till now.  At the same time, there is a much wider group of domain experts and data owners that wants to experiment with Linked Data for the first time.  This group of users is currently scarred away by the many technical hurdles that are imposed by traditional Linked Data publication strategies.
+
+This is where **LD Wizard** comes in.  LD Wizard is a framework for creating end-user focused Graphical User Interfaces (GUIs) that simplify the creation and publication of Linked Data.  LD Wizard allows domain experts and data owners to publish standards-compliant Linked Datasets, without having to worry about Linked Data-specific intricacies.
+
+While a perfect tool for creating simple Linked Data publications, LD Wizard also allows transformations to be exported in various script formats.  These scripts can be used in more advanced tools in order to achieve more complex Linked Data transformations.
 
 ### 1.1 Purpose
 
@@ -21,6 +25,8 @@ At the same time, LD Wizard allows transformations to be exported into several w
 `code`: Code of any kind will be added in the document between two "\`"-marks. For multi-line code this document uses "\`\`\`"-marks to start and stop a code-block.
 
 ### 1.3 Product Scope
+
+We distinguish between the generic **LD Wizard Interface** and various **LD Wizard Applications**.  Each LD Wizard Application is a specific implementation of the LD Wizard Interface.
 
 The scope of the project is to create two working LDWizard tools, a hello-world LDWizard tool, and the cultural heritage LDWizard. The hello-world LDWizard will serve as basic testing tool for implementation of the advanced tooling needed for the second LDWizard. The hello-world LDWizard will also serve as a starting point for creating more specialized tooling for a specific domain. The hello-world LDWizard will be the product of the second milestone. The second LDWizard will be designed according to the specifications of the domain expert in the cultural heritage expert and will serve as a tool to transform excel sheets from the cultural heritage sector to Linked data. The cultural heritage LDWizard will be the product for the third milestone. The Software requirements as written in this document, are written for an uninstantiated LDWizard, unless specified otherwise.
 
@@ -140,38 +146,44 @@ This section provides information to ensure that the system will communicate pro
 
 ### 3.1 User Interfaces
 
-The specific user interface requirements are written in chapter 4 and describe in more detail the possible steps and actions a user can take per step in the process of the LDWizard. The general interface as shown in [Figure 1](#GeneralUserInterface), is designed with a specific interface for each step inside of a general interface outside of the specific interfaces, with buttons to move between the Sections in the LDWizard, ow with the section buttons on the top. The LDWizard logo is shown in the top right corner, and in the bottom left corner the logo of the instance hosting the LDWizard and important links can be shown, configurable as well.
+The specific User Interface requirements are written in chapter 4 and describe in more detail the possible steps and actions a user can take per step in the process of the LDWizard. The general interface as shown in [Figure 3](#GeneralUserInterface), is designed with a specific interface for each step inside of a general interface outside of the specific interfaces, with buttons to move between the Sections in the LDWizard, ow with the section buttons on the top. The LDWizard logo is shown in the top right corner, and in the bottom left corner the logo of the instance hosting the LDWizard and important links can be shown, configurable as well.
 
 <figure id="GeneralUserInterface">
   <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
   <figcaption>
-    Figure 1 ― Minimalistic generic user interface.
+    Figure 3 ― Minimalistic generic user interface.
   </figcaption>
 </figure>
 
-The general user interface will be designed as a flexible and easily updatable configurable system to create multiple different instantiated LDWizards from a single framework.
+The general user interface will be designed as a flexible and easily updatable configurable system to create multiple different instantiated LD Wizard Applications from a single framework.
 
-For the implementation of the interface the product will rely on fontawesome, material-UI, recoil, react.
+For the implementation of the interface the product will rely on [Font Awesome](https://fontawesome.com), [Material-UI](https://material-ui.com), [Recoil](https://recoiljs.org), [React](https://reactjs.org).
 
 ### 3.2 Communications Interface
 
-The first type of communication will happen between the interface and the local file system. This type of communication will happen via buttons in the product. These buttons will open the file system folder structure. The user can select a file to upload to the LDWizard, or when downloading the user can select a folder where the LDWizard will store the files to.
+The first type of communication will happen between the interface and the local file system. This type of communication will happen via buttons in the product. These buttons will open the file system folder structure. The user can select a file to upload to the LD Wizard, or when downloading the user can select a folder where the LD Wizard will store the files to.
 The second line of communication that will happen from inside the project to outside the project is the download of CSV into the product.
 The third case of communication that happens, is between the product and the platform on which the data will be published. To establish this connection to a data platform from the product, the product might need extra information and possible authorizations tokens. These tokens need to be stored in the product itself or have a specialized field to fill in the authorization tokens.
 
 ## 4. System Features
 
-The basic LDWizard consists out of 4 basic components as shown in [Figure 2](#FlowDiagramforLDWizard):
+LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramforLDWizard):
 
-- The upload/input component, for uploading the to be transformed CSV and a possible transformation script.
-- Wizard GUI component, GUI components that will handle one or multiple transformation processes.
-- Download/export component, For downloading/exporting the linked data and transformation script to your local file system.
-- Upload/publish component, For uploading/publishing the linked data and transformation script on the web.
+<dl>
+  <dt>Import component</dt>
+  <dd>Used for uploading the tabular source data.</dd>
+  <dt>Transformation Wizard</dt>
+  <dd>The main GUI component that allows users to specify a transformation to standards-compliant Linked Data.</dd>
+  <dt>Export component</dt>
+  <dd>Allows Linked Data and/or the transformation script to be exported to the local file system.</dd>
+  <dt>Publish component</dt>
+  <dd>Allows the Linked Data, tabular source data, and transformation script to be published in an online triple store.</dd>
+</dl>
 
 <figure id="FlowDiagramforLDWizard">
   <img src="/docs/img/FlowDiagramforLDWizard.svg">
   <figcaption>
-    Figure 2 ― Flow chart for the LDWizard, dividing the 4 basic components for the LDWizard
+    Figure 4 ― Flow chart of the LD Wizard process.  The process is subdivided into four components.
   </figcaption>
 </figure>
 
