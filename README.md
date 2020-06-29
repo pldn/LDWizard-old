@@ -341,14 +341,6 @@ The user can set a predicate for each of the other non subject columns. The pred
 
 The user is able to create a function or template which the conversion script can use to format/clean a column following a certain description.<!--  Here we need to be more specific -->
 
-#### Mark the object term for column as IRI
-
-The user is able to mark the object term of a column as IRI. The object term will now be handled as an IRI and won't be needing a datatype/language.
-
-#### Skipping a column
-
-The user is able to skip a column, notifying the ETL-conversion that this column should not be taken in account in the conversion script.
-
 **Priority: High**
 
 ### 4.2.2 Stimulus/Response Sequences
@@ -432,17 +424,6 @@ Response: If the column is not set to contain IRI's, The datatype `xsd:string` i
 Stimulus: The user removes the cleaning function for a column .<br>
 Response: The old datatype is removed in the ETL-configuration and the datatype `xsd:string` is stored in the ETL-configuration.
 
-#### Setting term for column as IRI.
-
-Stimulus: The user marks the column as IRI.<br>
-Response: The IRI configuration is stored in the ETL-configuration.
-
-Stimulus: The user does mark the column as IRI.<br>
-Response: do nothing.
-
-Stimulus: The user removes the mark as IRI from the column.<br>
-Response: The IRI configuration is removed from the ETL-configuration.
-
 #### Cleaning values in a column
 
 Stimulus: The user sets a cleaning function for a column.<br>
@@ -454,17 +435,6 @@ Response: do nothing.
 Stimulus: The user removes the cleaning function for a column .<br>
 Response: The cleaning function is removed in the ETL-configuration.
 
-#### Skipping a column
-
-Stimulus: The user checks the skip flag for a column.<br>
-Response: The skip flag is stored in the ETL-configuration.
-
-Stimulus: The user does not set the skip flag for a column.<br>
-Response: do nothing.
-
-Stimulus: The user removes the skip flag from column selection.<br>
-Response: The skip flag is removed in the ETL-configuration.
-
 ### 4.2.3 Functional Requirements
 
 Core requirements:
@@ -474,8 +444,6 @@ Core requirements:
 - The ability to select a subject column. (M)
 - The ability to set an class for a subject.
 - The ability to set a predicate for each column. (M)
-- The ability to skip a column.
-- The ability to mark the object term for column as IRI.
 - The ability to clean the values in a column for each column.
 - The ability to set a datatype for the values in a column for each column. (M)
 
@@ -500,8 +468,6 @@ set-class(IRI)
 set-predicate(column,IRI)
 set-cleaningOperation(function|template)
 set-datatype(datatype)
-set-skipColumn(Column)
-set-IRI(Column)
 convert()
 ```
 
