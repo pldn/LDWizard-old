@@ -1,42 +1,40 @@
 {
- "@id": "https://iisg.amsterdam/example-1.csv",
- "@context":
-  "https://raw.githubusercontent.com/CLARIAH/COW/master/csvw.json",
- "url": "example-1.csv",
- "dialect": {
-  "delimiter": ",",
-  "encoding": "ascii",
-  "quoteChar": "\""
- },
- "tableSchema": {
-  "columns": [
-   {
-    "@id": "https://iisg.amsterdam/example-1.csv/column/id",
-    "name": "id",
-    "datatype": "string",
-    "propertyUrl": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
-    "valueUrl": "http://schema.org/Person"
-   },
-   {
-    "@id": "http://schema.org/givenName",
-    "name": "firstname",
-    "datatype": "string",
-    "propertyUrl": "http://schema.org/givenName"
-   },
-   {
-    "@id": "http://schema.org/lastName",
-    "name": "lastname",
-    "datatype": "string",
-    "propertyUrl": "http://schema.org/lastName"
-   },
-   {
-    "@id": "http://dbpedia.org/ontology/hairColor",
-    "name": "hair",
-    "datatype": "string",
-    "propertyUrl": "http://dbpedia.org/ontology/hairColor"
-   }
-  ],
-  "primaryKey": "id",
-  "aboutUrl": "http://example.org/character/{_row}"
- }
+  "@id": "https://iisg.amsterdam/example-1.csv",
+  "@context": "https://raw.githubusercontent.com/CLARIAH/COW/master/csvw.json",
+  "url": "example-1.csv",
+  "dialect": {
+    "delimiter": ",",
+    "encoding": "ascii",
+    "quoteChar": "\""
+  },
+  "tableSchema": {
+    "columns": [
+      {
+        "@id": "https://iisg.amsterdam/example-1.csv/column/id",
+        "name": "id",
+        "propertyUrl": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl": "http://schema.org/Person"
+      },
+      {
+        "@id": "http://schema.org/givenName",
+        "name": "firstname",
+        "datatype": "string",
+        "propertyUrl": "http://schema.org/givenName"
+      },
+      {
+        "@id": "http://schema.org/lastName",
+        "name": "lastname",
+        "datatype": "string",
+        "propertyUrl": "http://schema.org/lastName"
+      },
+      {
+        "@id": "http://dbpedia.org/ontology/hairColor",
+        "name": "hair",
+        "datatype": "string",
+        "propertyUrl": "http://dbpedia.org/ontology/hairColor"
+      }
+    ],
+    "primaryKey": "id",
+    "aboutUrl": "http://example.org/character/{_row}"
+  }
 }

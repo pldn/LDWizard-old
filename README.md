@@ -148,7 +148,7 @@ The general interface as shown in [Figure 3](#GeneralUserInterface) is designed 
 <figure id="GeneralUserInterface">
   <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
   <figcaption>
-    Figure 1 ― Minimalistic generic user interface.
+    Figure 3 ― Minimalistic generic user interface.
   </figcaption>
 </figure>
 
@@ -179,13 +179,20 @@ The basic LDWizard consists out of 4 basic components as shown in [Figure 2](#Fl
 <figure id="FlowDiagramforLDWizard">
   <img src="/docs/img/FlowDiagramforLDWizard.svg">
   <figcaption>
-    Figure 2 ― Flow chart for the LDWizard, dividing the 4 basic components for the LDWizard
+    Figure 4 ― Flow chart for the LDWizard, dividing the 4 basic components for the LDWizard
   </figcaption>
 </figure>
 
 ### 4.1 upload/input component
 
 Software component for uploading files to the LDWizard or inputting files to the LDWizard.
+
+<figure id="ImportComponent">
+  <img src="/docs/img/ImportComponent.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 5 ― Import Component.
+  </figcaption>
+</figure>
 
 ### 4.1.1 Description and Priority
 
@@ -277,7 +284,7 @@ Additional requirements:
   - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.
 - TBD: Automatically recognize the file format:
   - Not at all: the function signature determines how the file will be processed.
-  - Based on file name: `.CSV` for data imports; `.cow`, `.rml`, or `.rq` for script imports.
+  - Based on file name: `.CSV` for data imports.
   - Based on a (partial) parse of the file.
 
 Limiting scope:
@@ -298,6 +305,13 @@ import-script(file)
 ### 4.2 LDWizard GUI component
 
 The LDWizard GUI component and interfaces. This component builds the GUI that the general user will interact with to convert their CSV file into a linked data file.
+
+<figure id="GUIComponent">
+  <img src="/docs/img/GUIComponent.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 6 ― LDWizard GUI component.
+  </figcaption>
+</figure>
 
 ### 4.2.1 Description and Priority
 
@@ -334,14 +348,6 @@ The user can set a predicate for each of the other non subject columns. The pred
 #### Cleaning values in a column
 
 The user is able to create a function or template which the conversion script can use to format/clean a column following a certain description.<!--  Here we need to be more specific -->
-
-#### Mark the object term for column as IRI
-
-The user is able to mark the object term of a column as IRI. The object term will now be handled as an IRI and won't be needing a datatype/language.
-
-#### Skipping a column
-
-The user is able to skip a column, notifying the ETL-conversion that this column should not be taken in account in the conversion script.
 
 **Priority: High**
 
@@ -426,17 +432,6 @@ Response: If the column is not set to contain IRI's, The datatype `xsd:string` i
 Stimulus: The user removes the cleaning function for a column .<br>
 Response: The old datatype is removed in the ETL-configuration and the datatype `xsd:string` is stored in the ETL-configuration.
 
-#### Setting term for column as IRI.
-
-Stimulus: The user marks the column as IRI.<br>
-Response: The IRI configuration is stored in the ETL-configuration.
-
-Stimulus: The user does mark the column as IRI.<br>
-Response: do nothing.
-
-Stimulus: The user removes the mark as IRI from the column.<br>
-Response: The IRI configuration is removed from the ETL-configuration.
-
 #### Cleaning values in a column
 
 Stimulus: The user sets a cleaning function for a column.<br>
@@ -448,17 +443,6 @@ Response: do nothing.
 Stimulus: The user removes the cleaning function for a column .<br>
 Response: The cleaning function is removed in the ETL-configuration.
 
-#### Skipping a column
-
-Stimulus: The user checks the skip flag for a column.<br>
-Response: The skip flag is stored in the ETL-configuration.
-
-Stimulus: The user does not set the skip flag for a column.<br>
-Response: do nothing.
-
-Stimulus: The user removes the skip flag from column selection.<br>
-Response: The skip flag is removed in the ETL-configuration.
-
 ### 4.2.3 Functional Requirements
 
 Core requirements:
@@ -468,8 +452,6 @@ Core requirements:
 - The ability to select a subject column. (M)
 - The ability to set an class for a subject.
 - The ability to set a predicate for each column. (M)
-- The ability to skip a column.
-- The ability to mark the object term for column as IRI.
 - The ability to clean the values in a column for each column.
 - The ability to set a datatype for the values in a column for each column. (M)
 
@@ -494,13 +476,19 @@ set-class(IRI)
 set-predicate(column,IRI)
 set-cleaningOperation(function|template)
 set-datatype(datatype)
-set-skipColumn(Column)
-set-IRI(Column)
+convert()
 ```
 
 ### 4.3 Export component
 
 The export component of the LDWizard. This component describes all the export features.
+
+<figure id="exportComponent">
+  <img src="/docs/img/exportComponent.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 7 ― LDWizard Export component.
+  </figcaption>
+</figure>
 
 ### 4.3.1 Description and Priority
 
@@ -550,7 +538,6 @@ Additional requirements:
   - [CoW](https://github.com/clariah/cow/wiki).
   - [RMLeditor](https://rml.io/tools/rmleditor/)
   - RATT (RDF All The Things)
-  - SPARQL CONSTRUCT (for RDF-to-RDF conversions)
 
 ```
 export-sourceFile(location)
@@ -560,6 +547,13 @@ set-transformationOutput(language)
 ```
 
 ### 4.4 Upload/publish component
+
+<figure id="PublishComponent">
+  <img src="/docs/img/PublishComponent.svg" width="70%" height="50%">
+  <figcaption>
+    Figure 8 ― LDWizard publish component.
+  </figcaption>
+</figure>
 
 ### 4.4.1 Description and Priority
 
@@ -641,6 +635,75 @@ Limiting scope:
 - It is not possible to tranform multiple script files.
 - Only `.cow`, `.rml`, `.ts` source scripts are supported.
 - File decompression is not supported.
+
+Conversion from string to IRI
+
+```
+"1" => http://example.org/character/1
+```
+
+```
+# RATT
+app.use(middleware.convertToNamedNode("id", "http://example.org/character/"));
+
+# Cow
+"aboutUrl": "http://example.org/character/{id}"
+
+# RML
+rr:template "http://example.org/character/{id}"
+```
+
+Set subject type
+
+```
+http://example.org/character/1 rdf:type http://schema.org/Person
+```
+
+```
+# RATT
+app.use(middleware.addQuad("id",prefixes.rdf("type"),prefixes.schema("Person")));
+
+# Cow
+{
+ "@id": "https://iisg.amsterdam/example-1.csv/column/id",
+ "name": "id",
+ "propertyUrl": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+ "valueUrl": "http://schema.org/Person"
+}
+
+# RML
+:TriplesMap rr:predicateObjectMap [
+  rr:predicate rdf:type;
+  rr:objectMap [
+   rr:constant schema:Person
+ ]
+].
+```
+
+Set predicate
+
+```
+http://example.org/character/1 http://schema.org/givenName <>
+```
+
+```
+# RATT
+app.use(middleware.addQuad("id", prefixes.schema("givenName"), "firstname"));
+# Cow
+{
+  "@id": "http://schema.org/givenName",
+  "name": "firstname",
+  "propertyUrl": "http://schema.org/givenName"
+},
+
+# RML
+:TriplesMap rr:predicateObjectMap [
+  rr:predicate schema:givenName;
+  rr:objectMap [
+    rml:reference "firstname"
+  ]
+].
+```
 
 ## 5. Other (Non)functional Requirements
 
