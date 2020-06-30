@@ -597,13 +597,15 @@ Additional requirements:
   - RATT (RDF All The Things)
 
 ```
+set-transformationOutput(language)
 export-sourceFile(location)
 export-transformationScript(location)
 export-transformationOutput(location)
-set-transformationOutput(language)
 ```
 
 ### 4.4 Upload/publish component
+
+The LDWizard Upload/publish component and interfaces. This publish component is the final component of the LDWizard and is bridge between the LDWizard and specialized Linked data tools.
 
 <figure id="PublishComponent">
   <img src="/docs/img/PublishComponent.svg" width="70%" height="50%">
@@ -614,11 +616,63 @@ set-transformationOutput(language)
 
 ### 4.4.1 Description and Priority
 
+The publish component allows the end-user to publish their finalized linked data as domain-experts without having to worry about Linked Data-specific problems. The LDWizard is agnostic to the tooling that reads the transformed data into their platform. he LDWizard publish component will be able to publish the transformed linked data, the transformation script, and the source data to a platform of the users choice.
+
+- The end-user needs specify the authorization configuration, such that the datafiles can be stored on the dataplatform.
+- The end-user needs to specify the storage location, where to the datafiles will be stored.
+- The end-user can upload their datafiles to the configured data platforms.
+
 **Priority: Medium**
 
 ### 4.4.2 Stimulus/Response Sequences
 
+Stimulus: The user selects an export transformation script language to publish the transformation script.<br>
+Response: The user the transformation script can now be exported in the selected language.
+
+Stimulus: The user configures the authorization configuration.<br>
+Response: The LDWizard now has the authorization protocols to publish the data files to the data-platform.
+
+Stimulus: The user configures the publication location of the datafiles.<br>
+Response: The LDWizard now has the location where to publish the data files to the data-platform.
+
+Stimulus: The user sends a request to the publish the transformation script on a data platform.<br>
+Response: The LDWizard will publish the transformation script on the data-platform the user configured. The transformation script is stored in the selected language (default [RATT](https://www.npmjs.com/package/@triply/ratt)).
+
+Stimulus: The user sends a request to the publish the transformation output on a data platform.<br>
+Response: The LDWizard will publish the transformation output on the data-platform the user configured.
+
+Stimulus: The user sends a request to the publish the source file on a data platform.<br>
+Response: The LDWizard will publish the source file on the data-platform the user configured.
+
+Stimulus: The user misconfigured the authorization configuration, and tries to send a request to upload a file to a dataplatform.<br>
+Response: The user will get an error message explaining why the user is not allowed to publish the data file.
+
 ### 4.4.3 Functional Requirements
+
+Core requirements:
+
+- The ability to set the transformation script language.
+- The ability to set authorization configuration to contact the external triple store.
+- The ability to set publication location to store the files on the triple store.
+- The ability to publish the source file.
+- The ability to publish the transformation output.
+- The ability to publish the transformation script.
+
+Additional requirements:
+
+- Potential publish formats for scripts:
+  - [CoW](https://github.com/clariah/cow/wiki).
+  - [RMLeditor](https://rml.io/tools/rmleditor/)
+  - RATT (RDF All The Things)
+
+```
+set-authorization(config)
+set-publishLocation(config)
+set-transformationOutput(language)
+publish-sourceFile(location)
+publish-transformationScript(location)
+publish-transformationOutput(location)
+```
 
 ### 4.5 ETL conversion script
 
@@ -693,42 +747,140 @@ Limiting scope:
 - Only `.cow`, `.rml`, `.ts` source scripts are supported.
 - File decompression is not supported.
 
-#### Setting subject column
+The following paragraphs explain how the common configuration components are translated the three different transformation languages. The first piece of code is the transformation and expected result.
+The three parts below are how the three transformation languages handle the transformations. Based on the following tabular data we will transform the data into a small rdf file.
 
-```
-"1" => http://example.org/character/1
+| id          | Male       |
+| :--------:  | :--------: |
+| 0           | 0          |
+
+##### Expected Linked data
+
+```ttl
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+<http://example.org/character/0> rdf:type <http://schema.org/Person> .
+<http://example.org/character/0> <http://schema.org/gender> "sex-F" .
 ```
 
+
+#### Cleaning value in a column
+
+Conversion of a value to cleaned/standardized field. In this example the transformation goal is to transform the not understandable values in the column `Male` to an explicit representation.
+
+expected result:
 ```
-# RATT
+"sex-F"
+```
+
+###### RATT
+The conversion of the RATT script uses a function that describes the `IF` statement and maps the values to an explicit stringValue.
+
+```ts
+app.use(
+  middleware.cleanColumn("male", male => {
+    if (male === "0") { return "sex-F"; } else { return "sex-M"; }
+  })
+);
+```
+
+###### CoW
+
+The CoW implementation uses an template which maps the value of the column to the new cleaned value.
+
+```json
+{
+ "@id": "https://iisg.amsterdam/example-2.csv/column/male",
+ "datatype": "string",
+ "name": "male",
+ "valueUrl": "{% if male == '0' %}sex-F{% else %}sex-M{% endif %}"
+},
+```
+
+###### RML
+
+The RML implementation uses an template which maps the value of the column to the new cleaned value.
+
+```ttl
+:TriplesMap rr:predicateObjectMap [
+  rr:objectMap [
+    rr:template "{% if male == '0' %}sex-F{% else %}sex-M{% endif %}"
+  ]
+].
+```
+
+#### Creating subject column
+
+The user sets a column to be the subject of that row. The value in this row is converted to an IRI, and acts as the subject of that row. expected result:
+
+```ttl
+<http://example.org/character/0>
+```
+
+###### RATT
+
+RATT will use an agnostic approach and converts the ID to an IRI. In the configuration object the columnName is stored as subject identifier.
+
+```ts
 app.use(middleware.convertToNamedNode("id", "http://example.org/character/"));
+```
 
-# Cow
-"aboutUrl": "http://example.org/character/{id}"
+###### CoW
 
-# RML
-rr:template "http://example.org/character/{id}"
+ By default, the things described by each row don't have identifiers associated with them, in the csvw. To add the identifier per row, CoW can add an template to the "aboutUrl" to create an subject per row.
+
+```json
+{
+  "aboutUrl": "http://example.org/character/{id}"
+}
+```
+
+###### RML
+
+RML uses an subjectMap to create the subject from csv, it is expected that each RML file has exactly one subjectMap. Else the RML structure would not be valid. The rr:subjectMap can also be structured with a template.
+
+```ttl
+:TriplesMap rr:subjectMap [
+  rr:template "http://example.org/character/{id}"
+].
 ```
 
 #### Setting a class/type for the subject column
 
-```
-http://example.org/character/1 rdf:type http://schema.org/Person
+The user can set a class for the subject column. This will be the `rdf:type` relation between the instance of the row and a concept or class. In the example dataset it will look like:
+
+```ttl
+<http://example.org/character/0> rdf:type <http://schema.org/Person>
 ```
 
-```
-# RATT
-app.use(middleware.addQuad("id",prefixes.rdf("type"),prefixes.schema("Person")));
+###### RATT
 
-# Cow
+The addition of a class to RATT happens with the middleware.addQuad. This middleware connects the column where the subject in resides, and links it to the class.
+
+```ts
+app.use(
+  middleware.addQuad("id", prefixes.rdf("type"), prefixes.schema("Person"))
+);
+```
+
+###### CoW
+
+To add a type relation with RML, a column is selected or a virtual column is created which describes the link between the subject with `valueUrl` "template", but the template points to a constant `schema:Person`.
+
+
+```json
 {
- "@id": "https://iisg.amsterdam/example-1.csv/column/id",
- "name": "id",
- "propertyUrl": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
- "valueUrl": "http://schema.org/Person"
+  "@id": "https://iisg.amsterdam/example-1.csv/column/id",
+  "name": "id",
+  "propertyUrl": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+  "valueUrl": "http://schema.org/Person"
 }
+```
 
-# RML
+###### RML
+
+To add a type relation with RML, a predicateObjectMap is created which describes the link from the subject with `rr:constant` to a `schema:Person`.
+
+```ttl
 :TriplesMap rr:predicateObjectMap [
   rr:predicate rdf:type;
   rr:objectMap [
@@ -737,54 +889,79 @@ app.use(middleware.addQuad("id",prefixes.rdf("type"),prefixes.schema("Person")))
 ].
 ```
 
-#### Setting a predicate for a column
+<!-- #### Setting a datatype for a column
+
+Not only a predicate can be set, but also the datatype could be configured in the configurer. This is reflected in the ETL-scripts. The ETL-scripts can add the datatype to the following string:
 
 ```ttl
-<http://example.org/character/1> <http://schema.org/givenName> "firstname"
+"sex-F"^^xsd:string
 ```
 
-```
-# RATT
-app.use(middleware.addQuad("id", prefixes.schema("givenName"), "firstname"));
+###### RATT
 
-# Cow
+A function is called for each column, adding the datatype of the column values.
+
+```ts
+app.use(middleware.setDatatype("male", "xsd:string"));
+```
+
+###### CoW
+
+A field can be added to each column, describing the datatype of the column values.
+
+```json
 {
-  "@id": "http://schema.org/givenName",
-  "name": "firstname",
-  "propertyUrl": "http://schema.org/givenName"
+  "@id": "https://LDWizard.com/example-1.csv/column/male",
+  "name": "male",
+  "datatype": "xsd:string"
 },
+```
 
-# RML
+###### RML
+
+A field can be added to each column, describing the datatype of the column values.
+
+```ttl
 :TriplesMap rr:predicateObjectMap [
-  rr:predicate schema:givenName;
   rr:objectMap [
-    rml:reference "firstname"
+    rml:reference "male"
+    rr:datatype xsd:string
   ]
 ].
-```
+``` -->
 
-#### Setting a datatype for a column
+
+#### Setting a predicate for a column
+
+The user can set a predicate for a columns of the tabular datasource. The predicate is an IRI and can either be found results either in a prefixed IRI or a expanded IRI. The resulting triple looks like:
 
 ```ttl
-<http://example.org/character/1> <http://schema.org/givenName> "firstname"^^xsd;string
+<http://example.org/character/0> <http://schema.org/gender> "sex-F"^^xsd:string
 ```
 
-```
-# RATT
-app.use(middleware.setDatatype("firstname", "xsd:string" ));
+###### RATT
 
-# Cow
+```ts
+app.use(middleware.addQuad("id", prefixes.schema("gender"), "male"));
+```
+
+###### CoW
+
+```json
 {
-  "@id": "http://schema.org/givenName",
-  "datatype": "firstname",
-  "propertyUrl": "http://schema.org/givenName"
+  "@id": "https://LDWizard.com/example-1.csv/column/male",
+  "name": "male",
+  "propertyUrl": "http://schema.org/gender"
 },
+```
 
-# RML
+###### RML
+
+```ttl
 :TriplesMap rr:predicateObjectMap [
-  rr:predicate schema:givenName;
+  rr:predicate schema:gender;
   rr:objectMap [
-    rml:reference "firstname"
+    rml:reference "male"
   ]
 ].
 ```
