@@ -685,26 +685,13 @@ The LDWizard will make a few assumptions about the CSV format.
 - We assume that there is only one subject in the script/CSV/template
 - We assume that the description about the subject in the script is handled as high as possible in the template.
 
-The steps below are guidelines to transform a CSV file to an RDF file.
-
-Step 1: Find the subject in the row, either the rownumber or the predefined column, set as subject.<br>
-Step 2: If needed convert the subject to a proper IRI.<br>
-Step 3: Move from left to right to the column, starting from the first/second depending on the location of the subject.<br>
-Step 4: Skip the column if the column is not mentioned in RATT, RML, or set to skip in COW.<br>
-Step 5a: Clean the value in the column we do want to parse, for now with template based cleaning.<br>
-Step 5b: Set the datatype of the column we do want to parse. If the object is an IRI, make sure that we set it correctly.<br>
-Step 5c: (Set/Parse column as predicate) and link the subject and the object together with the correct predicate.<br>
-Step 6: Move back to step 3, until it the end of the table is reached.<br>
-
 The conversion from RATT to RML and from RML to RATT, as also from RATT to COW and from COW to RATT should be deterministic. Thus when you download a RML script for example and then reupload the RML script is should create the exact same RATT script from the RML script, as from which the RML script was created.
 
-With this way of stepping through the columns and conversion, we can have a better guarantee that the transformation between the 3 languages can be successful if all three languages follow these steps.<br>
-
 For a particular csv: [csv](/docs/conversionScripts/example-1.csv)</br>
-The hello-world-LDWizard is expected to create the following conversionscripts:</br>
-[RATT](https://www.npmjs.com/package/@triply/ratt): [RATT](/docs/conversionScripts/example-1-RATT.ts)</br>
-[CoW](https://github.com/clariah/cow/wiki): [CoW](/docs/conversionScripts/example-1.csv-metadata.json)</br>
-[RMLeditor](https://rml.io/tools/rmleditor/): [RML](/docs/conversionScripts/example-1-RML.ttl)</br>
+We expect that the following conversionscripts result in the same linked data.</br>
+For [RATT](https://www.npmjs.com/package/@triply/ratt) we created the [conversion script](/docs/conversionScripts/example-1-RATT.ts) to convert the tabular data source to linked data.</br>
+For [CoW](https://github.com/clariah/cow/wiki): we created the [conversion script](/docs/conversionScripts/example-1.csv-metadata.json) to convert the tabular data source to linked data.</br>
+For [RMLeditor](https://rml.io/tools/rmleditor/): we created the [conversion script](/docs/conversionScripts/example-1-RML.ttl) to convert the tabular data source to linked data.</br>
 
 **Priority: Medium**
 
@@ -790,7 +777,6 @@ The CoW implementation uses an template which maps the value of the column to th
 ```json
 {
  "@id": "https://iisg.amsterdam/example-2.csv/column/male",
- "datatype": "string",
  "name": "male",
  "valueUrl": "{% if male == '0' %}sex-F{% else %}sex-M{% endif %}"
 },
@@ -941,11 +927,15 @@ The user can set a predicate for a columns of the tabular datasource. The predic
 
 ###### RATT
 
+RATT adds the quad that has the `id` in the subject position and `male` as the object column.
+
 ```ts
 app.use(middleware.addQuad("id", prefixes.schema("gender"), "male"));
 ```
 
 ###### CoW
+
+To describe the predicate for the column `male` we make use of the `propertyUrl` property.
 
 ```json
 {
@@ -956,6 +946,8 @@ app.use(middleware.addQuad("id", prefixes.schema("gender"), "male"));
 ```
 
 ###### RML
+
+The predicate for a particular column for a particular predicateObjectMap is defined with the `rr:predicate` predicate.
 
 ```ttl
 :TriplesMap rr:predicateObjectMap [
