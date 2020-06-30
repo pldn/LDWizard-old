@@ -1,3 +1,5 @@
+component -> module?
+
 <img src="/docs/img/LDWizard.png" align="right">
 
 # LD Wizard: create Linked Data in one Spell
@@ -32,11 +34,19 @@ The scope of the project is to create two working LDWizard tools, a hello-world 
 
 ### 1.4 References
 
-| Abbreviation | Description                                                                                                                               |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| CSV          | Comma-Separated Values: a standardize and non-proprietary tabular data format (see IETF [RFC 4180](https://tools.ietf.org/html/rfc4180)). |
-| ETL          | Extract-Transform-Load: a generic approach for creating Linked Data out of other source data formats (in this case: tabular source data). |
-| Base IRI     | The IRI that is used to transform relative IRIs into absolute IRIs.                                                                       |
+|  Abbreviation   |                                                                                                  Description                                                                                                  |
+| :-------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|  **Base IRI**   |                                                                      The IRI that is used to transform relative IRIs into absolute IRIs.                                                                      |
+|    **Cell**     | The string value at the intersection of one [row]() and one [column]() in a [table](). Cells are separated by a separator token. This is called a _field_ in [RFC 4180](https://tools.ietf.org/html/rfc4180). |
+|   **Column**    |                                                                               A vertical sequence of [cells]() in a [table]().                                                                                |
+|     **CSV**     |                                   Comma-Separated Values: a standardize and non-proprietary tabular data format (see IETF [RFC 4180](https://tools.ietf.org/html/rfc4180)).                                   |
+|     **ETL**     |                                   Extract-Transform-Load: a generic approach for creating Linked Data out of other source data formats (in this case: tabular source data).                                   |
+|   **Header**    |                           If present, the first [row]() in a [table]() that describes the meanings of values that appear in the cells that appear in the corresponding [column]().                            |
+|     **Row**     |               A horizontal sequence of [cells]() in a [table](). Rows are separated by an end-of-line separator. This is called a _record_ in [RFC 4180](https://tools.ietf.org/html/rfc4180).                |
+|    **Sheet**    |                                                                             A simple [spreadsheet]() that encodes one [table]().                                                                              |
+| **Spreadsheet** |                                       A wrapper format around one or more [tables](). A spreadsheet that contains multiples tables is sometimes called a [workbook]().                                        |
+|    **Table**    |                                                         A 2D text format that is structured in [columns]() (horizontally) and [rows]() (vertically).                                                          |
+|  **Workbook**   |                                                                      A complex [spreadsheet]() that consists of one or more [sheets]().                                                                       |
 
 ## 2.Overall Description
 
@@ -158,15 +168,16 @@ The general interface is shown in [Figure 3](#GeneralUserInterface). The inner r
   </figcaption>
 </figure>
 
-The general user interface will be designed as a flexible and easily updatable configurable system to create multiple different instantiated LD Wizard Applications from a single framework.
+The general User Interface will be designed as a flexible and easily updatable configurable system to create multiple different instantiated LD Wizard Applications from a single framework.
 
 For the implementation of the interface the product will rely on [Font Awesome](https://fontawesome.com), [Material-UI](https://material-ui.com), [Recoil](https://recoiljs.org), [React](https://reactjs.org).
 
 Steps:
 
-- import
-- configuration
-- publish & export
+1. import
+2. configuration
+3. export
+4. publish
 
 ### 3.2 Communications Interface
 
@@ -198,48 +209,62 @@ LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramf
   </figcaption>
 </figure>
 
-### 4.1 upload/input component
+### 4.1 Import component
 
-Software component for uploading files to the LDWizard or inputting files to the LDWizard.
+The import component ([Figure 5](#ImportComponent)) is the LD Wizard component that is used for uploading the tabular source data.
 
 <figure id="ImportComponent">
   <img src="/docs/img/ImportComponent.svg" width="70%" height="50%">
   <figcaption>
-    Figure 5 ― Import Component.
+    Figure 5 ― Flow chart overview of the LD Wizard import component process.
   </figcaption>
 </figure>
 
 ### 4.1.1 Description and Priority
 
-The import component allows the initial information that is needed by LD Wizard to be specified by an end-user.
+The _import component_ allows the initial information that is needed by LD Wizard to be specified by an end-user.
 
 There are two kinds of initial information that a user might provide:
 
-- Exactly one source data file (required; high priority).
-- At most one script file (optional; low priority).
+1. Exactly one tabular source data file (required; high priority).
+2. At most one script file (optional; low priority).
 
-There are two ways in which initial information can be imported by a user:
+There are two ways in which this initial information can be imported by a user:
 
-- Import from a local file.
-- Import from a remote URL.
+1. Import from a local file.
+2. Import from a remote URL.
 
-#### CSV upload
+#### 4.1.1.a Tabular source data formats
 
-For the CSV upload we will need to make a choice about how we interpret a correct CSV document. This is due to the ambiguity of a correct CSV file. A CSV file can have multiple different delimiter formats, e.g. "," or ";". This could occur natural if the user uses the Dutch notation for decimal numbers. When this happens, the CSV split will differ from what is expected.
+In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#csv-upload)). At the same time, there are many other formats for storing tabular source data. Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address. For this reason LD Wizard supports the following list of tabular source format:
 
-Secondly a CSV can have multiple different methods for declaring strings with quotations marks, e.g. """ or "'". Finally there are also different implementations for spaces at the beginning and the end of the fields. These can also be handled different from CSV to CSV.
+- Office Open XML Workbook
+- OpenDocument Spreadsheet
+- TBD
 
-For this problem there are three solutions, we can either declare that:
+The above formats are converted to CSV immediately after upload. The conversion from these tabular formats to CSV is best-effort, specifically:
 
-- A correct CSV document, is something that the developers from LDWizard decide.
-- A correct CSV document, is something the implementer of an instantiated LDwizard will decide.
-- A correct CSV document, is something the user of a specific instantiated LDWizard will decide on a limited basis.
+- _Workbooks_ with multiple sheets are not supported. Only the first sheet is used.
+- Complex visual layouts are not supported. For example, spreadsheets with nested columns are not supported.
+- Complex visual markup is not preserved. For example, colors and fonts are not preserved, neither are bold and italic text markup.
 
-<!-- I would recommend that we implement the second solution as leading. The domain expert that will help create the instantiation of the LDWizard will probably also know which CSV template is leading the domain. The domain expert can also help if users have the incorrect CSV, and help them transform the CSV file. -->
+An error is communicated to the user in case the conversion from the user-supplied tabular source format to CSV fails.
 
-We do not expect that a CSV will always have a header line. If the file does not have a header file we should use a baseIRI + the letter of the column as the IRI for the predicate.
+#### 4.1.1.b CSV formats
 
-The LDWizard will follow the <https://www.w3.org/TR/trig/> specifications for the handling of special characters. The LDWizard will handle these special characters as errors.
+LD Wizard assumes that tabular source data is available in a CSV format. See [Section "Tabular source data formats"](#411a-tabular-source-data-formats) for how all valid user-supplied tabular source data is guaranteed to be CSV.
+
+While there is a standardized CSV format ([RFC 4180](https://tools.ietf.org/html/rfc4180)), there are many non-standardized CSV formats that are in wide use.
+
+**TBD: Which CSV format(s) will we support?**
+
+#### 4.1.1.c CSV header
+
+We do not expect that a CSV will always have a header line. If the file does not have a header file we should use a base IRI + the letter of the column as the IRI for the predicate.
+
+#### 4.1.1.d CSV special characters
+
+LD Wizard will follow the [TriG](https://www.w3.org/TR/trig) specification for handling special characters. The LD Wizard will handle these special characters as errors.
 
 ##### Limitations
 
@@ -254,7 +279,7 @@ Let's set the amount of rows on 1.048.576, the same limit as excel for the amoun
 
 ### 4.1.2 Stimulus/Response Sequences
 
-- This component must block further components/steps in case no source file is specified.
+- This component must block further components/steps in case no valid source file is specified.
 
 Stimulus: the user uploads a correct CSV document. <br>
 Response: The continue/transform button will enable and the document will be stored in the browser memory.
@@ -262,11 +287,11 @@ Response: The continue/transform button will enable and the document will be sto
 Stimulus: The user uploads a correct CSV document but the CSV document is too large.<br>
 Response: The user will get an error saying that the document is large.
 
-Stimulus: The user wants to upload a CSV via URL, but the URL not available.<br>
-Response: The user will get an error saying that LDWizard failed to retrieve the data.
+Stimulus: The user wants to upload a CSV via URL, but the URL is not available.<br>
+Response: The user will get an error saying that LD Wizard failed to retrieve the data.
 
 Stimulus: The user uploads an incorrect document.<br>
-Response: The user will get an error saying that the document is incorrect and the LDWizard will show the location of the error.
+Response: The user will get an error saying that the document is incorrect and the LD Wizard will show the location of the error.
 
 Stimulus: The user uploads a correct CSV document, with incorrect special characters according to the <https://www.w3.org/TR/trig/> specifications.<br>
 Response: The user will get an error saying that the document is incorrect and show the location of the error.
