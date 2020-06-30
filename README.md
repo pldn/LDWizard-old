@@ -8,11 +8,11 @@ LD Wizard is a generic framework for converting tabular data sources to Linked D
 
 ## 1. Introduction
 
-Linked Data is an increasingly more popular paradigm for publishing open data.  This is especially true in the [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/) and [social and economic history](https://stories.datalegend.net) domains.  The publication of Linked Data usually requires extensive knowledge of Linked Data principles and technologies.  This means that only a relatively small group of technology enthusiasts has been able to publish Linked Data up till now.  At the same time, there is a much wider group of domain experts and data owners that wants to experiment with Linked Data for the first time.  This group of users is currently scarred away by the many technical hurdles that are imposed by traditional Linked Data publication strategies.
+Linked Data is an increasingly more popular paradigm for publishing open data. This is especially true in the [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/) and [social and economic history](https://stories.datalegend.net) domains. The publication of Linked Data usually requires extensive knowledge of Linked Data principles and technologies. This means that only a relatively small group of technology enthusiasts has been able to publish Linked Data up till now. At the same time, there is a much wider group of domain experts and data owners that wants to experiment with Linked Data for the first time. This group of users is currently scarred away by the many technical hurdles that are imposed by traditional Linked Data publication strategies.
 
-This is where **LD Wizard** comes in.  LD Wizard is a framework for creating end-user focused Graphical User Interfaces (GUIs) that simplify the creation and publication of Linked Data.  LD Wizard allows domain experts and data owners to publish standards-compliant Linked Datasets, without having to worry about Linked Data-specific intricacies.
+This is where **LD Wizard** comes in. LD Wizard is a framework for creating end-user focused Graphical User Interfaces (GUIs) that simplify the creation and publication of Linked Data. LD Wizard allows domain experts and data owners to publish standards-compliant Linked Datasets, without having to worry about Linked Data-specific intricacies.
 
-While a perfect tool for creating simple Linked Data publications, LD Wizard also allows transformations to be exported in various script formats.  These scripts can be used in more advanced tools in order to achieve more complex Linked Data transformations.
+While a perfect tool for creating simple Linked Data publications, LD Wizard also allows transformations to be exported in various script formats. These scripts can be used in more advanced tools in order to achieve more complex Linked Data transformations.
 
 ### 1.1 Purpose
 
@@ -26,25 +26,25 @@ At the same time, LD Wizard allows transformations to be exported into several w
 
 ### 1.3 Product Scope
 
-We distinguish between the generic **LD Wizard Interface** and various **LD Wizard Applications**.  Each LD Wizard Application is a specific implementation of the LD Wizard Interface.
+We distinguish between the generic **LD Wizard Interface** and various **LD Wizard Applications**. Each LD Wizard Application is a specific implementation of the LD Wizard Interface.
 
 The scope of the project is to create two working LDWizard tools, a hello-world LDWizard tool, and the cultural heritage LDWizard. The hello-world LDWizard will serve as basic testing tool for implementation of the advanced tooling needed for the second LDWizard. The hello-world LDWizard will also serve as a starting point for creating more specialized tooling for a specific domain. The hello-world LDWizard will be the product of the second milestone. The second LDWizard will be designed according to the specifications of the domain expert in the cultural heritage expert and will serve as a tool to transform excel sheets from the cultural heritage sector to Linked data. The cultural heritage LDWizard will be the product for the third milestone. The Software requirements as written in this document, are written for an uninstantiated LDWizard, unless specified otherwise.
 
 ### 1.4 Terminology
 
-| Abbreviation | Description |
-|:------------:|:-----------:|
-| **Base IRI** | The IRI that is used to transform relative IRIs into absolute IRIs. |
-| **Cell** | The string value at the intersection of one [row]() and one [column]() in a [table]().  Cells are separated by a separator token.  This is called a *field* in [RFC 4180](https://tools.ietf.org/html/rfc4180). |
-| **Column** | A vertical sequence of [cells]() in a [table](). |
-| **CSV** | Comma-Separated Values: a standardize and non-proprietary tabular data format (see IETF [RFC 4180](https://tools.ietf.org/html/rfc4180)). |
-| **ETL** | Extract-Transform-Load: a generic approach for creating Linked Data out of other source data formats (in this case: tabular source data). |
-| **Header** | If present, the first [row]() in a [table]() that describes the meanings of values that appear in the cells that appear in the corresponding [column](). |
-| **Row** | A horizontal sequence of [cells]() in a [table]().  Rows are separated by an end-of-line separator.  This is called a *record* in [RFC 4180](https://tools.ietf.org/html/rfc4180). |
-| **Sheet** | A simple [spreadsheet]() that encodes one [table](). |
-| **Spreadsheet** | A wrapper format around one or more [tables]().  A spreadsheet that contains multiples tables is sometimes called a [workbook](). |
-| **Table** | A 2D text format that is structured in [columns]() (horizontally) and [rows]() (vertically). |
-| **Workbook** | A complex [spreadsheet]() that consists of one or more [sheets](). |
+|  Abbreviation   |                                                                                                  Description                                                                                                  |
+| :-------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|  **Base IRI**   |                                                                      The IRI that is used to transform relative IRIs into absolute IRIs.                                                                      |
+|    **Cell**     | The string value at the intersection of one [row]() and one [column]() in a [table](). Cells are separated by a separator token. This is called a _field_ in [RFC 4180](https://tools.ietf.org/html/rfc4180). |
+|   **Column**    |                                                                               A vertical sequence of [cells]() in a [table]().                                                                                |
+|     **CSV**     |                                   Comma-Separated Values: a standardize and non-proprietary tabular data format (see IETF [RFC 4180](https://tools.ietf.org/html/rfc4180)).                                   |
+|     **ETL**     |                                   Extract-Transform-Load: a generic approach for creating Linked Data out of other source data formats (in this case: tabular source data).                                   |
+|   **Header**    |                           If present, the first [row]() in a [table]() that describes the meanings of values that appear in the cells that appear in the corresponding [column]().                            |
+|     **Row**     |               A horizontal sequence of [cells]() in a [table](). Rows are separated by an end-of-line separator. This is called a _record_ in [RFC 4180](https://tools.ietf.org/html/rfc4180).                |
+|    **Sheet**    |                                                                             A simple [spreadsheet]() that encodes one [table]().                                                                              |
+| **Spreadsheet** |                                       A wrapper format around one or more [tables](). A spreadsheet that contains multiples tables is sometimes called a [workbook]().                                        |
+|    **Table**    |                                                         A 2D text format that is structured in [columns]() (horizontally) and [rows]() (vertically).                                                          |
+|  **Workbook**   |                                                                      A complex [spreadsheet]() that consists of one or more [sheets]().                                                                       |
 
 ### 1.5 Attribution
 
@@ -175,7 +175,7 @@ This section specifies how LD Wizard communicates with external components.
 
 The User Interface requirements are specified in Chapter 4. They specify in more detail the possible steps and actions a user can take per step in the process of the LD Wizard.
 
-The general interface is shown in [Figure 3](#GeneralUserInterface).  The inner rectangle is where specific interfaces for sub-steps are positioned.  The benefit of a generic interface is that it provides continuity in LD Wizard use when moving between the sub-steps.  The generic interface also includes consistent branding of the LD Wizard (bottom-right) and of the specific LD Wizard Application (top-left).  Links to documentation and the LD Wizard project are also included in the bottom-right corner.
+The general interface is shown in [Figure 3](#GeneralUserInterface). The inner rectangle is where specific interfaces for sub-steps are positioned. The benefit of a generic interface is that it provides continuity in LD Wizard use when moving between the sub-steps. The generic interface also includes consistent branding of the LD Wizard (bottom-right) and of the specific LD Wizard Application (top-left). Links to documentation and the LD Wizard project are also included in the bottom-right corner.
 
 <figure id="GeneralUserInterface">
   <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
@@ -189,16 +189,19 @@ The general User Interface will be designed as a flexible and easily updatable c
 For the implementation of the interface the product will rely on [Font Awesome](https://fontawesome.com), [Material-UI](https://material-ui.com), [Recoil](https://recoiljs.org), [React](https://reactjs.org).
 
 Steps:
-  1. import
-  2. configuration
-  3. export
-  4. publish
+
+1. import
+2. configuration
+3. export
+4. publish
 
 ### 3.2 Communications Interface
 
-The first type of communication will happen between the interface and the local file system. This type of communication will happen via buttons in the product. These buttons will open the file system folder structure. The user can select a file to upload to the LD Wizard, or when downloading the user can select a folder where the LD Wizard will store the files to.
-The second line of communication that will happen from inside the project to outside the project is the download of CSV into the product.
-The third case of communication that happens, is between the product and the platform on which the data will be published. To establish this connection to a data platform from the product, the product might need extra information and possible authorizations tokens. These tokens need to be stored in the product itself or have a specialized field to fill in the authorization tokens.
+Three types of communication are expected between the LDWizard and other applications.
+
+- Communications between the LDWizard and the local file system to retrieve the tabular data sources, for transformation. The end-user will activate the communications to the file system via buttons in the LDWizard.
+- Communications between the LDWizard and the local file system to store the converted tabular data source, transformation script and the source data. The end-user will activate the communications to the file system via buttons in the LDWizard.
+- Communications between the LDWizard and a external triple store to store the converted tabular data source, transformation script and the source data on the triple store. These platforms could need extra authorization tokens to store data on their platforms. These tokens could be stored in the LDWizard to communicate with the external triple store. The end-user will communicate the information needed for communication via a textfield and activate the communication via buttons.
 
 ## 4. System Features
 
@@ -235,12 +238,12 @@ The import component ([Figure 5](#ImportComponent)) is the LD Wizard component t
 
 ### 4.1.1 Description and Priority
 
-The *import component* allows the initial information that is needed by LD Wizard to be specified by an end-user.
+The _import component_ allows the initial information that is needed by LD Wizard to be specified by an end-user.
 
 There are two kinds of initial information that a user might provide:
 
 1. Exactly one tabular source data file (required; high priority).
-2. At most one script file (optional; medium priority).
+2. At most one script file (optional; low priority).
 
 There are two ways in which this initial information can be imported by a user:
 
@@ -250,6 +253,7 @@ There are two ways in which this initial information can be imported by a user:
 #### 4.1.1.a Tabular source data formats
 Priority: low
 
+<<<<<<< HEAD
 In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#csv-upload)).  At the same time, there are many other formats for storing tabular source data.  Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address.
 
 Most spreadsheet applications have the ability to export to CSV.  Such conversions generally yield standard-compliant CSV.  Because CSV is a relatively simple format, not all aspects of the tabular source format are preserved, specifically:
@@ -257,11 +261,28 @@ Most spreadsheet applications have the ability to export to CSV.  Such conversio
 - Workbooks with multiple sheets are not supported.  Only the first sheet is used.
 - Complex visual layouts are not supported.  For example, nested columns are not supported.
 - Complex visual markup is not preserved.  For example, colors and fonts are not preserved, neither are bold and italic text markup.
+=======
+In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#csv-upload)). At the same time, there are many other formats for storing tabular source data. Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address. For this reason LD Wizard supports the following list of tabular source format:
+
+- Office Open XML Workbook
+- OpenDocument Spreadsheet
+- TBD
+
+The above formats are converted to CSV immediately after upload. The conversion from these tabular formats to CSV is best-effort, specifically:
+
+- _Workbooks_ with multiple sheets are not supported. Only the first sheet is used.
+- Complex visual layouts are not supported. For example, spreadsheets with nested columns are not supported.
+- Complex visual markup is not preserved. For example, colors and fonts are not preserved, neither are bold and italic text markup.
+>>>>>>> 63f806b5d690138b86bd5985391953d35665bbd7
 
 #### 4.1.1.b CSV formats
 Priority: high
 
+<<<<<<< HEAD
 LD Wizard assumes that tabular source data is available in a CSV format.  Tabular source data that is not in a CSV format is discussed in [Section 4.1.1.b](#411a-tabular-source-data-formats).
+=======
+LD Wizard assumes that tabular source data is available in a CSV format. See [Section "Tabular source data formats"](#411a-tabular-source-data-formats) for how all valid user-supplied tabular source data is guaranteed to be CSV.
+>>>>>>> 63f806b5d690138b86bd5985391953d35665bbd7
 
 The CSV format has been standardized in [RFC 4180](https://tools.ietf.org/html/rfc4180) by the Internet Engineering Taskforce (IETF).  The most commonly used applications for editing tabular data (e.g., Excel, LibreOffice Calc) seem to export to this standardized format.
 
@@ -277,7 +298,7 @@ At the same time, some hand-crafted CSV files may deviate from the standard in t
 
 #### 4.1.1.c CSV header
 
-We do not expect that a CSV will always have a header line.  If the file does not have a header file we should use a base IRI + the letter of the column as the IRI for the predicate.
+We do not expect that a CSV will always have a header line. If the file does not have a header file we should use a base IRI + the letter of the column as the IRI for the predicate.
 
 #### 4.1.1.d CSV special characters
 
@@ -316,11 +337,11 @@ Response: The user will get an error saying that the document is incorrect and s
 Stimulus: The user uploads multiple CSV documents.<br>
 Response: The user will get an error saying it can only upload a single CSV document.
 
-Stimulus: The user uploads a correct conversion script.<br>
+<!-- Stimulus: The user uploads a correct conversion script.<br>
 Response: The script will be handled accordingly. The user will see a transform instead of a continue button.
 
 Stimulus: The user uploads an incorrect script.<br>
-Response: The user will get a warning that the script is incorrect.
+Response: The user will get a warning that the script is incorrect. -->
 
 ### 4.1.3 Functional Requirements
 
@@ -330,7 +351,6 @@ Response: The user will get a warning that the script is incorrect.
 Core requirements:
 
 - The ability to import exactly one data source file.
-- The ability to import exactly one script file.
 - The ability to import from a local file:
 - The ability to import from a publically accessible online location (URL).
 
@@ -341,22 +361,20 @@ Additional requirements:
   - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.
 - TBD: Automatically recognize the file format:
   - Not at all: the function signature determines how the file will be processed.
-  - Based on file name: `.CSV` for data imports.
+  - Based on file name: `.csv` for data imports.
   - Based on a (partial) parse of the file.
 
 Limiting scope:
 
 - Importing from non-SSL URLs (i.e., HTTP rather than HTTPS) is not supported.
 - Importing from SSL URLs on servers that do not emit the correct headers (e.g., CORS) is not supported.
-- It is not possible to import multiple source files or multiple script files.
+- It is not possible to import multiple source files.
 - Only CSV source data is supported.
 - File decompression is not supported.
 
 ```
 import-data(URL)
 import-data(file)
-import-script(URL)
-import-script(file)
 ```
 
 ### 4.2 LDWizard GUI component
@@ -400,7 +418,7 @@ The user can set a predicate for each of the other non subject columns. The pred
 
 #### Setting a datatype for a column
 
-The user can set a predicate for each of the other non subject columns. The predicate is an IRI and can either be found with the help of autosuggest from the list of standard added in vocabularies, added in vocabularies, or be filled in by the user. If no
+The user can set a predicate for each of the other non subject columns. The predicate is an IRI and can either be found with the help of autosuggest from the list of standard added in vocabularies, added in vocabularies, or be filled in by the user. If no datatype is set, the LDWizard will default to `xsd:string`
 
 #### Cleaning values in a column
 
@@ -693,7 +711,7 @@ Limiting scope:
 - Only `.cow`, `.rml`, `.ts` source scripts are supported.
 - File decompression is not supported.
 
-Conversion from string to IRI
+#### Setting subject column
 
 ```
 "1" => http://example.org/character/1
@@ -710,7 +728,7 @@ app.use(middleware.convertToNamedNode("id", "http://example.org/character/"));
 rr:template "http://example.org/character/{id}"
 ```
 
-Set subject type
+#### Setting a class/type for the subject column
 
 ```
 http://example.org/character/1 rdf:type http://schema.org/Person
@@ -737,19 +755,46 @@ app.use(middleware.addQuad("id",prefixes.rdf("type"),prefixes.schema("Person")))
 ].
 ```
 
-Set predicate
+#### Setting a predicate for a column
 
-```
-http://example.org/character/1 http://schema.org/givenName <>
+```ttl
+<http://example.org/character/1> <http://schema.org/givenName> "firstname"
 ```
 
 ```
 # RATT
 app.use(middleware.addQuad("id", prefixes.schema("givenName"), "firstname"));
+
 # Cow
 {
   "@id": "http://schema.org/givenName",
   "name": "firstname",
+  "propertyUrl": "http://schema.org/givenName"
+},
+
+# RML
+:TriplesMap rr:predicateObjectMap [
+  rr:predicate schema:givenName;
+  rr:objectMap [
+    rml:reference "firstname"
+  ]
+].
+```
+
+#### Setting a datatype for a column
+
+```ttl
+<http://example.org/character/1> <http://schema.org/givenName> "firstname"^^xsd;string
+```
+
+```
+# RATT
+app.use(middleware.setDatatype("firstname", "xsd:string" ));
+
+# Cow
+{
+  "@id": "http://schema.org/givenName",
+  "datatype": "firstname",
   "propertyUrl": "http://schema.org/givenName"
 },
 
@@ -776,7 +821,7 @@ The app is a client-side only app. This will limit the number of safety requirem
 
 ### 5.3 Security Requirements
 
-The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so.
+The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so. The user should be able to access all the components of the LDWizard without needing additional privileges.
 
 ### 5.4 User Documentation
 
