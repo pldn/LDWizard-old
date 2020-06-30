@@ -1,5 +1,3 @@
-component -> module?
-
 <img src="/docs/img/LDWizard.png" align="right">
 
 # LD Wizard: create Linked Data in one Spell
@@ -32,7 +30,7 @@ We distinguish between the generic **LD Wizard Interface** and various **LD Wiza
 
 The scope of the project is to create two working LDWizard tools, a hello-world LDWizard tool, and the cultural heritage LDWizard. The hello-world LDWizard will serve as basic testing tool for implementation of the advanced tooling needed for the second LDWizard. The hello-world LDWizard will also serve as a starting point for creating more specialized tooling for a specific domain. The hello-world LDWizard will be the product of the second milestone. The second LDWizard will be designed according to the specifications of the domain expert in the cultural heritage expert and will serve as a tool to transform excel sheets from the cultural heritage sector to Linked data. The cultural heritage LDWizard will be the product for the third milestone. The Software requirements as written in this document, are written for an uninstantiated LDWizard, unless specified otherwise.
 
-### 1.4 References
+### 1.4 Terminology
 
 | Abbreviation | Description |
 |:------------:|:-----------:|
@@ -47,6 +45,15 @@ The scope of the project is to create two working LDWizard tools, a hello-world 
 | **Spreadsheet** | A wrapper format around one or more [tables]().  A spreadsheet that contains multiples tables is sometimes called a [workbook](). |
 | **Table** | A 2D text format that is structured in [columns]() (horizontally) and [rows]() (vertically). |
 | **Workbook** | A complex [spreadsheet]() that consists of one or more [sheets](). |
+
+### 1.5 Attribution
+
+LD Wizard is an initiative of the following organizations and people:
+
+- [Dutch Digital Heritage Network (NDE)](https://www.netwerkdigitaalerfgoed.nl/en), Enno Meijers & Ivo Zandhuis
+-  [The Netherlands’ Cadastre, Land Registry and Mapping Agency (Kadaster)](https://www.kadaster.nl), Erwin Folmer
+- [International Institute of Social History (IISH)](https://iisg.amsterdam/en), Richard Zijdeman
+- [Triply](https://triply.cc), Thomas de Groot, Gerwin Bosch & Wouter Beek
 
 ## 2.Overall Description
 
@@ -140,16 +147,25 @@ Since LD Wizard Applications are client-side web applications that runs in regul
 
 ### 2.5 Assumptions and Dependencies
 
-#### 2.5.1 Application assumptions
+#### 2.5.1 Source data assumptions
 
-LD Wizard currently assumes that every row of the tabular source data represents exactly one entity/thing in the transformed Linked Data output.
+We make the following assumptions regarding the source data:
+- The tabular source data file must have a header row.
+- Every row of the tabular source data represents exactly one entity/thing in the transformed Linked Data output.
+- Source data can be published under an open license.
 
 #### 2.5.2 User assumptions
 
-We make the following assumptions regarding these users:
+We make the following assumptions regarding the three user groups.
 
-- An LD Wizard developer must have a general knowledge about JavaScript and TypeScript.
-- An LD Wizard developer may need some knowledge of Linked Data (TBD).
+Assumptions for users:
+
+- Users are assumed to be able to export their tabular source data to CSV.
+
+Assumptions for developers:
+
+- Must have a general knowledge about JavaScript and TypeScript.
+- May need some knowledge of Linked Data (TBD).
 
 ## 3. External Interface Requirements
 
@@ -232,26 +248,30 @@ There are two ways in which this initial information can be imported by a user:
 2. Import from a remote URL.
 
 #### 4.1.1.a Tabular source data formats
+Priority: low
 
-In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#csv-upload)).  At the same time, there are many other formats for storing tabular source data.  Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address.  For this reason LD Wizard supports the following list of tabular source format:
+In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#csv-upload)).  At the same time, there are many other formats for storing tabular source data.  Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address.
 
-- Office Open XML Workbook
-- OpenDocument Spreadsheet
-- TBD
+Most spreadsheet applications have the ability to export to CSV.  Such conversions generally yield standard-compliant CSV.  Because CSV is a relatively simple format, not all aspects of the tabular source format are preserved, specifically:
 
-The above formats are converted to CSV immediately after upload.  The conversion from these tabular formats to CSV is best-effort, specifically:
-
-- *Workbooks* with multiple sheets are not supported.  Only the first sheet is used.
-- Complex visual layouts are not supported.  For example, spreadsheets with nested columns are not supported.
+- Workbooks with multiple sheets are not supported.  Only the first sheet is used.
+- Complex visual layouts are not supported.  For example, nested columns are not supported.
 - Complex visual markup is not preserved.  For example, colors and fonts are not preserved, neither are bold and italic text markup.
 
-An error is communicated to the user in case the conversion from the user-supplied tabular source format to CSV fails.
-
 #### 4.1.1.b CSV formats
+Priority: high
 
-LD Wizard assumes that tabular source data is available in a CSV format.  See [Section "Tabular source data formats"](#411a-tabular-source-data-formats) for how all valid user-supplied tabular source data is guaranteed to be CSV.
+LD Wizard assumes that tabular source data is available in a CSV format.  Tabular source data that is not in a CSV format is discussed in [Section 4.1.1.b](#411a-tabular-source-data-formats).
 
-While there is a standardized CSV format ([RFC 4180](https://tools.ietf.org/html/rfc4180)), there are many non-standardized CSV formats that are in wide use.
+The CSV format has been standardized in [RFC 4180](https://tools.ietf.org/html/rfc4180) by the Internet Engineering Taskforce (IETF).  The most commonly used applications for editing tabular data (e.g., Excel, LibreOffice Calc) seem to export to this standardized format.
+
+At the same time, some hand-crafted CSV files may deviate from the standard in the following ways:
+
+<dl>
+  <dt>Cell separator</dt>
+  <dd>The CSV file may use a different token than comma (`,`) for separating the cells.   For example, the semi-colon (`;`) is popular when cells commonly contains comma's and cell values are not delimited by double quotes (`"`).  In some locates the comma is used as the decimal separator, e.g., the Dutch locale.</dd>
+  <dt>Cell quoting</dt>
+  <dd>
 
 **TBD: Which CSV format(s) will we support?**
 
