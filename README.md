@@ -253,7 +253,6 @@ There are two ways in which this initial information can be imported by a user:
 #### 4.1.1.a Tabular source data formats
 Priority: low
 
-<<<<<<< HEAD
 In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#csv-upload)).  At the same time, there are many other formats for storing tabular source data.  Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address.
 
 Most spreadsheet applications have the ability to export to CSV.  Such conversions generally yield standard-compliant CSV.  Because CSV is a relatively simple format, not all aspects of the tabular source format are preserved, specifically:
@@ -261,28 +260,11 @@ Most spreadsheet applications have the ability to export to CSV.  Such conversio
 - Workbooks with multiple sheets are not supported.  Only the first sheet is used.
 - Complex visual layouts are not supported.  For example, nested columns are not supported.
 - Complex visual markup is not preserved.  For example, colors and fonts are not preserved, neither are bold and italic text markup.
-=======
-In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#csv-upload)). At the same time, there are many other formats for storing tabular source data. Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address. For this reason LD Wizard supports the following list of tabular source format:
-
-- Office Open XML Workbook
-- OpenDocument Spreadsheet
-- TBD
-
-The above formats are converted to CSV immediately after upload. The conversion from these tabular formats to CSV is best-effort, specifically:
-
-- _Workbooks_ with multiple sheets are not supported. Only the first sheet is used.
-- Complex visual layouts are not supported. For example, spreadsheets with nested columns are not supported.
-- Complex visual markup is not preserved. For example, colors and fonts are not preserved, neither are bold and italic text markup.
->>>>>>> 63f806b5d690138b86bd5985391953d35665bbd7
 
 #### 4.1.1.b CSV formats
 Priority: high
 
-<<<<<<< HEAD
 LD Wizard assumes that tabular source data is available in a CSV format.  Tabular source data that is not in a CSV format is discussed in [Section 4.1.1.b](#411a-tabular-source-data-formats).
-=======
-LD Wizard assumes that tabular source data is available in a CSV format. See [Section "Tabular source data formats"](#411a-tabular-source-data-formats) for how all valid user-supplied tabular source data is guaranteed to be CSV.
->>>>>>> 63f806b5d690138b86bd5985391953d35665bbd7
 
 The CSV format has been standardized in [RFC 4180](https://tools.ietf.org/html/rfc4180) by the Internet Engineering Taskforce (IETF).  The most commonly used applications for editing tabular data (e.g., Excel, LibreOffice Calc) seem to export to this standardized format.
 
