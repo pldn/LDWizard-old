@@ -172,9 +172,9 @@ Steps:
 
 Three types of communication are expected between the LDWizard and other applications.
 
-- Communications between the LDWizard and the local file system to retrieve the tabular data sources, for transformation. The end-user will activate these communications via buttons in the LDWizard.
-- Communications between the LDWizard and the local file system to store the converted tabular data source, transformation script and the source data.
-- Communications between the LDWizard and a external dataplatform to store the converted tabular data source, transformation script and the source data on the dataplatform. These platforms could need extra authorization tokens to store data on their platforms. These tokens could be stored in the LDWizard to communicate with the external data platform.
+- Communications between the LDWizard and the local file system to retrieve the tabular data sources, for transformation. The end-user will activate the communications to the file system via buttons in the LDWizard.
+- Communications between the LDWizard and the local file system to store the converted tabular data source, transformation script and the source data. The end-user will activate the communications to the file system via buttons in the LDWizard.
+- Communications between the LDWizard and a external triple store to store the converted tabular data source, transformation script and the source data on the triple store. These platforms could need extra authorization tokens to store data on their platforms. These tokens could be stored in the LDWizard to communicate with the external triple store. The end-user will communicate the information needed for communication via a textfield and activate the communication via buttons.
 
 ## 4. System Features
 
@@ -720,6 +720,30 @@ app.use(middleware.addQuad("id", prefixes.schema("givenName"), "firstname"));
 
 #### Setting a datatype for a column
 
+```ttl
+<http://example.org/character/1> <http://schema.org/givenName> "firstname"^^xsd;string
+```
+
+```
+# RATT
+app.use(middleware.setDatatype("firstname", "xsd:string" ));
+
+# Cow
+{
+  "@id": "http://schema.org/givenName",
+  "datatype": "firstname",
+  "propertyUrl": "http://schema.org/givenName"
+},
+
+# RML
+:TriplesMap rr:predicateObjectMap [
+  rr:predicate schema:givenName;
+  rr:objectMap [
+    rml:reference "firstname"
+  ]
+].
+```
+
 ## 5. Other (Non)functional Requirements
 
 Each of the requirements below are requirements important to note, but do not belong to an interface, or a functional component.
@@ -734,7 +758,7 @@ The app is a client-side only app. This will limit the number of safety requirem
 
 ### 5.3 Security Requirements
 
-The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so.
+The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so. The user should be able to access all the components of the LDWizard without needing additional privileges.
 
 ### 5.4 User Documentation
 
