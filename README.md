@@ -151,21 +151,28 @@ Since LD Wizard Applications are client-side web applications that runs in regul
 
 We make the following assumptions regarding the source data:
 - The tabular source data file must have a header row.
-- Every row of the tabular source data represents exactly one entity/thing in the transformed Linked Data output.
-- Source data can be published under an open license.
+- Every row of the tabular source data is assumed to represent exactly one thing.  In other words, every row the source data describes one person, location, creative work, etc.
+- All rows in the tabular source data are assumed to represent things of the same type.  For example, if some rows in the tabular source data describe locations and some rows in the tabular source data describe persons, this file must first be split into two separate files that are transported separately.  Notice that in general it is unlikely that different types of things (in this 
+- Source data that is uploaded to a publication platform is assumed to have an open license.
 
 #### 2.5.2 User assumptions
 
 We make the following assumptions regarding the three user groups.
 
-Assumptions for users:
+Assumptions for general users:
 
-- Users are assumed to be able to export their tabular source data to CSV.
+- General users are assumed to be able to export their tabular source data to CSV.
 
 Assumptions for developers:
 
 - Must have a general knowledge about JavaScript and TypeScript.
 - May need some knowledge of Linked Data (TBD).
+
+### 2.5.3 Publication platform assumptions
+
+Assumptions for publication platforms:
+
+- The publication platform must be able to process RDF data in the [TriG]() encoding format.
 
 ## 3. External Interface Requirements
 
@@ -274,17 +281,18 @@ At the same time, some hand-crafted CSV files may deviate from the standard in t
   <dt>Cell separator</dt>
   <dd>The CSV file may use a different token than comma (`,`) for separating the cells.   For example, the semi-colon (`;`) is popular when cells commonly contains comma's and cell values are not delimited by double quotes (`"`).  In some locates the comma is used as the decimal separator, e.g., the Dutch locale.</dd>
   <dt>Cell quoting</dt>
-  <dd>
+  <dd>Double quotes (`"`) are used to surround cell values that contain the separator token (`,` or `;`).  Double quotes that appear inside a cell value are escaped with the double quote prefix (i.e., `"a""b"` denotes a cell value of three characters).
+  <dt>Row ending</dt>
+  <dd>The end of a row is denoted by an end of line characters.  [RFC 4180](https://tools.ietf.org/html/rfc4180) specifies `CRLF` for this, but some files use `CR` or `LF` instead.
+  <dt>Character encoding</dt>
+  <dd>While many character encodings exist and are in use, UTF-8 (which includes ASCII) is by far the most common one.  Automatic character encoding detection is relatively difficult and error-prone.</dd>
+</dl>
 
-**TBD: Which CSV format(s) will we support?**
+The import component supports *all* CSV files that follow the [RFC 4180](https://tools.ietf.org/html/rfc4180) standard, and *some* CSV files that deviate from the standard.  Support for standard CSV files is guaranteed, while support for non-standard CSV files is best effort.
 
 #### 4.1.1.c CSV header
 
-We do not expect that a CSV will always have a header line. If the file does not have a header file we should use a base IRI + the letter of the column as the IRI for the predicate.
-
-#### 4.1.1.d CSV special characters
-
-LD Wizard will follow the [TriG](https://www.w3.org/TR/trig) specification for handling special characters. The LD Wizard will handle these special characters as errors.
+LD Wizard assumes that the first row of the CSV source data file encodes the header row.  The header row is assumed to define what each column is about.
 
 ##### Limitations
 
