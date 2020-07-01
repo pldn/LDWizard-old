@@ -152,8 +152,10 @@ Since LD Wizard Applications are client-side web applications that runs in regul
 We make the following assumptions regarding the source data:
 - The tabular source data file must have a header row.
 - Every row of the tabular source data is assumed to represent exactly one thing.  In other words, every row the source data describes one person, location, creative work, etc.
-- All rows in the tabular source data are assumed to represent things of the same type.  For example, if some rows in the tabular source data describe locations and some rows in the tabular source data describe persons, this file must first be split into two separate files that are transported separately.  Notice that in general it is unlikely that different types of things (in this 
+- All rows in the tabular source data are assumed to represent things of the same type.  For example, if some rows in the tabular source data describe locations and some rows in the tabular source data describe persons, this file must first be split into two separate files that are transported separately.  Notice that in general it is unlikely that different types of things (in this
 - Source data that is uploaded to a publication platform is assumed to have an open license.
+- The tabular source data is assumed to have at most 30 columns.
+- The tabular source data is assumed to have at most 1,048,576 rows.
 
 #### 2.5.2 User assumptions
 
@@ -216,49 +218,48 @@ LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramf
 
 <dl>
   <dt>Import component</dt>
-  <dd>Used for uploading the tabular source data.</dd>
-  <dt>Transformation Wizard</dt>
-  <dd>The main GUI component that allows users to specify a transformation to standards-compliant Linked Data.</dd>
+  <dd>The component that is used to upload tabular source data.</dd>
+  <dt>Transformation component</dt>
+  <dd>The component that is used to specify the data transformation from the tabular source format to a standards-compliant Linked Data.</dd>
   <dt>Export component</dt>
-  <dd>Allows Linked Data and/or the transformation script to be exported to the local file system.</dd>
+  <dd>The component that allows the transformed Linked Data, the transformation script, and the tabular source data to be downloaded to the local file system.</dd>
   <dt>Publish component</dt>
-  <dd>Allows the Linked Data, tabular source data, and transformation script to be published in an online triple store.</dd>
+  <dd>The component that allows the transformed Linked Data, the transformation script, and the tabular source data to be published in an online Linked Data environment.</dd>
 </dl>
 
 <figure id="FlowDiagramforLDWizard">
   <img src="/docs/img/FlowDiagramforLDWizard.svg">
   <figcaption>
-    Figure 4 ― Flow chart of the LD Wizard process.  The process is subdivided into four components.
+    Figure 4 ― Schematic overview of the overall LD Wizard process.  The overall process is subdivided into sub-processes that correspond to the four LD Wizard components.
   </figcaption>
 </figure>
 
+The following subsections specify the four LD Wizard components in more detail.
+
 ### 4.1 Import component
 
-The import component ([Figure 5](#ImportComponent)) is the LD Wizard component that is used for uploading the tabular source data.
+The import component ([Figure 5](#ImportComponent)) allows a generic user to provide the initial information that is needed in order to start a data transformation.
 
 <figure id="ImportComponent">
   <img src="/docs/img/ImportComponent.svg" width="70%" height="50%">
   <figcaption>
-    Figure 5 ― Flow chart overview of the LD Wizard import component process.
+    Figure 5 ― Schematic overview of the LD Wizard import process.
   </figcaption>
 </figure>
 
 ### 4.1.1 Description and Priority
 
-The _import component_ allows the initial information that is needed by LD Wizard to be specified by an end-user.
+The import component allows the initial information that is needed by an LD Wizard Application to be specified by a generic user.  There are two kinds of initial information that a generic user might provide:
 
-There are two kinds of initial information that a user might provide:
+1. Exactly one tabular source data file (required, high priority).
+2. At most one transformation script file (optional, low priority).
 
-1. Exactly one tabular source data file (required; high priority).
-2. At most one script file (optional; low priority).
+There are two ways in which this initial information can be provided by a user:
 
-There are two ways in which this initial information can be imported by a user:
-
-1. Import from a local file.
-2. Import from a remote URL.
+1. Import from a local file (high priority).
+2. Import from a remote HTTPS URL (low priority).
 
 #### 4.1.1.a Tabular source data formats
-Priority: low
 
 In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#csv-upload)).  At the same time, there are many other formats for storing tabular source data.  Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address.
 
@@ -269,11 +270,10 @@ Most spreadsheet applications have the ability to export to CSV.  Such conversio
 - Complex visual markup is not preserved.  For example, colors and fonts are not preserved, neither are bold and italic text markup.
 
 #### 4.1.1.b CSV formats
-Priority: high
 
-LD Wizard assumes that tabular source data is available in a CSV format.  Tabular source data that is not in a CSV format is discussed in [Section 4.1.1.b](#411a-tabular-source-data-formats).
+LD Wizard assumes that tabular source data is available in a CSV format.  Tabular source data that is not in a CSV format is discussed in [Section 4.1.1.a](#411a-tabular-source-data-formats).
 
-The CSV format has been standardized in [RFC 4180](https://tools.ietf.org/html/rfc4180) by the Internet Engineering Taskforce (IETF).  The most commonly used applications for editing tabular data (e.g., Excel, LibreOffice Calc) seem to export to this standardized format.
+The CSV format is standardized in [RFC 4180](https://tools.ietf.org/html/rfc4180) by the Internet Engineering Taskforce (IETF).  The most commonly used applications for editing tabular data (e.g., [Microsoft Excel](https://en.wikipedia.org/wiki/Microsoft_Excel), [LibreOffice Calc](https://en.wikipedia.org/wiki/LibreOffice_Calc)) are able export tabular data to this standardized CSV format.
 
 At the same time, some hand-crafted CSV files may deviate from the standard in the following ways:
 
@@ -285,53 +285,49 @@ At the same time, some hand-crafted CSV files may deviate from the standard in t
   <dt>Row ending</dt>
   <dd>The end of a row is denoted by an end of line characters.  [RFC 4180](https://tools.ietf.org/html/rfc4180) specifies `CRLF` for this, but some files use `CR` or `LF` instead.
   <dt>Character encoding</dt>
-  <dd>While many character encodings exist and are in use, UTF-8 (which includes ASCII) is by far the most common one.  Automatic character encoding detection is relatively difficult and error-prone.</dd>
+  <dd>While many character encodings exist and are in use, UTF-8 (which includes ASCII) is by far the most common one.  Automatic character encoding detection is relatively difficult and error-prone, so LD Wizard assumes that the CSV source data file uses UTF-8 encoding.</dd>
 </dl>
 
-The import component supports *all* CSV files that follow the [RFC 4180](https://tools.ietf.org/html/rfc4180) standard, and *some* CSV files that deviate from the standard.  Support for standard CSV files is guaranteed, while support for non-standard CSV files is best effort.
+The LD Wizard import component supports *all* CSV files that follow the [RFC 4180](https://tools.ietf.org/html/rfc4180) standard, and *some* CSV files that deviate from the standard.  Support for standard CSV files is guaranteed, while support for non-standard CSV files is best effort.
 
 #### 4.1.1.c CSV header
 
 LD Wizard assumes that the first row of the CSV source data file encodes the header row.  The header row is assumed to define what each column is about.
 
-##### Limitations
+#### 4.1.1.d CSV file size & dimensions
 
-The second decision we should take is the size of the CSV documents. Here two factors can be limiting for us in how large the size of the file can be. The performance of the conversion script, and the size of the document that can be handled in the browser, without significant performance loss.
+LD Wizard places limits on the size and dimensions of the CSV source data that are supported.
 
-To make sure we can handle both limits I would recommend using a file limit of 50 MB. If we notice that we can improve or enlarge one or both we could always improve it.
+Firstly, the maximum (byte)size of the CSV source data file is determined by the following two factors:
+- the maximum file size supported by modern web browsers
+- the performance of the conversion script
 
-A final hard limitation would be the amount of columns, and a limit on the amount of rows. Let's set the limit for the amount of columns on 30, for now. As it is expected that this would not improve the usability of the LDWizard if we enlarge this number any further. But we can always decide different.
-Let's set the amount of rows on 1.048.576, the same limit as excel for the amount of rows. With the same footnote as for the amount of columns.
+To stay well within these limits, LW Wizard supports CSV source files of at most 50 MB (uncompressed) in size.
 
-**Priority: High**
+Secondly, LD Wizard sets a limit to the number of rows and columns that it supports:
+- the maximum number of columns is 30.
+- the maximum number of rows is 1,048,576.
 
 ### 4.1.2 Stimulus/Response Sequences
 
-- This component must block further components/steps in case no valid source file is specified.
+This section specifies the sequence of user actions that results in a transformation to Linked Data.  Earlier steps in this sequence block later steps to maintain an orderly flow.
 
-Stimulus: the user uploads a correct CSV document. <br>
-Response: The continue/transform button will enable and the document will be stored in the browser memory.
-
-Stimulus: The user uploads a correct CSV document but the CSV document is too large.<br>
-Response: The user will get an error saying that the document is large.
-
-Stimulus: The user wants to upload a CSV via URL, but the URL is not available.<br>
-Response: The user will get an error saying that LD Wizard failed to retrieve the data.
-
-Stimulus: The user uploads an incorrect document.<br>
-Response: The user will get an error saying that the document is incorrect and the LD Wizard will show the location of the error.
-
-Stimulus: The user uploads a correct CSV document, with incorrect special characters according to the <https://www.w3.org/TR/trig/> specifications.<br>
-Response: The user will get an error saying that the document is incorrect and show the location of the error.
-
-Stimulus: The user uploads multiple CSV documents.<br>
-Response: The user will get an error saying it can only upload a single CSV document.
-
-<!-- Stimulus: The user uploads a correct conversion script.<br>
-Response: The script will be handled accordingly. The user will see a transform instead of a continue button.
-
-Stimulus: The user uploads an incorrect script.<br>
-Response: The user will get a warning that the script is incorrect. -->
+1. *The user imports a correct CSV file.*
+   The continue/transform button will be enabled and the tabular source file will be stored in the web browser memory.
+2. *The user imports a CSV file that is too large.*
+   The user receives an error stating that the file exceeds the maximum supported file size.
+3. *The user imports a CSV file from a remote HTTPS URL, but the resource denoted by that URL is not available*
+   The user receives an error stating that the remote file could not be retrieved.
+4. *The user imports a syntactically incorrect CSV file*
+   The user receives an error message stating that the file is incorrect.  The error message includes an overview of the part of the source data file that caused the error.
+5. *The user imports more than one CSV file.*
+   The user receives an error message stating that only one tabular source file can be imported.
+<!--
+6. *The user imports a correct conversion script.*
+   The script is handled accordingly.  The user will see a transform instead of a continue button.
+7. *The user imports an incorrect script.*
+Response: The user will get a warning that the script is incorrect.
+-->
 
 ### 4.1.3 Functional Requirements
 
@@ -342,7 +338,7 @@ Core requirements:
 
 - The ability to import exactly one data source file.
 - The ability to import from a local file:
-- The ability to import from a publically accessible online location (URL).
+- The ability to import from a publicly accessible online location (URL).
 
 Additional requirements:
 
@@ -367,28 +363,28 @@ import-data(URL)
 import-data(file)
 ```
 
-### 4.2 LDWizard GUI component
+### 4.2 LD Wizard configuration component
 
-The LDWizard GUI component and interfaces. This component builds the GUI that the general user will interact with to convert their CSV file into a linked data file.
+This section specifies the LD Wizard transformation component and its interfaces.  This component presents the Graphical User Interface that the general user will interact with after they have successfully uploaded a tabular source file.
 
 <figure id="GUIComponent">
   <img src="/docs/img/GUIComponent.svg" width="70%" height="50%">
   <figcaption>
-    Figure 6 ― LDWizard GUI component.
+    Figure 6 ― Schematic overview of the LD Wizard GUI component.
   </figcaption>
 </figure>
 
 ### 4.2.1 Description and Priority
 
-The configuration of the GUI is based on a number of smaller components that together create an GUI with which the user can interact to convert it's CSV to RDF. The GUI interface has two distinct groups of interfaces, ones interfaces that interact with the entire CSV document and interfaces that only interact with a single column.
+The configuration is composed of on a number of smaller components that together create an GUI with which the user can interact to create RDF.  The GUI interface has two distinct groups of interfaces, ones interfaces that interact with the entire CSV document and interfaces that only interact with a single column.
 
-#### Setting a baseIRI
+#### Setting a base IRI
 
-General configuration setting the baseIRI for the document. The baseIRI can be used to generate IRI's from datapoints in the CSV.
+General configuration setting the base IRI for the document.  The base IRI is used to generate absolute IRIs for
 
 #### Setting a Prefix
 
-General configuration setting the prefixes for the document. The prefixes can be used to generate IRI's from datapoints in the CSV.
+General configuration setting the prefixes for the document. The prefixes can be used to generate IRI's from data points in the CSV.
 
 #### Setting a vocabulary
 
@@ -408,7 +404,7 @@ The user can set a predicate for each of the other non subject columns. The pred
 
 #### Setting a datatype for a column
 
-The user can set a predicate for each of the other non subject columns. The predicate is an IRI and can either be found with the help of autosuggest from the list of standard added in vocabularies, added in vocabularies, or be filled in by the user. If no datatype is set, the LDWizard will default to `xsd:string`
+The user can set a predicate for each of the other non subject columns. The predicate is an IRI and can either be found with the help of autosuggest from the list of standard added in vocabularies, added in vocabularies, or be filled in by the user. If no datatype is set, the LD Wizard will default to `xsd:string`
 
 #### Cleaning values in a column
 
