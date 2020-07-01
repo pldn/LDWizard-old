@@ -152,7 +152,7 @@ Since LD Wizard Applications are client-side web applications that runs in regul
 We make the following assumptions regarding the source data:
 - The tabular source data file must have a header row.
 - Every row of the tabular source data is assumed to represent exactly one thing.  In other words, every row the source data describes one person, location, creative work, etc.
-- All rows in the tabular source data are assumed to represent things of the same type.  For example, if some rows in the tabular source data describe locations and some rows in the tabular source data describe persons, this file must first be split into two separate files that are transported separately.  Notice that in general it is unlikely that different types of things (in this 
+- All rows in the tabular source data are assumed to represent things of the same type.  For example, if some rows in the tabular source data describe locations and some rows in the tabular source data describe persons, this file must first be split into two separate files that are transported separately.  Notice that in general it is unlikely that different types of things (in this
 - Source data that is uploaded to a publication platform is assumed to have an open license.
 
 #### 2.5.2 User assumptions
@@ -989,3 +989,6 @@ For this product we will need to types of documentation. User documentation for 
 <!-- ### 5.5 Software Quality Attributes -->
 
 <!-- ## 6. Other Requirements -->
+
+*This document is based on templates introduced by:
+IEEE Recommended Practice for Software Requirements Specifications," in IEEE Std 830-1998 , vol., no., pp.1-40, 20 Oct. 1998, doi: 10.1109/IEEESTD.1998.88286.*
