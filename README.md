@@ -985,3 +985,6 @@ For this product we will need to types of documentation. User documentation for 
 <!-- ### 5.5 Software Quality Attributes -->
 
 <!-- ## 6. Other Requirements -->
+
+*This document is based on templates introduced by:
+IEEE Recommended Practice for Software Requirements Specifications," in IEEE Std 830-1998 , vol., no., pp.1-40, 20 Oct. 1998, doi: 10.1109/IEEESTD.1998.88286.*
