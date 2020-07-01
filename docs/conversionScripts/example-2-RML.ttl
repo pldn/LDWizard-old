@@ -16,9 +16,9 @@
     rml:referenceFormulation ql:CSV
   ].
 
-  :TriplesMap rr:subjectMap [
-    rr:template "http://example.org/character/{id}"
-  ].
+:TriplesMap rr:subjectMap [
+  rr:template "http://example.org/character/{id}"
+].
 
 :TriplesMap rr:predicateObjectMap [
   rr:predicate rdf:type;
@@ -28,10 +28,22 @@
 ].
 
 :TriplesMap rr:predicateObjectMap [
-  rr:predicate schema:gender;
+  rr:predicate schema:givenName;
   rr:objectMap [
-    rr:datatype xsd:string;
-    rml:reference "male";
-    rr:template "{% if male == '0' %}sex-F{% else %}sex-M{% endif %}"
+    rml:reference "firstname"
+  ]
+].
+
+:TriplesMap rr:predicateObjectMap [
+  rr:predicate schema:lastName;
+  rr:objectMap [
+    rml:reference "lastname"
+  ]
+].
+
+:TriplesMap rr:predicateObjectMap [
+  rr:predicate dbo:hairColor;
+  rr:objectMap [
+    rml:reference "hair"
   ]
 ].
