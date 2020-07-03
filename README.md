@@ -362,11 +362,11 @@ Limiting scope:
 - Importing from SSL URLs on servers that do not emit the correct headers (e.g., CORS) is not supported.
 - It is not possible to import multiple source files.
 - Only CSV source data is supported.
-- File decompression is not supported.
+- Compressed files are not supported.
 
 ### 4.2 LD Wizard configuration component
 
-This section specifies the LD Wizard transformation component and its interfaces.  This component presents the Graphical User Interface that the general user will interact with after they have successfully uploaded a tabular source file.
+This section specifies the LD Wizard transformation component and its interfaces.  This component presents the Graphical User Interface (GUI) that the general user will interact with after they have successfully uploaded a tabular source file.
 
 <figure id="GUIComponent">
   <img src="/docs/img/GUIComponent.svg" width="70%" height="50%">
@@ -377,41 +377,114 @@ This section specifies the LD Wizard transformation component and its interfaces
 
 ### 4.2.1 Description and Priority
 
-The configuration is composed of on a number of smaller components that together create an GUI with which the user can interact to create RDF.  The GUI interface has two distinct groups of interfaces, ones interfaces that interact with the entire CSV document and interfaces that only interact with a single column.
+The configuration is composed of on a number of smaller sub-components that together compose the full transformation configuration.  We can distinguish between the different types of transformation sub-components, based on their transformation scope:
+
+<dl>
+  <dt>Table scope</dt>
+  <dd>Transformations that modify (aspects of) the entire table.  For example, setting the base IRI impacts all rows, columns, and possibly cells.</dd>
+  <dt>Column scope</dt>
+  <dd>Transformations that modify the property that corresponds to a column, and transformations that modify every cell within the same column.</dd>
+  <dt>Row scope</dt>
+  <dd>Transformations that modify the subject term that corresponds to a row.</dd>
+  <dt>Cell scope</dt>
+  <dd>Transformation that modify individual cell values.</dd>
+</dl>
+
+Notice that configuration sub-component types become increasingly more complex to configure by a generic user, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it mainly focuses on configuration sub-components of table and column scope (high priority).  Configuration sub-components of row and cell scope have low priority.
 
 #### Setting a base IRI
 
-General configuration setting the base IRI for the document.  The base IRI is used to generate absolute IRIs for
+A table scope configuration that determines the string prefix for all RDF subject terms and non-mapped RDF predicate terms.
 
-#### Setting a Prefix
+The base IRI must be a valid absolute IRI.
+
+The developer is able to configure a default base IRI.  This IRI will be used if the generic user does not specify one.
+
+#### Setting a vocabulary prefix
 
 General configuration setting the prefixes for the document. The prefixes can be used to generate IRI's from data points in the CSV.
 
-#### Setting a vocabulary
+The vocabulary prefix must be a valid absolute IRI.
 
-The user or the developer can add vocabularies, either linked data vocabularies or datalists, to supplement auto-complete functionality and cleaning functions. the added data helps the user to give suggestions based on the added vocabularies.
+The developer is able to configure a default vocabulary prefix.  This vocabulary prefix will be used if the generic user does not specify one.
 
-#### Setting a subject column
+#### Setting a key column
 
-The user can set a column to be the subject of that row. The subject should be able to be transformed into a correct IRI. The user can also choose to not select a subject column. Then the row number will be taken as a subject column.
+A table scope configuration that determines the column whose cell values will be used to compose RDF subject terms.
+
+RDF subject terms are composed by concatenating the base IRI with a normalized version of the value in the key column cell.  Normalization is needed to ensure that all subject terms are valid IRIs.
+
+If the values that appear in the key column are not unique, a dialog with the following options is presented to the user:
+
+<dl>
+  <dt>Modify</dt>
+  <dd>The subject IRIs are suffixed with `-1`, `-2`, etc. to force them to be unique.
+  <dt>Continue</dt>
+  <dd>The subject IRIs are not modified.  Information in two or more rows will be merged into one RDF record.</dd>
+  <dt>Cancel</dt>
+  <dd>Undoes the selection of the key column.  The user must choose a different key column or must use the default option (i.e., the respective row numbers).</dd>
+</dl>
+
+If the generic user does not specify a key column, the row number will be used.  The first row receives row number 1.  Row numbers are guaranteed to be unique.
 
 #### Setting a class/type for the subject column
 
-The user can set a class for the subject column. The subject class is an IRI and can either be found with the help of autosuggest from the vocabularies, or be filled in by the user.
+A table scope configuration that determines the class that every RDF subject term will be an instance of.
+
+The developer is able to pre-configure this component to provide class suggestions from a specific vocabulary or domain.
+
+If the generic user does not specify a class, then `rdfs:Resource` will be used.
 
 #### Setting a predicate term for each column
 
-The user can set a predicate for each of the other non subject columns. The predicate is an IRI and can either be found with the help of autosuggest from the vocabularies, or be filled in by the user.
+A column scope configuration that allows one RDF predicate term to be selected for each column.
+
+The developer is able to pre-configure this component to provide predicate suggestions form a specific vocabulary or domain.
+
+Ideally, the header label of each column can be used to provide an initial suggestion for the generic user.
+
+If a column was chosen as the key column (Section [TODO](#todo)), then this column cannot be configured in this configuration.
+
+If the generic user does not specify a predicate for a column, a new IRI will be composed out of the base IRI followed by a normalized version of the header label.  Normalization is needed to ensure that all predicate terms are valid IRIs.
+
+The generic user is able to skip columns on a per-column basis (e.g., a skip option could be part of the predicate selection element).
+
+If the predicate IRIs are not unique, a dialog with the following options is presented to the user:
+
+<dl>
+  <dt>Modify</dt>
+  <dd>The predicate IRIs are suffixed with `-1`, `-2`, etc. to force them to be unique.
+  <dt>Continue</dt>
+  <dd>The predicate IRIs are not modified.  Values from two or more rows will be exported for the same subject/predicate combination.</dd>
+</dl>
 
 #### Setting a datatype for a column
 
-The user can set a predicate for each of the other non subject columns. The predicate is an IRI and can either be found with the help of autosuggest from the list of standard added in vocabularies, added in vocabularies, or be filled in by the user. If no datatype is set, the LD Wizard will default to `xsd:string`
+A column scope configuration that allows one datatype IRI to be selected for each column.  The selected datatype IRI will be used for each cell value in that column.
+
+Values that appear in the selected column are assumed to be valid lexical expressions in the configured datatype IRI.  See the [XML Schema Datatypes](https://www.w3.org/TR/xmlschema11-2) standard for more information.
+
+The developer is able to pre-configure this component to provide datatype IRI suggestions from a specific vocabulary or domain.
+
+If the generic user does not specify a datatype IRI, the datatype IRI `xsd:string` is used as a default.
+
+#### Setting a language tag for a column
+
+TBD
+
+#### Creating IRIs for cells
+
+TBD
+
+#### Skip empty cells
+
+A table scope configuration that allows empty cells to be excluded from the RDF export.
 
 #### Cleaning values in a column
 
-The user is able to create a function or template which the conversion script can use to format/clean a column following a certain description.<!--  Here we need to be more specific -->
+A column scope configuration that allows values in individual cells to be modified.
 
-**Priority: High**
+The user is able to create a function or template which the conversion script can use to format/clean a column following a certain description.<!--  Here we need to be more specific -->
 
 ### 4.2.2 Stimulus/Response Sequences
 
