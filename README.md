@@ -1,4 +1,4 @@
-<img src="/docs/img/LDWizard.png" align="right">
+<img src="/docs/img/LD Wizard.png" align="right">
 
 # LD Wizard: create Linked Data in one Spell
 
@@ -28,7 +28,7 @@ At the same time, LD Wizard allows transformations to be exported into several w
 
 We distinguish between the generic **LD Wizard Interface** and various **LD Wizard Applications**. Each LD Wizard Application is a specific implementation of the LD Wizard Interface.
 
-The scope of the project is to create two working LDWizard tools, a hello-world LDWizard tool, and the cultural heritage LDWizard. The hello-world LDWizard will serve as basic testing tool for implementation of the advanced tooling needed for the second LDWizard. The hello-world LDWizard will also serve as a starting point for creating more specialized tooling for a specific domain. The hello-world LDWizard will be the product of the second milestone. The second LDWizard will be designed according to the specifications of the domain expert in the cultural heritage expert and will serve as a tool to transform excel sheets from the cultural heritage sector to Linked data. The cultural heritage LDWizard will be the product for the third milestone. The Software requirements as written in this document, are written for an uninstantiated LDWizard, unless specified otherwise.
+The scope of the project is to create two working LD Wizard tools, a hello-world LD Wizard tool, and the cultural heritage LD Wizard. The hello-world LD Wizard will serve as basic testing tool for implementation of the advanced tooling needed for the second LD Wizard. The hello-world LD Wizard will also serve as a starting point for creating more specialized tooling for a specific domain. The hello-world LD Wizard will be the product of the second milestone. The second LD Wizard will be designed according to the specifications of the domain expert in the cultural heritage expert and will serve as a tool to transform excel sheets from the cultural heritage sector to Linked data. The cultural heritage LD Wizard will be the product for the third milestone. The Software requirements as written in this document, are written for an uninstantiated LD Wizard, unless specified otherwise.
 
 ### 1.4 Terminology
 
@@ -224,7 +224,7 @@ Three types of communication are expected between the LD Wizard and other applic
 
 ## 4. System Features
 
-LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramforLDWizard):
+LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramforLD Wizard):
 
 <dl>
   <dt>Import component</dt>
@@ -237,7 +237,7 @@ LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramf
   <dd>The component that allows the transformed Linked Data, the transformation script, and the tabular source data to be published in an online Linked Data environment.</dd>
 </dl>
 
-<figure id="FlowDiagramforLDWizard">
+<figure id="FlowDiagramforLD Wizard">
   <img src="/docs/img/FlowDiagramforLDWizard.svg">
   <figcaption>
     Figure 4 ― Schematic overview of the overall LD Wizard process.  The process is subdivided into sub-processes that correspond to the four LD Wizard components.
@@ -392,7 +392,7 @@ The configuration is composed of on a number of smaller sub-components that toge
 
 Notice that configuration sub-component types become increasingly more complex to configure by a generic user, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it mainly focuses on configuration sub-components of table and column scope (high priority).  Configuration sub-components of row and cell scope have low priority.
 
-#### Setting a base IRI
+#### 4.2.1.a Setting a base IRI
 
 A table scope configuration that determines the string prefix for all RDF subject terms and non-mapped RDF predicate terms.
 
@@ -400,15 +400,15 @@ The base IRI must be a valid absolute IRI.
 
 The developer is able to configure a default base IRI.  This IRI will be used if the generic user does not specify one.
 
-#### Setting a vocabulary prefix
+#### 4.2.1.b Setting a vocabulary prefix
 
 General configuration setting the prefixes for the document. The prefixes can be used to generate IRI's from data points in the CSV.
 
 The vocabulary prefix must be a valid absolute IRI.
 
-The developer is able to configure a default vocabulary prefix.  This vocabulary prefix will be used if the generic user does not specify one.
+The developer is able to configure a default vocabulary prefix.  This vocabulary prefix will be used if the user does not specify one.
 
-#### Setting a key column
+#### 4.2.1.c Setting a key column
 
 A table scope configuration that determines the column whose cell values will be used to compose RDF subject terms.
 
@@ -425,17 +425,17 @@ If the values that appear in the key column are not unique, a dialog with the fo
   <dd>Undoes the selection of the key column.  The user must choose a different key column or must use the default option (i.e., the respective row numbers).</dd>
 </dl>
 
-If the generic user does not specify a key column, the row number will be used.  The first row receives row number 1.  Row numbers are guaranteed to be unique.
+If the user does not specify a key column, the row number will be used.  The first row receives row number 1.  Row numbers are guaranteed to be unique.
 
-#### Setting a class/type for the subject column
+#### 4.2.1.d Setting a class
 
 A table scope configuration that determines the class that every RDF subject term will be an instance of.
 
 The developer is able to pre-configure this component to provide class suggestions from a specific vocabulary or domain.
 
-If the generic user does not specify a class, then `rdfs:Resource` will be used.
+If the user does not specify a class, then `rdfs:Resource` will be used.
 
-#### Setting a predicate term for each column
+#### 4.2.1.e Setting a predicate term
 
 A column scope configuration that allows one RDF predicate term to be selected for each column.
 
@@ -447,40 +447,44 @@ If a column was chosen as the key column (Section [TODO](#todo)), then this colu
 
 If the generic user does not specify a predicate for a column, a new IRI will be composed out of the base IRI followed by a normalized version of the header label.  Normalization is needed to ensure that all predicate terms are valid IRIs.
 
-The generic user is able to skip columns on a per-column basis (e.g., a skip option could be part of the predicate selection element).
+The user is able to skip columns on a per-column basis (e.g., a skip option could be part of the predicate selection element).
 
 If the predicate IRIs are not unique, a dialog with the following options is presented to the user:
 
 <dl>
   <dt>Modify</dt>
-  <dd>The predicate IRIs are suffixed with `-1`, `-2`, etc. to force them to be unique.
+  <dd>The predicate IRIs are suffixed with <code>-1</code>, <code>-2</code>, etc. to force them to be unique.
   <dt>Continue</dt>
   <dd>The predicate IRIs are not modified.  Values from two or more rows will be exported for the same subject/predicate combination.</dd>
 </dl>
 
-#### Setting a datatype for a column
+#### 4.2.1.f Setting a datatype IRI
 
-A column scope configuration that allows one datatype IRI to be selected for each column.  The selected datatype IRI will be used for each cell value in that column.
+A column scope configuration that allows one datatype IRI to be specified for each column.  The selected datatype IRI will be used for each cell value in that column.
 
 Values that appear in the selected column are assumed to be valid lexical expressions in the configured datatype IRI.  See the [XML Schema Datatypes](https://www.w3.org/TR/xmlschema11-2) standard for more information.
 
 The developer is able to pre-configure this component to provide datatype IRI suggestions from a specific vocabulary or domain.
 
-If the generic user does not specify a datatype IRI, the datatype IRI `xsd:string` is used as a default.
+If the user does not specify a datatype IRI or language tag, the datatype IRI `xsd:string` is used as a default.
 
-#### Setting a language tag for a column
+#### 4.2.1.g Setting a language tag
+
+A column scope configuration that allows one language tag to be specified for each.  The selected language tag will be used for each cell value in that column.
+
+Values that appear in the selected column are assumed to be valid lexical expressions for datatype IRI `rdf:langString`.  See the [RDF 1.1 Concepts and Abstract Syntax](https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225) standard for more information.
+
+If the user does not specify a datatype IRI or language tag, the datatype IRI `xsd:string` is used as a default.
+
+#### 4.2.1.h Creating IRIs for cells
 
 TBD
 
-#### Creating IRIs for cells
-
-TBD
-
-#### Skip empty cells
+#### 4.2.1.i Skip empty cells
 
 A table scope configuration that allows empty cells to be excluded from the RDF export.
 
-#### Cleaning values in a column
+#### 4.2.1.j Cleaning values in a column
 
 A column scope configuration that allows values in individual cells to be modified.
 
@@ -490,101 +494,97 @@ The user is able to create a function or template which the conversion script ca
 
 - This section should block next sections if the ETL-conversion script is not finished.
 
-#### Setting a baseIRI
+#### 4.2.2.a Setting a base IRI
 
-Stimulus: The user sets an correct baseIRI<br>
-Response: The baseIRI is stored in the ETL-configuration and will be applied to all selected columns
+- *The user sets an correct baseIRI*
+  The baseIRI is stored in the ETL-configuration and will be applied to all selected columns
 
-Stimulus: The user sets an incorrect baseIRI<br>
-Response: The baseIRI is validated and an error is returned to the user to set a correct baseIRI.
+- *The user sets an incorrect baseIRI*
+  The baseIRI is validated and an error is returned to the user to set a correct baseIRI.
 
-#### Setting a prefix
+#### 4.2.2.b Setting a vocabulary prefix
 
-Stimulus: The user sets an correct prefix<br>
-Response: The prefix is stored in the ETL-configuration and will be applied to all selected columns
+- *The user sets an correct prefix*
+  The prefix is stored in the ETL-configuration and will be applied to all selected columns.
 
-Stimulus: The user sets an incorrect prefix<br>
-Response: The prefix is validated and an error is returned to the user to set a correct prefix.
+- *The user sets an incorrect prefix*
+  The prefix is validated and an error is returned to the user to set a correct prefix.
 
-#### Setting a vocabulary
+#### 4.2.2.c Setting a key column
 
-Stimulus: The developer sets a correct vocabulary to complement the CSV.<br>
-Response: The vocabulary link is stored in the ETL-configuration and can be used for cleaning/configuring object terms and setting predicate terms.
+- *The user selects a valid key column.*
+  The key column becomes part of the configuration.
 
-Stimulus: The developer sets multiple correct vocabularies to complement the CSV.<br>
-Response: All vocabulary links are stored in the ETL-configuration and can be used for cleaning/configuring object terms and setting predicate terms.
+- *The user does not set an key column.*
+  Subject terms will be generated based on the row number and base IRI.
 
-Stimulus: The developer sets one or multiple incorrect vocabularies to complement the CSV.<br>
-Response: The vocabularies can not be retrieved from their respective locations. The user will not be able to use the vocabularies, but will not notice any errors of missing vocabularies.
+- *The user removes the key column selection.*
+  The key column is not longer configured.  Subject terms will be generated based on the row number and base IRI.
 
-#### Setting a subject column
+- *The user selects a different column as the key column.*
+  The user is shown a warning that the subject column will be changed to the new column.
 
-Stimulus: The user sets an allowed column as a key/subject column.<br>
-Response: The subject column is stored in the ETL-configuration.
+- *The user sets a different column as a key/subject column.*
+  The old subject column is removed from the ETL-configuration and the new column is added as subject column to the ETL-configuration.
 
-Stimulus: The user does not set an key/subject column.<br>
-Response: The subject is now generated based on the rownumber and the baseIRI.
+#### 4.2.2.d Setting a class
 
-Stimulus: The user removes the key/subject column selection.<br>
-Response: The user is shown a warning that it should set a subject column. The subject column is removed from the ETL-configuration and the subject is now generated based on the rownumber and the baseIRI.
+- *The user sets an allowed subject type.*
+  The subject type is stored in the ETL-configuration.
 
-Stimulus: The user wants to set a different column as a key/subject column.<br>
-Response: The user is shown a warning that the subject column will be changed to the new column.
+- *The user removes the subject type.*
+  The user is shown a warning that it should set a subject type. The subject type is removed from the ETL-configuration.
 
-Stimulus: The user sets a different column as a key/subject column.<br>
-Response: The old subject column is removed from the ETL-configuration and the new column is added as subject column to the ETL-configuration.
+- *The user removes the class/type column selection.*
+  The subject type is removed from the ETL-configuration.
 
-#### Setting a class/type for the subject column
+#### 4.2.2.e Setting a predicate
 
-Stimulus: The user sets an allowed subject type.<br>
-Response: The subject type is stored in the ETL-configuration.
+- *The user sets a predicate IRI for a column.*
+  The predicate IRI is stored in the configuration.
 
-Stimulus: The user removes the subject type.<br>
-Response: The user is shown a warning that it should set a subject type. The subject type is removed from the ETL-configuration.
+- *The user does not set a predicate for a column.*
+  A predicate IRI is constructed, based on the vocabulary prefix and the normalized header label, and added to the configuration.
 
-Stimulus: The user removes the class/type column selection.<br>
-Response: The subject type is removed from the ETL-configuration.
+- *The user sets the 'Skip column' option.*
+  The column will not be mapped to a predicate term and will not appear in the RDF export.
 
-#### Setting a predicate for a column
+- *The user removes a previously set predicate.*
+  The previous predicate IRI is removed from the configuration and a predicate IRI is constructed, based on the vocabulary prefix and the normalized header label, and added to the configuration.
 
-Stimulus: The user sets a predicate for a column.<br>
-Response: The predicate is stored in the ETL-configuration.
+#### 4.2.2.f Setting a datatype IRI
 
-Stimulus: The user does not set a predicate for a column.<br>
-Response: The predicate is now generated based on the column header name and the baseIRI.
+- *The user sets a datatype for a column.*
+  The datatype IRI is stored in the configuration.
 
-Stimulus: The user removes the predicate term column selection.<br>
-Response: The predicate type is removed from the ETL-configuration and the predicate is now generated based on the column header name and the baseIRI.
+- *The user does not set a datatype IRI for a column.*
+  The datatype `xsd:string` is used in the configuration.
 
-#### Setting a datatype for a column
+- *The user removes a previously set datatype IRI for a column .*
+  The datatype IRI `xsd:string` is used in the configuration.
 
-Stimulus: The user sets a datatype for a column.<br>
-Response: The datatype is stored in the ETL-configuration.
+#### 4.2.2.g Setting a language tag
 
-Stimulus: The user does not set a datatype for a column.
-Response: If the column is not set to contain IRI's, The datatype `xsd:string` is stored in the ETL-configuration. Else no datatype is set.
+TBD
 
-Stimulus: The user removes the cleaning function for a column .<br>
-Response: The old datatype is removed in the ETL-configuration and the datatype `xsd:string` is stored in the ETL-configuration.
+#### 4.2.2.h Cleaning cell values
 
-#### Cleaning values in a column
+- *The user sets a cleaning function for a column.*
+  The cleaning function is stored in the configuration.
 
-Stimulus: The user sets a cleaning function for a column.<br>
-Response: The cleaning function is stored in the ETL-configuration.
+- *The user does not set a cleaning function for a column.*
+  do nothing.
 
-Stimulus: The user does not set a cleaning function for a column.<br>
-Response: do nothing.
-
-Stimulus: The user removes the cleaning function for a column .<br>
-Response: The cleaning function is removed in the ETL-configuration.
+- *The user removes the cleaning function for a column .*
+  The cleaning function is removed in the configuration.
 
 ### 4.2.3 Functional Requirements
 
 Core requirements:
 
-- The ability to set a baseIRI. (M)
+- The ability to set a base IRI.
 - The ability to set one or more vocabularies to search in.
-- The ability to select a subject column. (M)
+- The ability to select a key column.
 - The ability to set an class for a subject.
 - The ability to set a predicate for each column. (M)
 - The ability to clean the values in a column for each column.
@@ -600,7 +600,7 @@ Additional requirements:
 
 Limiting scope:
 
-- All core requirements, that are (M)andatory are at a minimum required to have a working LDWizard.
+- All core requirements, that are (M)andatory are at a minimum required to have a working LD Wizard.
 
 ```
 set-baseIRI(baseIRI)
@@ -616,12 +616,12 @@ convert()
 
 ### 4.3 Export component
 
-The export component of the LDWizard. This component describes all the export features.
+The export component of the LD Wizard. This component describes all the export features.
 
 <figure id="exportComponent">
   <img src="/docs/img/exportComponent.svg" width="70%" height="50%">
   <figcaption>
-    Figure 7 ― LDWizard Export component.
+    Figure 7 ― LD Wizard Export component.
   </figcaption>
 </figure>
 
@@ -629,34 +629,34 @@ The export component of the LDWizard. This component describes all the export fe
 
 #### Export transformation output
 
-The transformed CSV data is made available for download in TriG. The LDWizard will export TriG as this format is better readable when opened. First time users will likely open their transformed files and harder to read formats such as N-Quads and N-Triples will harder to understand. TriG is able to include the graph component, so TriG is able to return complete RDF. Initially we will not allow the graph component to be set in LD Wizard, as this is normally thought of as an expert feature.
+The transformed CSV data is made available for download in TriG. The LD Wizard will export TriG as this format is better readable when opened. First time users will likely open their transformed files and harder to read formats such as N-Quads and N-Triples will harder to understand. TriG is able to include the graph component, so TriG is able to return complete RDF. Initially we will not allow the graph component to be set in LD Wizard, as this is normally thought of as an expert feature.
 
 #### Export transformation script
 
-Due to the limitations of the LDWizard as a client-side application, the ETL script inside the browser is limited to a max set of rows and columns. To use the transformation script outside of the LDWizard an export component will be made available.
+Due to the limitations of the LD Wizard as a client-side application, the ETL script inside the browser is limited to a max set of rows and columns. To use the transformation script outside of the LD Wizard an export component will be made available.
 The export component allows the results of an LD Wizard transformation to be stored in simple text files. The text files are formatted in such a way that they allow direct reuse in more advanced Linked Data transformation tools.
 
-- To use the script the user designed in the LDWizard outside of the LDWizard.
-- To improve/change and understand the transformation steps of the LDWizard.
-- To import to the ETL-script for a different CSV in the LDWizard.
+- To use the script the user designed in the LD Wizard outside of the LD Wizard.
+- To improve/change and understand the transformation steps of the LD Wizard.
+- To import to the ETL-script for a different CSV in the LD Wizard.
 
-The LDWizard will be able to export the transformation script into different languages. The LDWizard will make it possible to export the ETL-script into ([RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt), [RMLeditor](https://rml.io/tools/rmleditor/) or [CoW](https://github.com/clariah/cow/wiki)) language. The default exportation language will be [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt)
+The LD Wizard will be able to export the transformation script into different languages. The LD Wizard will make it possible to export the ETL-script into ([RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt), [RMLeditor](https://rml.io/tools/rmleditor/) or [CoW](https://github.com/clariah/cow/wiki)) language. The default exportation language will be [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt)
 
 **Priority: High**
 
 ### 4.3.2 Stimulus/Response Sequences
 
-Stimulus: The user selects an export transformation script language.<br>
-Response: The user the transformation script can now be exported in the selected language.
+- *The user selects an export transformation script language.*
+  The user the transformation script can now be exported in the selected language.
 
-Stimulus: The user sends a request to the export transformation script.<br>
-Response: The user will receive a window to specify the location to where the transformation script is stored. The transformation script is stored in the selected language (default [RATT](https://www.npmjs.com/package/@triply/ratt)).
+- *The user sends a request to the export transformation script.*
+  The user will receive a window to specify the location to where the transformation script is stored. The transformation script is stored in the selected language (default [RATT](https://www.npmjs.com/package/@triply/ratt)).
 
-Stimulus: The user sends a request to the export transformation output.<br>
-Response: The user will receive a window to specify the location to where the transformation output is stored.
+- *The user sends a request to the export transformation output.*
+  The user will receive a window to specify the location to where the transformation output is stored.
 
-Stimulus: The user sends a request to the export source file.<br>
-Response: The user will receive a window to specify the location to where the source file is stored.
+- *The user sends a request to the export source file.*
+  The user will receive a window to specify the location to where the source file is stored.
 
 ### 4.3.3 Functional Requirements
 
@@ -683,18 +683,18 @@ export-transformationOutput(location)
 
 ### 4.4 Upload/publish component
 
-The LDWizard Upload/publish component and interfaces. This publish component is the final component of the LDWizard and is bridge between the LDWizard and specialized Linked data tools.
+The LD Wizard Upload/publish component and interfaces. This publish component is the final component of the LD Wizard and is bridge between the LD Wizard and specialized Linked data tools.
 
 <figure id="PublishComponent">
   <img src="/docs/img/PublishComponent.svg" width="70%" height="50%">
   <figcaption>
-    Figure 8 ― LDWizard publish component.
+    Figure 8 ― LD Wizard publish component.
   </figcaption>
 </figure>
 
 ### 4.4.1 Description and Priority
 
-The publish component allows the end-user to publish their finalized linked data as domain-experts without having to worry about Linked Data-specific problems. The LDWizard is agnostic to the tooling that reads the transformed data into their platform. he LDWizard publish component will be able to publish the transformed linked data, the transformation script, and the source data to a platform of the users choice.
+The publish component allows the end-user to publish their finalized linked data as domain-experts without having to worry about Linked Data-specific problems. The LD Wizard is agnostic to the tooling that reads the transformed data into their platform. he LD Wizard publish component will be able to publish the transformed linked data, the transformation script, and the source data to a platform of the users choice.
 
 - The end-user needs specify the authorization configuration, such that the datafiles can be stored on the dataplatform.
 - The end-user needs to specify the storage location, where to the datafiles will be stored.
@@ -704,26 +704,26 @@ The publish component allows the end-user to publish their finalized linked data
 
 ### 4.4.2 Stimulus/Response Sequences
 
-Stimulus: The user selects an export transformation script language to publish the transformation script.<br>
-Response: The user the transformation script can now be exported in the selected language.
+- *The user selects an export transformation script language to publish the transformation script.*
+  The user the transformation script can now be exported in the selected language.
 
-Stimulus: The user configures the authorization configuration.<br>
-Response: The LDWizard now has the authorization protocols to publish the data files to the data-platform.
+- *The user configures the authorization configuration.*
+  The LD Wizard now has the authorization protocols to publish the data files to the data-platform.
 
-Stimulus: The user configures the publication location of the datafiles.<br>
-Response: The LDWizard now has the location where to publish the data files to the data-platform.
+- *The user configures the publication location of the datafiles.*
+  The LD Wizard now has the location where to publish the data files to the data-platform.
 
-Stimulus: The user sends a request to the publish the transformation script on a data platform.<br>
-Response: The LDWizard will publish the transformation script on the data-platform the user configured. The transformation script is stored in the selected language (default [RATT](https://www.npmjs.com/package/@triply/ratt)).
+- *The user sends a request to the publish the transformation script on a data platform.*
+  The LD Wizard will publish the transformation script on the data-platform the user configured. The transformation script is stored in the selected language (default [RATT](https://www.npmjs.com/package/@triply/ratt)).
 
-Stimulus: The user sends a request to the publish the transformation output on a data platform.<br>
-Response: The LDWizard will publish the transformation output on the data-platform the user configured.
+- *The user sends a request to the publish the transformation output on a data platform.*
+  The LD Wizard will publish the transformation output on the data-platform the user configured.
 
-Stimulus: The user sends a request to the publish the source file on a data platform.<br>
-Response: The LDWizard will publish the source file on the data-platform the user configured.
+- *The user sends a request to the publish the source file on a data platform.*
+  The LD Wizard will publish the source file on the data-platform the user configured.
 
-Stimulus: The user misconfigured the authorization configuration, and tries to send a request to upload a file to a dataplatform.<br>
-Response: The user will get an error message explaining why the user is not allowed to publish the data file.
+- *The user misconfigured the authorization configuration, and tries to send a request to upload a file to a dataplatform.*
+  The user will get an error message explaining why the user is not allowed to publish the data file.
 
 ### 4.4.3 Functional Requirements
 
@@ -754,11 +754,11 @@ publish-transformationOutput(location)
 
 ### 4.5 ETL conversion script
 
-The LDWizard will use the predefined ETL-script RATT to perform the transformation step. [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt) is picked as the tool can be used in a client-based setting to transform CSV into RDF. [RATT](https://www.npmjs.com/package/@triply/ratt) also gives the LDWizard an expressive and expandable toolkit to create complex transformation procedures if necessary.
+The LD Wizard will use the predefined ETL-script RATT to perform the transformation step. [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt) is picked as the tool can be used in a client-based setting to transform CSV into RDF. [RATT](https://www.npmjs.com/package/@triply/ratt) also gives the LD Wizard an expressive and expandable toolkit to create complex transformation procedures if necessary.
 
 ### 4.5.1 Description and Priority
 
-The LDWizard will make a few assumptions about the CSV format.
+The LD Wizard will make a few assumptions about the CSV format.
 
 - We assume that there is only one subject in the script/CSV/template
 - We assume that the description about the subject in the script is handled as high as possible in the template.
@@ -775,23 +775,23 @@ For [RMLeditor](https://rml.io/tools/rmleditor/): we created the [conversion scr
 
 ### 4.5.2 Stimulus/Response Sequences
 
-Stimulus: The user uploads a correct RATT script.<br>
-Response: The script gets loaded into the LDWizard.
+- *The user uploads a correct RATT script.*
+  The script gets loaded into the LD Wizard.
 
-Stimulus: The user uploads a correct RML script. <br>
-Response: The script gets converted to a correctly working RATT script and loaded into the LDWizard.
+- *The user uploads a correct RML script.*
+  The script gets converted to a correctly working RATT script and loaded into the LD Wizard.
 
-Stimulus: The user uploads a correct COW script. <br>
-Response: The script gets converted to a correctly working RATT script and loaded into the LDWizard.
+- *The user uploads a correct COW script.*
+  The script gets converted to a correctly working RATT script and loaded into the LD Wizard.
 
-Stimulus: The user uploads an incorrect RATT script. <br>
-Response: The user gets an error, that the script is incorrect.
+- *The user uploads an incorrect RATT script.*
+  The user gets an error, that the script is incorrect.
 
-Stimulus: The user uploads an incorrect RML script. <br>
-Response: The LDWizard tries to convert the script. But the user gets a warning, stating that the script is incorrect.
+- *The user uploads an incorrect RML script.*
+  The LD Wizard tries to convert the script. But the user gets a warning, stating that the script is incorrect.
 
-Stimulus: The user uploads an incorrect COW script. <br>
-Response: The LDWizard tries to convert the script. But the user gets a warning, stating that the script is incorrect.
+- *The user uploads an incorrect COW script.*
+  The LD Wizard tries to convert the script. But the user gets a warning, stating that the script is incorrect.
 
 ### 4.5.3 Functional Requirements
 
@@ -807,7 +807,7 @@ Additional requirements:
 Limiting scope:
 
 - The transformation will transform the RATT script to a single script file in a different language.
-- The transformation to a working RATT script is only guaranteed if other script file was also generated by LDWizard.
+- The transformation to a working RATT script is only guaranteed if other script file was also generated by LD Wizard.
 - It is not possible to tranform multiple script files.
 - Only `.cow`, `.rml`, `.ts` source scripts are supported.
 - File decompression is not supported.
@@ -1050,7 +1050,7 @@ The app is a client-side only app. This will limit the number of safety requirem
 
 ### 5.3 Security Requirements
 
-The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so. The user should be able to access all the components of the LDWizard without needing additional privileges.
+The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so. The user should be able to access all the components of the LD Wizard without needing additional privileges.
 
 ### 5.4 User Documentation
 
