@@ -240,7 +240,7 @@ LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramf
 <figure id="FlowDiagramforLDWizard">
   <img src="/docs/img/FlowDiagramforLDWizard.svg">
   <figcaption>
-    Figure 4 ― Schematic overview of the overall LD Wizard process.  The overall process is subdivided into sub-processes that correspond to the four LD Wizard components.
+    Figure 4 ― Schematic overview of the overall LD Wizard process.  The process is subdivided into sub-processes that correspond to the four LD Wizard components.
   </figcaption>
 </figure>
 
@@ -261,8 +261,8 @@ The import component ([Figure 5](#ImportComponent)) allows a generic user to pro
 
 The import component allows the initial information that is needed by an LD Wizard Application to be specified by a generic user.  There are two kinds of initial information that a generic user might provide:
 
-1. Exactly one tabular source data file (required, high priority).
-2. At most one transformation script file (optional, low priority).
+1. Exactly one tabular source data file (high priority).
+2. At most one transformation script file (low priority).
 
 There are two ways in which this initial information can be provided by a user:
 
@@ -271,7 +271,7 @@ There are two ways in which this initial information can be provided by a user:
 
 #### 4.1.1.a Tabular source data formats
 
-In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#csv-upload)).  At the same time, there are many other formats for storing tabular source data.  Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address.
+In order to keep things simple, tabular source data is expected to be available in a CSV format (see [Section 4.1.1.b](#411b-csv-formats)).  At the same time, there are many other formats for storing tabular source data.  Specifically, more advanced tabular formats like [Office Open XML Workbook](#https://en.wikipedia.org/wiki/Office_Open_XML) and [OpenDocument Spreadsheet](#https://en.wikipedia.org/wiki/OpenDocument_technical_specification) are popular in the wider user group that LD Wizard seeks to address.
 
 Most spreadsheet applications have the ability to export to CSV.  Such conversions generally yield standard-compliant CSV.  Because CSV is a relatively simple format, not all aspects of the tabular source format are preserved, specifically:
 
@@ -289,11 +289,11 @@ At the same time, some hand-crafted CSV files may deviate from the standard in t
 
 <dl>
   <dt>Cell separator</dt>
-  <dd>The CSV file may use a different token than comma (`,`) for separating the cells.   For example, the semi-colon (`;`) is popular when cells commonly contains comma's and cell values are not delimited by double quotes (`"`).  In some locates the comma is used as the decimal separator, e.g., the Dutch locale.</dd>
+  <dd>The CSV file may use a different token than comma (<code>,</code>) for separating the cells.   For example, the semi-colon (<code>;</code>) is popular when cells commonly contains comma's and cell values are not delimited by double quotes (<code>"</code>).  In some locates the comma is used as the decimal separator, e.g., the Dutch locale.</dd>
   <dt>Cell quoting</dt>
-  <dd>Double quotes (`"`) are used to surround cell values that contain the separator token (`,` or `;`).  Double quotes that appear inside a cell value are escaped with the double quote prefix (i.e., `"a""b"` denotes a cell value of three characters).
+  <dd>Double quotes (<code>"</code>) are used to surround cell values that contain the separator token (<code>,</code> or <code>;</code>).  Double quotes that appear inside a cell value are escaped with the double quote prefix (i.e., <code>"a""b"</code> denotes a cell value of three characters).
   <dt>Row ending</dt>
-  <dd>The end of a row is denoted by an end of line characters.  [RFC 4180](https://tools.ietf.org/html/rfc4180) specifies `CRLF` for this, but some files use `CR` or `LF` instead.
+  <dd>The end of a row is denoted by an end of line characters.  <a href="https://tools.ietf.org/html/rfc4180" target="_blank">RFC 4180</a> specifies <code>CRLF</code> for this, but some files use <code>CR</code> or <code>LF</code> instead.<!--_-->
   <dt>Character encoding</dt>
   <dd>While many character encodings exist and are in use, UTF-8 (which includes ASCII) is by far the most common one.  Automatic character encoding detection is relatively difficult and error-prone, so LD Wizard assumes that the CSV source data file uses UTF-8 encoding.</dd>
 </dl>
@@ -332,30 +332,26 @@ This section specifies the sequence of user actions that results in a transforma
    The user receives an error message stating that the file is incorrect.  The error message includes an overview of the part of the source data file that caused the error.
 5. *The user imports more than one CSV file.*
    The user receives an error message stating that only one tabular source file can be imported.
-<!--
 6. *The user imports a correct conversion script.*
    The script is handled accordingly.  The user will see a transform instead of a continue button.
 7. *The user imports an incorrect script.*
-Response: The user will get a warning that the script is incorrect.
--->
+   The user receives an error message stating that the script is incorrect.
 
 ### 4.1.3 Functional Requirements
-
-- Preferred file extensions.
-- Drag & drop (low priority).
 
 Core requirements:
 
 - The ability to import exactly one data source file.
-- The ability to import from a local file:
+- The ability to import at most one transformation script.
+- The ability to import from a local file.
 - The ability to import from a publicly accessible online location (URL).
 
 Additional requirements:
 
-- TBD: Specify a soft limit for the file size:
+- Specify a soft limit for the file size:
   - There may be a limit to the file size that can be held in browser memory.
   - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.
-- TBD: Automatically recognize the file format:
+- Automatically recognize the file format:
   - Not at all: the function signature determines how the file will be processed.
   - Based on file name: `.csv` for data imports.
   - Based on a (partial) parse of the file.
@@ -367,11 +363,6 @@ Limiting scope:
 - It is not possible to import multiple source files.
 - Only CSV source data is supported.
 - File decompression is not supported.
-
-```
-import-data(URL)
-import-data(file)
-```
 
 ### 4.2 LD Wizard configuration component
 
