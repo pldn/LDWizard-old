@@ -110,21 +110,17 @@ Developers are able to create new LD Wizard Applications, to support general use
 
 ### 2.2 Product Functions
 
-We distinguish between the generic LD Wizard Interface and various LD Wizard Applications. Each LD Wizard Application is a specific implementation of the LD Wizard Interface.
+We distinguish between the generic LD Wizard Interface and various LD Wizard Applications. Each LD Wizard Application is a specific implementation of the generic LD Wizard Interface.
 
-#### LD Wizard Interface
+#### 2.2.1 LD Wizard Interface
 
-The generic specification of functionalities that must be implemented, resulting in a specific LD Wizard Application.
+The generic specification of functionalities that must be implemented.  The LD Wizard Interface is generic, and as such is not yet optimized for one particular domain or for one particular use case.  An implementation of the LD Wizard Interface results in a specific LD Wizard Application.  The latter can be specifically optimized for a particular domain and/or for a particular use case.
 
-The goal of LD Wizard is to provide an interface that can be implemented for a specific domain.
+The LD Wizard Interface is designed to be customizable and expandable.  A developer who satisfies the assumptions specified in [Section 2.5.2](#252-user-assumptions) must be able to create an LD Wizard Application.
 
-Secondly the framework will be designed to be customizable and expandable. Such that developers and users can customize the framework to fit their domains.
+#### 2.2.2 LD Wizard Applications
 
-(see [Chapter 3](#ch3) and [Chapter 4](#ch4))
-
-#### LD Wizard Applications
-
-The following LD Wizard Applications are included in this repository. They serve as example implementations of the LD Wizard Interface:
+The following LD Wizard Applications are part of this repository. They serve as concrete examples of how the generic LD Wizard Interface can be made concrete:
 
 <dl>
   <dt>Hello World Wizard</dt>
@@ -143,13 +139,16 @@ The product will operate inside one of the major browsers and will be designed t
 
 ### 2.4 Implementation Constraints
 
-Since LD Wizard Applications are client-side web applications that runs in regular and up-to-date web browsers, there are limits to the amount of data that can processed.
+Since LD Wizard Applications are client-side web applications that run in regular and up-to-date web browsers, there are limits to the amount of data that can processed.
 
 ### 2.5 Assumptions and Dependencies
+
+This section specified the assumptions that we make regarding LD Wizard components and LD Wizard users.  These assumptions set forth the constraints within which the LD Wizard is able to optimally operate.
 
 #### 2.5.1 Source data assumptions
 
 We make the following assumptions regarding the source data:
+
 - The tabular source data file must have a header row.
 - Every row of the tabular source data is assumed to represent exactly one thing.  In other words, every row the source data describes one person, location, creative work, etc.
 - All rows in the tabular source data are assumed to represent things of the same type.  For example, if some rows in the tabular source data describe locations and some rows in the tabular source data describe persons, this file must first be split into two separate files that are transported separately.  Notice that in general it is unlikely that different types of things (in this
@@ -170,7 +169,7 @@ Assumptions for developers:
 - Must have a general knowledge about JavaScript and TypeScript.
 - May need some knowledge of Linked Data (TBD).
 
-### 2.5.3 Publication platform assumptions
+#### 2.5.3 Publication platform assumptions
 
 Assumptions for publication platforms:
 
@@ -182,22 +181,33 @@ This section specifies how LD Wizard communicates with external components.
 
 ### 3.1 User Interfaces
 
-The User Interface requirements are specified in Chapter 4. They specify in more detail the possible steps and actions a user can take per step in the process of the LD Wizard.
+While LD Wizard developers are able to customize the appearance of their LD Wizard Applications, the LD Wizard Interface does specify some generic properties of the LD Wizard user interface.  This is done for the following reasons:
 
-The general interface is shown in [Figure 3](#GeneralUserInterface). The inner rectangle is where specific interfaces for sub-steps are positioned. The benefit of a generic interface is that it provides continuity in LD Wizard use when moving between the sub-steps. The generic interface also includes consistent branding of the LD Wizard (bottom-right) and of the specific LD Wizard Application (top-left). Links to documentation and the LD Wizard project are also included in the bottom-right corner.
+1. It ensures that all LD Wizard Applications look and work similar from the perspective of the generic user.  Specifically, a user who has interacted with one LD Wizard Application should feel comfortable to use another LD Wizard Application, because the generic appearance and interaction pattern are the same.
+2. It simplifies the job of the developer.  She can focus on customizing the domain-specific parts while reusing the generic parts.
 
-<figure id="GeneralUserInterface">
+The generic interface is shown in [Figure 3](#GenericUserInterface).  The inner rectangle is where specific interfaces for specific interaction steps are located.  The goal of the generic interface twofold:
+
+1. Solidify the branding of LD Wizard (bottom-right corner) and allow custom branding on a per-application basis (top-left corner).
+2. Provide the overall interaction flow between the various interaction steps.
+
+The benefit of a generic interface is that it provides continuity for generic users, when they move between the various interaction steps.  Links to documentation and the LD Wizard project are also included in the branding component that is positioned in the bottom-right corner.
+
+<figure id="GenericUserInterface">
   <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
   <figcaption>
-    Figure 3 ― Minimalistic generic user interface.
+    Figure 3 ― Schematic overview of the generic LD Wizard user interface.
   </figcaption>
 </figure>
 
-The general User Interface will be designed as a flexible and easily updatable configurable system to create multiple different instantiated LD Wizard Applications from a single framework.
+For the implementation of the interface, LD Wizard will make use of the following commonly used and well-maintained web libraries:
 
-For the implementation of the interface the product will rely on [Font Awesome](https://fontawesome.com), [Material-UI](https://material-ui.com), [Recoil](https://recoiljs.org), [React](https://reactjs.org).
+- [Font Awesome](https://fontawesome.com)
+- [Material-UI](https://material-ui.com)
+- [React](https://reactjs.org).
+- [Recoil](https://recoiljs.org)
 
-Steps:
+The following interaction steps are located within the inner rectangle:
 
 1. import
 2. configuration
@@ -206,11 +216,11 @@ Steps:
 
 ### 3.2 Communications Interface
 
-Three types of communication are expected between the LDWizard and other applications.
+Three types of communication are expected between the LD Wizard and other applications.
 
-- Communications between the LDWizard and the local file system to retrieve the tabular data sources, for transformation. The end-user will activate the communications to the file system via buttons in the LDWizard.
-- Communications between the LDWizard and the local file system to store the converted tabular data source, transformation script and the source data. The end-user will activate the communications to the file system via buttons in the LDWizard.
-- Communications between the LDWizard and a external triple store to store the converted tabular data source, transformation script and the source data on the triple store. These platforms could need extra authorization tokens to store data on their platforms. These tokens could be stored in the LDWizard to communicate with the external triple store. The end-user will communicate the information needed for communication via a textfield and activate the communication via buttons.
+- Communications between the LD Wizard and the local file system to retrieve the tabular data sources, for transformation.  The generic user will activate the communications to the file system via the user interface.
+- Communications between the LD Wizard and the local file system to store the Linked Data result file, the transformation script, and the original tabular source data file.  The end-user will activate the communications to the file system via the user interface.
+- Communications between the LD Wizard and a external Linked Data publication platform, in order to store the Linked Data result, the transformation script, and the tabular source data.  Publication on such a platform typically requires authorization and authentication.  The LD Wizard Interface must be extendable to facilitate interaction with linked data publication platforms.  For the purpose of authorization and authentication, the generic user must supply additional information.  Additional information consist of a user name and password combination, or it may consist of an API token that the generic user has created for the intended linked data publication platform.
 
 ## 4. System Features
 
