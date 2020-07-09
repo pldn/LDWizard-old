@@ -1,18 +1,19 @@
-<img src="/docs/img/LD Wizard.png" align="right">
+<img src="/docs/img/LDWizard.png" align="right">
 
 # LD Wizard: create Linked Data in one Spell
 
-LD Wizard is a generic framework for converting tabular data sources to Linked Data.
+LD Wizard is a framework for creating end-user focused Graphical User Interfaces (GUIs) that simplify the creation and publication of Linked Data.
+<!-- LD Wizard is a generic framework for converting tabular data sources to Linked Data. -->
 
 # Software Requirements and Design Document (Preliminary)
 
 ## 1. Introduction
 
-Linked Data is an increasingly more popular paradigm for publishing open data. This is especially true in the [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/) and [social and economic history](https://stories.datalegend.net) domains. The publication of Linked Data usually requires extensive knowledge of Linked Data principles and technologies. This means that only a relatively small group of technology enthusiasts has been able to publish Linked Data up till now. At the same time, there is a much wider group of domain experts and data owners that wants to experiment with Linked Data for the first time. This group of users is currently scarred away by the many technical hurdles that are imposed by traditional Linked Data publication strategies.
+Linked Data is an increasingly more popular paradigm for publishing open data. This is especially true in the [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/) and [social and economic history](https://stories.datalegend.net) domains. The publication of Linked Data usually requires extensive knowledge of Linked Data principles and technologies. This means that only a relatively small group of technology enthusiasts has been able to publish Linked Data up till now. At the same time, there is a much wider group of domain experts and data owners that want to experiment with Linked Data for the first time. This group of users is currently scarred away by the many technical hurdles that are imposed by traditional Linked Data publication strategies.
 
 This is where **LD Wizard** comes in. LD Wizard is a framework for creating end-user focused Graphical User Interfaces (GUIs) that simplify the creation and publication of Linked Data. LD Wizard allows domain experts and data owners to publish standards-compliant Linked Datasets, without having to worry about Linked Data-specific intricacies.
 
-While a perfect tool for creating simple Linked Data publications, LD Wizard also allows transformations to be exported in various script formats. These scripts can be used in more advanced tools in order to achieve more complex Linked Data transformations.
+While a perfect tool for creating simple Linked Data publications, LD Wizard also allows the transformation-configuration to be exported in various script formats. These scripts can be used in more advanced tools in order to achieve more complex Linked Data transformations.
 
 ### 1.1 Purpose
 
@@ -24,11 +25,13 @@ At the same time, LD Wizard allows transformations to be exported into several w
 
 `code`: Code of any kind will be added in the document between two "\`"-marks. For multi-line code this document uses "\`\`\`"-marks to start and stop a code-block.
 
-### 1.3 Product Scope
+### 1.3 Product and Project Scope
 
 We distinguish between the generic **LD Wizard Interface** and various **LD Wizard Applications**. Each LD Wizard Application is a specific implementation of the LD Wizard Interface.
 
-The scope of the project is to create two working LD Wizard tools, a hello-world LD Wizard tool, and the cultural heritage LD Wizard. The hello-world LD Wizard will serve as basic testing tool for implementation of the advanced tooling needed for the second LD Wizard. The hello-world LD Wizard will also serve as a starting point for creating more specialized tooling for a specific domain. The hello-world LD Wizard will be the product of the second milestone. The second LD Wizard will be designed according to the specifications of the domain expert in the cultural heritage expert and will serve as a tool to transform excel sheets from the cultural heritage sector to Linked data. The cultural heritage LD Wizard will be the product for the third milestone. The Software requirements as written in this document, are written for an uninstantiated LD Wizard, unless specified otherwise.
+#### 1.3.1 Project Scope
+
+The scope of the project is to create the LD Wizard Interface and two working LD Wizard Applications, a hello-world LD Wizard Application, and the cultural heritage LD Wizard Application. The hello-world LD Wizard will serve as basic testing tool for implementation of the advanced tooling needed for the second LD Wizard. The hello-world LD Wizard will also serve as a starting point for creating your own LD Wizard Application for a specific domain. The hello-world LD Wizard will be the product of the second milestone. The second LD Wizard will be designed according to the specifications of the domain expert in the cultural heritage expert and will serve as a tool to transform excel sheets from the cultural heritage sector to Linked Data. The cultural heritage LD Wizard will be the product for the third milestone. The Software requirements as written in this document, are written for an uninstantiated LD Wizard, unless specified otherwise.
 
 ### 1.4 Terminology
 
@@ -283,7 +286,7 @@ Most spreadsheet applications have the ability to export to CSV.  Such conversio
 
 LD Wizard assumes that tabular source data is available in a CSV format.  Tabular source data that is not in a CSV format is discussed in [Section 4.1.1.a](#411a-tabular-source-data-formats).
 
-The CSV format is standardized in [RFC 4180](https://tools.ietf.org/html/rfc4180) by the Internet Engineering Taskforce (IETF).  The most commonly used applications for editing tabular data (e.g., [Microsoft Excel](https://en.wikipedia.org/wiki/Microsoft_Excel), [LibreOffice Calc](https://en.wikipedia.org/wiki/LibreOffice_Calc)) are able export tabular data to this standardized CSV format.
+The CSV format is standardized in [RFC 4180](https://tools.ietf.org/html/rfc4180) by the Internet Engineering Taskforce (IETF).  The most commonly used applications for editing tabular data (e.g., [Microsoft Excel](https://en.wikipedia.org/wiki/Microsoft_Excel), [LibreOffice Calc](https://en.wikipedia.org/wiki/LibreOffice_Calc)) are able to export tabular data to this standardized CSV format.
 
 At the same time, some hand-crafted CSV files may deviate from the standard in the following ways:
 
@@ -377,7 +380,7 @@ This section specifies the LD Wizard transformation component and its interfaces
 
 ### 4.2.1 Description and Priority
 
-The configuration is composed of on a number of smaller sub-components that together compose the full transformation configuration.  We can distinguish between the different types of transformation sub-components, based on their transformation scope:
+The configuration is composed of a number of smaller sub-components that together compose the full transformation configuration.  We can distinguish between the different types of transformation sub-components, based on their transformation scope:
 
 <dl>
   <dt>Table scope</dt>
@@ -390,7 +393,7 @@ The configuration is composed of on a number of smaller sub-components that toge
   <dd>Transformation that modify individual cell values.</dd>
 </dl>
 
-Notice that configuration sub-component types become increasingly more complex to configure by a generic user, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it mainly focuses on configuration sub-components of table and column scope (high priority).  Configuration sub-components of row and cell scope have low priority.
+Notice that configuration sub-component types become increasingly more complex to configure by a general user, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it mainly focuses on configuration sub-components of table and column scope (high priority).  Configuration sub-components of row and cell scope have low priority.
 
 #### 4.2.1.a Setting a base IRI
 
