@@ -151,7 +151,7 @@ We make the following assumptions regarding the source data:
 
 - The tabular source data file must have a header row.
 - Every row of the tabular source data is assumed to represent exactly one thing.  In other words, every row the source data describes one person, location, creative work, etc.
-- All rows in the tabular source data are assumed to represent things of the same type.  For example, if some rows in the tabular source data describe locations and some rows in the tabular source data describe persons, this file must first be split into two separate files that are transported separately.  Notice that in general it is unlikely that different types of things (in this
+- All rows in the tabular source data are assumed to represent things of the same type.  For example, if some rows in the tabular source data describe locations and some rows in the tabular source data describe persons, this file must first be split into two separate files that are transported separately.
 - Source data that is uploaded to a publication platform is assumed to have an open license.
 - The tabular source data is assumed to have at most 30 columns.
 - The tabular source data is assumed to have at most 1,048,576 rows.
@@ -576,7 +576,7 @@ TBD
   do nothing.
 
 - *The user removes the cleaning function for a column .*
-  The cleaning function is removed in the configuration.
+  The cleaning function is removed from the configuration.
 
 ### 4.2.3 Functional Requirements
 
