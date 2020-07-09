@@ -127,7 +127,7 @@ The following LD Wizard Applications are part of this repository. They serve as 
 
 <dl>
   <dt>Hello World Wizard</dt>
-  <dd>A minimal configuration that implements the LW Wizard Interface.  This wizard is fully functional, but does not serve a particular domain.  It is intended to be used by developers who want to configure their own wizard, since it shows how interfaces can be implemented in practice.  The Hello World Wizard is also an ideal basis for a new, domain-specific configuration.</dd>
+  <dd>A minimal configuration that implements the LD Wizard Interface.  This wizard is fully functional, but does not serve a particular domain.  It is intended to be used by developers who want to configure their own wizard, since it shows how interfaces can be implemented in practice.  The Hello World Wizard is also an ideal basis for a new, domain-specific configuration.</dd>
   <dt>NDE Wizard</dt>
   <dd>A configuration that implements the LD Wizard Interface for the cultural heritage domain.  This wizard is fully functional and serves a particular domain.  It is intended to be used by domain experts from the cultural heritage domain who want to transform their tabular source data into standards-compliant Linked Data.</dd>
 </dl>
@@ -315,7 +315,7 @@ Firstly, the maximum (byte)size of the CSV source data file is determined by the
 - the maximum file size supported by modern web browsers
 - the performance of the conversion script
 
-To stay well within these limits, LW Wizard supports CSV source files of at most 50 MB (uncompressed) in size.
+To stay well within these limits, LD Wizard supports CSV source files of at most 50 MB (uncompressed) in size.
 
 Secondly, LD Wizard sets a limit to the number of rows and columns that it supports:
 - the maximum number of columns is 30.
