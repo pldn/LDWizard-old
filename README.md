@@ -283,7 +283,7 @@ Most spreadsheet applications have the ability to export to CSV.  Such conversio
 
 LD Wizard assumes that tabular source data is available in a CSV format.  Tabular source data that is not in a CSV format is discussed in [Section 4.1.1.a](#411a-tabular-source-data-formats).
 
-The CSV format is standardized in [RFC 4180](https://tools.ietf.org/html/rfc4180) by the Internet Engineering Taskforce (IETF).  The most commonly used applications for editing tabular data (e.g., [Microsoft Excel](https://en.wikipedia.org/wiki/Microsoft_Excel), [LibreOffice Calc](https://en.wikipedia.org/wiki/LibreOffice_Calc)) are able export tabular data to this standardized CSV format.
+The CSV format is standardized in [RFC 4180](https://tools.ietf.org/html/rfc4180) by the Internet Engineering Taskforce (IETF).  The most commonly used applications for editing tabular data (e.g., [Microsoft Excel](https://en.wikipedia.org/wiki/Microsoft_Excel), [LibreOffice Calc](https://en.wikipedia.org/wiki/LibreOffice_Calc)) are able to export tabular data to this standardized CSV format.
 
 At the same time, some hand-crafted CSV files may deviate from the standard in the following ways:
 
@@ -377,7 +377,7 @@ This section specifies the LD Wizard transformation component and its interfaces
 
 ### 4.2.1 Description and Priority
 
-The configuration is composed of on a number of smaller sub-components that together compose the full transformation configuration.  We can distinguish between the different types of transformation sub-components, based on their transformation scope:
+The configuration is composed of a number of smaller sub-components that together compose the full transformation configuration.  We can distinguish between the different types of transformation sub-components, based on their transformation scope:
 
 <dl>
   <dt>Table scope</dt>
@@ -390,7 +390,7 @@ The configuration is composed of on a number of smaller sub-components that toge
   <dd>Transformation that modify individual cell values.</dd>
 </dl>
 
-Notice that configuration sub-component types become increasingly more complex to configure by a generic user, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it mainly focuses on configuration sub-components of table and column scope (high priority).  Configuration sub-components of row and cell scope have low priority.
+Notice that configuration sub-component types become increasingly more complex to configure by a general user, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it mainly focuses on configuration sub-components of table and column scope (high priority).  Configuration sub-components of row and cell scope have low priority.
 
 #### 4.2.1.a Setting a base IRI
 
