@@ -142,11 +142,11 @@ The product will operate inside one of the major browsers and will be designed t
 
 ### 2.4 Implementation Constraints
 
-Since LD Wizard Applications are client-side web applications that run in regular and up-to-date web browsers, there are limits to the amount of data that can processed.
+Since LD Wizard Applications are client-side web applications that run in regular and up-to-date web browsers, there are limits to the amount of data that can be processed.
 
 ### 2.5 Assumptions and Dependencies
 
-This section specified the assumptions that we make regarding LD Wizard components and LD Wizard users.  These assumptions set forth the constraints within which the LD Wizard is able to optimally operate.
+This section specifies the assumptions that we make regarding LD Wizard components and LD Wizard users.  These assumptions set forth the constraints within which the LD Wizard is able to optimally operate.
 
 #### 2.5.1 Source data assumptions
 
