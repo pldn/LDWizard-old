@@ -186,10 +186,10 @@ This section specifies how LD Wizard communicates with external components.
 
 While LD Wizard developers are able to customize the appearance of their LD Wizard Applications, the LD Wizard Interface does specify some generic properties of the LD Wizard user interface.  This is done for the following reasons:
 
-1. It ensures that all LD Wizard Applications look and work similar from the perspective of the generic user.  Specifically, a user who has interacted with one LD Wizard Application should feel comfortable to use another LD Wizard Application, because the generic appearance and interaction pattern are the same.
+1. It ensures that all LD Wizard Applications look and work similar from the perspective of the general user.  Specifically, a user who has interacted with one LD Wizard Application should feel comfortable to use another LD Wizard Application, because the generic appearance and interaction pattern are the same.
 2. It simplifies the job of the developer.  She can focus on customizing the domain-specific parts while reusing the generic parts.
 
-The generic interface is shown in [Figure 3](#GenericUserInterface).  The inner rectangle is where specific interfaces for specific interaction steps are located.  The goal of the generic interface twofold:
+The generic interface is shown in [Figure 3](#GenericUserInterface).  The inner rectangle is where specific interfaces for specific interaction steps are located.  The goal of the generic interface is twofold:
 
 1. Solidify the branding of LD Wizard (bottom-right corner) and allow custom branding on a per-application basis (top-left corner).
 2. Provide the overall interaction flow between the various interaction steps.
@@ -221,9 +221,9 @@ The following interaction steps are located within the inner rectangle:
 
 Three types of communication are expected between the LD Wizard and other applications.
 
-- Communications between the LD Wizard and the local file system to retrieve the tabular data sources, for transformation.  The generic user will activate the communications to the file system via the user interface.
+- Communications between the LD Wizard and the local file system to retrieve the tabular data sources, for transformation.  The general user will activate the communications to the file system via the user interface.
 - Communications between the LD Wizard and the local file system to store the Linked Data result file, the transformation script, and the original tabular source data file.  The end-user will activate the communications to the file system via the user interface.
-- Communications between the LD Wizard and a external Linked Data publication platform, in order to store the Linked Data result, the transformation script, and the tabular source data.  Publication on such a platform typically requires authorization and authentication.  The LD Wizard Interface must be extendable to facilitate interaction with linked data publication platforms.  For the purpose of authorization and authentication, the generic user must supply additional information.  Additional information consist of a user name and password combination, or it may consist of an API token that the generic user has created for the intended linked data publication platform.
+- Communications between the LD Wizard and a external Linked Data publication platform, in order to store the Linked Data result, the transformation script, and the tabular source data.  Publication on such a platform typically requires authorization and authentication.  The LD Wizard Interface must be extendable to facilitate interaction with linked data publication platforms.  For the purpose of authorization and authentication, the general user must supply additional information.  Additional information consist of a user name and password combination, or it may consist of an API token that the general user has created for the intended linked data publication platform.
 
 ## 4. System Features
 
