@@ -232,7 +232,7 @@ LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramf
 <dl>
   <dt>Import component</dt>
   <dd>The component that is used to upload tabular source data.</dd>
-  <dt>Transformation component</dt>
+  <dt>Configuration component</dt>
   <dd>The component that is used to specify the data transformation from the tabular source format to a standards-compliant Linked Data.</dd>
   <dt>Export component</dt>
   <dd>The component that allows the transformed Linked Data, the transformation script, and the tabular source data to be downloaded to the local file system.</dd>
@@ -251,7 +251,7 @@ The following subsections specify the four LD Wizard components in more detail.
 
 ### 4.1 Import component
 
-The import component ([Figure 5](#ImportComponent)) allows a generic user to provide the initial information that is needed in order to start a data transformation.
+The import component ([Figure 5](#ImportComponent)) allows a general user to provide the initial information that is needed in order to start a data transformation.
 
 <figure id="ImportComponent">
   <img src="/docs/img/ImportComponent.svg" width="70%" height="50%">
@@ -262,7 +262,7 @@ The import component ([Figure 5](#ImportComponent)) allows a generic user to pro
 
 ### 4.1.1 Description and Priority
 
-The import component allows the initial information that is needed by an LD Wizard Application to be specified by a generic user.  There are two kinds of initial information that a generic user might provide:
+The import component allows the initial information that is needed by an LD Wizard Application to be specified by a general user.  There are two kinds of initial information that a general user might provide:
 
 1. Exactly one tabular source data file (high priority).
 2. At most one transformation script file (low priority).
@@ -369,7 +369,7 @@ Limiting scope:
 
 ### 4.2 LD Wizard configuration component
 
-This section specifies the LD Wizard transformation component and its interfaces.  This component presents the Graphical User Interface (GUI) that the general user will interact with after they have successfully uploaded a tabular source file.
+This section specifies the LD Wizard configuration component and its interfaces.  This component presents the Graphical User Interface (GUI) that the general user will interact with after they have successfully uploaded a tabular source file.
 
 <figure id="GUIComponent">
   <img src="/docs/img/GUIComponent.svg" width="70%" height="50%">
@@ -401,7 +401,7 @@ A table scope configuration that determines the string prefix for all RDF subjec
 
 The base IRI must be a valid absolute IRI.
 
-The developer is able to configure a default base IRI.  This IRI will be used if the generic user does not specify one.
+The developer is able to configure a default base IRI.  This IRI will be used if the general user does not specify one.
 
 #### 4.2.1.b Setting a vocabulary prefix
 
@@ -444,11 +444,11 @@ A column scope configuration that allows one RDF predicate term to be selected f
 
 The developer is able to pre-configure this component to provide predicate suggestions form a specific vocabulary or domain.
 
-Ideally, the header label of each column can be used to provide an initial suggestion for the generic user.
+Ideally, the header label of each column can be used to provide an initial suggestion for the general user.
 
 If a column was chosen as the key column (Section [TODO](#todo)), then this column cannot be configured in this configuration.
 
-If the generic user does not specify a predicate for a column, a new IRI will be composed out of the base IRI followed by a normalized version of the header label.  Normalization is needed to ensure that all predicate terms are valid IRIs.
+If the general user does not specify a predicate for a column, a new IRI will be composed out of the base IRI followed by a normalized version of the header label.  Normalization is needed to ensure that all predicate terms are valid IRIs.
 
 The user is able to skip columns on a per-column basis (e.g., a skip option could be part of the predicate selection element).
 
