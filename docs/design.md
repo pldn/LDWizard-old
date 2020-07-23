@@ -4,9 +4,9 @@ This document specifies the requirements and design of LD Wizard.  This document
 
 ## 1. Introduction
 
-linked data is an increasingly more popular paradigm for publishing open data. Examples include the domain of [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/), the domain of [geospatial information](https://data.labs.kadaster.nl), and the domain of [social and economic history](https://stories.datalegend.net).
+Linked data is an increasingly more popular paradigm for publishing open data.  Linked data is used in various domains.  Examples include the domain of [cultural heritage](https://www.netwerkdigitaalerfgoed.nl/tag/linked-open-data/), the domain of [geospatial information](https://data.labs.kadaster.nl), and the domain of [social and economic history](https://stories.datalegend.net).
 
-The publication of linked data currently requires extensive knowledge of linked data principles and technologies. This means that only a relatively small group of technology enthusiasts has been able to publish linked data.  At the same time, there is a much wider group of domain experts and data owners that want to experiment with linked data for the first time.  This group of users is currently inhibited by the many technical hurdles that are imposed by traditional linked data publication approaches.
+The publication of linked data currently requires extensive knowledge of linked data principles and technologies.  This means that only a relatively small group of technology enthusiasts has been able to publish linked data.  At the same time, there is a much wider group of domain experts and data owners that want to experiment with linked data for the first time.  This group of users is currently inhibited by the many technical hurdles that are imposed by traditional linked data publication approaches.
 
 This is where **LD Wizard** comes in.  LD Wizard is a framework for creating end-user focused Graphical User Interfaces (GUIs) that simplify the creation and publication of linked data.  LD Wizard allows domain experts and data owners to publish standards-compliant linked datasets, without having to worry about technical details and linked data-specific intricacies.
 
@@ -21,80 +21,58 @@ At the same time, LD Wizard allows the standardized source data and the transfor
 This document uses the following conventions:
 - `code`: this is how code snippets are displayed.
 
-### 1.3 Product and Project Scope
+### 1.3 Terminology
 
-We distinguish between the generic **LD Wizard Interface** and various **LD Wizard Applications**.  Each LD Wizard Application is an implementation of the one LD Wizard Interface, optimized for a specific domain or use case.
-
-### 1.4 Terminology
-
-|  Abbreviation   |                                                                                                  Description                                                                                                  |
+|  Term   |                                                                                                  Description                                                                                                  |
 | :-------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|  **Base IRI**   |                                                                      The IRI that is used to transform relative IRIs into absolute IRIs.                                                                      |
-|    **Cell**     | The string value at the intersection of one [row]() and one [column]() in a [table](). Cells are separated by a separator token. This is called a _field_ in [RFC 4180](https://tools.ietf.org/html/rfc4180). |
-|   **Column**    |                                                                               A vertical sequence of [cells]() in a [table]().                                                                                |
-|     **CSV**     |                                   Comma-Separated Values: a standardize and non-proprietary tabular data format (see IETF [RFC 4180](https://tools.ietf.org/html/rfc4180)).                                   |
-|     **ETL**     |                                   Extract-Transform-Load: a generic approach for creating linked data out of other source data formats (in this case: tabular source data).                                   |
-|   **Header**    |                           If present, the first [row]() in a [table]() that describes the meanings of values that appear in the cells that appear in the corresponding [column]().                            |
-|     **Row**     |               A horizontal sequence of [cells]() in a [table](). Rows are separated by an end-of-line separator. This is called a _record_ in [RFC 4180](https://tools.ietf.org/html/rfc4180).                |
-|    **Sheet**    |                                                                             A simple [spreadsheet]() that encodes one [table]().                                                                              |
-| **Spreadsheet** |                                       A wrapper format around one or more [tables](). A spreadsheet that contains multiples tables is sometimes called a [workbook]().                                        |
-|    **Table**    |                                                         A 2D text format that is structured in [columns]() (horizontally) and [rows]() (vertically).                                                          |
-|  **Workbook**   |                                                                      A complex [spreadsheet]() that consists of one or more [sheets]().                                                                       |
-
-### 1.5 Attribution
-
-LD Wizard is an initiative of the following organizations and people:
-
-- [Dutch Digital Heritage Network (NDE)](https://www.netwerkdigitaalerfgoed.nl/en), Enno Meijers & Ivo Zandhuis
--  [The Netherlands’ Cadastre, Land Registry and Mapping Agency (Kadaster)](https://www.kadaster.nl), Erwin Folmer
-- [International Institute of Social History (IISH)](https://iisg.amsterdam/en), Richard Zijdeman
-- [Triply](https://triply.cc), Thomas de Groot, Gerwin Bosch & Wouter Beek
+|  Base IRI   |                                                                      The IRI that is used to transform relative into absolute IRIs.                                                                      |
+|    Cell     | The string value at the intersection of one [row]() and one [column]() in a [table](). Cells are separated by a separator token. This is called a _field_ in [RFC 4180](https://tools.ietf.org/html/rfc4180). |
+|   Column    |                                                                               A vertical sequence of [cells]() in a [table]().                                                                                |
+|     CSV     | An abbreviation of “Comma-Separated Values”; a standardize and non-proprietary tabular data format.  The CSV format is standardized by the Internet Engineering Taskforce (IETF) in [RFC 4180](https://tools.ietf.org/html/rfc4180).                                   |
+|     ETL     | An abbreviation of “Extract-Transform-Load”; a generic approach for creating linked data out of other source data formats (in this case: tabular source data).                                   |
+|   Header    |                           If present, the first [row]() in a [table](), where each header cell describes the meaning of the values that occur in the non-header cells of the corresponding [column]().                            |
+|     Row     |               A horizontal sequence of [cells]() in a [table](). Rows are separated by an end-of-line separator. This is called a _record_ in [RFC 4180](https://tools.ietf.org/html/rfc4180).                |
+|    Sheet    |                                                                             A simple [spreadsheet]() that encodes one [table]().                                                                              |
+| Spreadsheet |                                       A wrapper format around one or more [tables]().  Spreadsheets that contain exactly one table are called [sheets]().  Spreadsheets that contain more than one table are called [workbooks](). |
+|    Table    |                                                         A 2D text format that is structured in [columns]() (horizontally) and [rows]() (vertically).                                                          |
+|  Workbook  |                                                                      A complex [spreadsheet]() that consists of one or more [sheets]().                                                                       |
 
 ## 2.Overall Description
 
-LD Wizard is designed to be a starting framework for transformations from CSV to linked data. LD Wizard is designed to be the starting point of a generic pipeline that can be customized and expanded to cater specified needs in designated fields.
+LD Wizard a framework for creating simple GUI wizards that allow simple conversions from tabular source data to linked data.  The goal of LD Wizard is to allow domain experts and data owners to publish their data as linked data without technical hurdles and without the help of a linked data expert.
 
 ### 2.1 Product Perspective
 
 The transformation of linked data requires the combination of expertise in the following three roles:
 
-LD Wizard distinguishes between the following types of users:
-
 <dl>
-  <dt>General user</dt>
-  <dd>Uses an LD Wizard Application in a specific domain.</dd>
-  <dt>linked data Expert</dt>
-  <dd>Uses an LD Wizard Application to create an initial transformation.</dd>
-  <dt>Developer</dt>
-  <dd>Creates an LD Wizard Application by implementing the LD Wizard Interface for a specific domain or use case.</dd>
+  <dt>Domain Expert<dt>
+  <dd>Has knowledge about the domain that is described in the source data.</dd>
+  <dt>Linked Data Expert</dt>
+  <dd>Is able to create a semantic data model, and is able to define the structure of the source data in linked data.</dd>
+  <dt>Programmer</dt>
+  <dd>Is able to implement the transformation from tabular source data to linked data, using a programming language.</dd>
 </dl>
 
-1. Domain Expert: has knowledge about the domain that is described in the data.
+Because the combination of expertise of these three roles in one person is quite rare, linked data transformation often required multiple people working together. This also means that the Domain Expert depends on the Linked Data Expert and the Programmer in order to make a change to the transformation (even for small changes).
 
-2. linked data Expert: is able to create a semantic data model, and is able to define the structure of the source data in linked data.
-
-3. Programmer: is able to implement the transformation from tabular source data to linked data, using a programming language.
-
-Because the combination of expertise of these three roles in one person is quite rare, linked data transformation often required multiple people working together. This also means that the domain expert is dependent on the linked data Expert and the Programmer in order to make a change to the transformation (even for small changes).
-
-This traditional linked data transformation approach is characterized
-in [Figure 1](#traditional-etl).
+This traditional linked data transformation approach is depicted in [Figure 1](#traditional-etl).
 
 <figure id="traditional-etl">
   <img src="/docs/img/traditional-etl.svg" width="70%" height="50%">
   <figcaption>
-    Figure 1 ― Schematic overview of a traditional linked data ETL.
+    Figure 1 ― Schematic overview of a traditional linked data publication pipeline.
   </figcaption>
 </figure>
 
-linked data tools generalize work normally performed by a Programmer, so that a Domain Expert and a linked data Expert are able to transform linked data without the involvement of a Programmer. Examples of such approaches are COW and RML.
+Linked data tools generalize work normally performed by a Programmer, so that a Domain Expert and a Linked Data Expert are able to transform linked data without the involvement of a Programmer.  Examples of such approaches are COW and RML.
 
 LD Wizard further separates the roles required for linked data transformation: it also generalizes work normally performed by a linked data Expert, so that a Domain Expert is able to transform linked data
 herself.
 
-The LD Wizard approach is depicted in [Figure 2](#ld-wizard-approach). The grey horizontal bar represents the 'happy flow' of a general user. This user is able to transform tabular source data into standards-compliant linked data without continuous dependencies on a linked data Expert or Developer.
+The LD Wizard approach is depicted in [Figure 2](#ld-wizard-approach).  The horizontal bar represents the ‘happy flow’ of a general user.  This user is able to transform tabular source data into standards-compliant linked data without dependencies on a linked data Expert or Developer.
 
-Developers are able to create new LD Wizard Applications, to support general users in specific domains or use cases. linked data Expert are able to take the transformation that a general user has created, allowing them to extend it using more advanced transformer tools (i.e., outside LD Wizard).
+Developers are able to create new LD Wizard Applications, to support general users in specific domains or use cases.  Linked Data Experts are able to take the transformation that a Domain Expert has created, allowing them to extend it using more advanced transformation tools (i.e., outside LD Wizard).
 
 <figure id="ld-wizard-approach">
   <img src="/docs/img/ld-wizard-approach.svg" width="70%" height="50%">
@@ -103,19 +81,30 @@ Developers are able to create new LD Wizard Applications, to support general use
   </figcaption>
 </figure>
 
+As can be seen in [Figure 2](#2), LD Wizard still brings together expertise from the same three roles as in [Figure 1](#1).  However, LD Wizard changes the dependencies between these three roles, removing the serial reliance of the Linked Data Expert on a Developer (as so other existing tools do), ánd  the serial reliance of the Domain Expert on a Linked Data Expert (which no other tools does yet).  In the LD Wizard setting, the three roles can be described as follows:
+
+<dl>
+  <dt>Domain Expert</dt>
+  <dd>Uses an LD Wizard Application in a specific domain.</dd>
+  <dt>Linked Data Expert</dt>
+  <dd>Uses an LD Wizard Application to create an initial transformation.</dd>
+  <dt>Developer</dt>
+  <dd>Creates an LD Wizard Application by implementing the generic LD Wizard Interface.  The Application is tuned to a specific domain or use case.</dd>
+</dl>
+
 ### 2.2 Product Functions
 
-We distinguish between the generic LD Wizard Interface and various LD Wizard Applications. Each LD Wizard Application is a specific implementation of the generic LD Wizard Interface.
+As was seen in the previous section, we can distinguish between the generic **LD Wizard Interface** and various **LD Wizard Applications**.  Each LD Wizard Application is an implementation of the one LD Wizard Interface.  LD Wizard Applications are optimized for a specific domain or use case.
 
 #### 2.2.1 LD Wizard Interface
 
-The generic specification of functionalities that must be implemented.  The LD Wizard Interface is generic, and as such is not yet optimized for one particular domain or for one particular use case.  An implementation of the LD Wizard Interface results in a specific LD Wizard Application.  The latter can be specifically optimized for a particular domain and/or for a particular use case.
+The LD Wizard Interface is the generic specification of functionalities that must be implemented.  The LD Wizard Interface is generic, and as such is not yet optimized for one particular domain or for one particular use case.
 
-The LD Wizard Interface is designed to be customizable and expandable.  A developer who satisfies the assumptions specified in [Section 2.5.2](#252-user-assumptions) must be able to create an LD Wizard Application.
+An implementation of the LD Wizard Interface results in a specific LD Wizard Application.  The latter is intended to be specifically optimized for a particular domain and/or for a particular use case.  A developer who satisfies the assumptions specified in [Section 2.5.2](#252-user-assumptions) must be able to create an LD Wizard Application.
 
 #### 2.2.2 LD Wizard Applications
 
-The following LD Wizard Applications are part of this repository. They serve as concrete examples of how the generic LD Wizard Interface can be made concrete:
+The following LD Wizard Applications are part of this repository.  They serve as concrete examples of how the generic LD Wizard Interface can be made concrete:
 
 <dl>
   <dt>Hello World Wizard</dt>
@@ -126,49 +115,51 @@ The following LD Wizard Applications are part of this repository. They serve as 
 
 ### 2.3 Operating Environment
 
-The product will operate inside one of the major browsers and will be designed to work as a client-side application only. The application should work independent of the operating software, but it is expected that the product will only work in the newer browsers.
+LD Wizard Applications will operate inside all of the major browsers and will be designed to work as a client-side application.  As such, the application should work independently of the operating system.
+
+Since LD Wizard will be built with modern web technologies, only recent versions of web browsers will be actively supported.  It is easy to update the current generation of web browsers to their latest version.  (In fact, it is difficult to _not_ update modern web browsers to their latest version, since this often occurs automatically.)
+
+Overview of the operating environment:
 
 - Operating System: any
-- Web browser: recent versions of Firefox, Chrome, Edge, and Safari.
-- Technology: TypeScript, JavaScript, HTML, CSS
+- Web browser: recent versions of Chrome, Edge, Firefox and Safari.
+- Technology: CSS, HTML, JavaScript and TypeScript.
 
-### 2.4 Implementation Constraints
-
-Since LD Wizard Applications are client-side web applications that run in regular and up-to-date web browsers, there are limits to the amount of data that can be processed.
-
-### 2.5 Assumptions and Dependencies
+### 2.4 Assumptions and Dependencies
 
 This section specifies the assumptions that we make regarding LD Wizard components and LD Wizard users.  These assumptions set forth the constraints within which the LD Wizard is able to optimally operate.
 
-#### 2.5.1 Source data assumptions
+#### 2.4.1 Source data assumptions
 
 We make the following assumptions regarding the source data:
 
-- The tabular source data file must have a header row.
-- Every row of the tabular source data is assumed to represent exactly one thing.  In other words, every row the source data describes one person, location, creative work, etc.
-- All rows in the tabular source data are assumed to represent things of the same type.  For example, if some rows in the tabular source data describe locations and some rows in the tabular source data describe persons, this file must first be split into two separate files that are transported separately.
-- Source data that is uploaded to a publication platform is assumed to have an open license.
+- The tabular source data file must be CSV or must be exported to CSV.
+- The tabular source data file must have a row header.
+- The non-header rows in the tabular source data are assumed to represent things of the same type.  For example, it is not possible for some rows in the tabular source file to describe locations and for some other rows in the same tabular source file to describe persons.
+- Every row of the tabular source data is assumed to represent exactly one thing.  For example, it is not possible for one row to describe two persons, or two locations.  (It is also not possible for one row to describe both a person ánd a location, see the previous point.)
+- Linked data that is created in LD Wizard and subsequently uploaded through the upload feature to a publication platform, is assumed to have an open license.
+- Linked data that is created in LD Wizard and is exported locally (as opposed to uploaded remotely) can have any type of license, including a closed license.
 - The tabular source data is assumed to have at most 30 columns.
 - The tabular source data is assumed to have at most 1,048,576 rows.
 
-#### 2.5.2 User assumptions
+#### 2.4.2 User assumptions
 
 We make the following assumptions regarding the three user groups.
 
 Assumptions for general users:
 
-- General users are assumed to be able to export their tabular source data to CSV.
+- General users are assumed to be able to export their tabular source data to CSV prior to loading it in an LD Wizard Application.
 
 Assumptions for developers:
 
-- Must have a general knowledge about JavaScript and TypeScript.
+- Must have a general knowledge of JavaScript (required) and TypeScript (optional, but advised).
 - May need some knowledge of linked data (TBD).
 
-#### 2.5.3 Publication platform assumptions
+#### 2.4.3 Publication platform assumptions
 
 Assumptions for publication platforms:
 
-- The publication platform must be able to process RDF data in the [TriG]() encoding format.
+- The publication platform must be able to process RDF data in the [TriG]() serialization format.
 
 ## 3. External Interface Requirements
 
@@ -179,11 +170,13 @@ This section specifies how LD Wizard communicates with external components.
 While LD Wizard developers are able to customize the appearance of their LD Wizard Applications, the LD Wizard Interface does specify some generic properties of the LD Wizard user interface.  This is done for the following reasons:
 
 1. It ensures that all LD Wizard Applications look and work similar from the perspective of the general user.  Specifically, a user who has interacted with one LD Wizard Application should feel comfortable to use another LD Wizard Application, because the generic appearance and interaction pattern are the same.
+
 2. It simplifies the job of the developer.  She can focus on customizing the domain-specific parts while reusing the generic parts.
 
 The generic interface is shown in [Figure 3](#GenericUserInterface).  The inner rectangle is where specific interfaces for specific interaction steps are located.  The goal of the generic interface is twofold:
 
 1. Solidify the branding of LD Wizard (bottom-right corner) and allow custom branding on a per-application basis (top-left corner).
+
 2. Provide the overall interaction flow between the various interaction steps.
 
 The benefit of a generic interface is that it provides continuity for generic users, when they move between the various interaction steps.  Links to documentation and the LD Wizard project are also included in the branding component that is positioned in the bottom-right corner.
@@ -204,17 +197,19 @@ For the implementation of the interface, LD Wizard will make use of the followin
 
 The following interaction steps are located within the inner rectangle:
 
-1. import
-2. configuration
-3. export
-4. publish
+1. Import
+2. Configuration
+3. Export
+4. Publish
 
 ### 3.2 Communications Interface
 
 Three types of communication are expected between the LD Wizard and other applications.
 
 - Communications between the LD Wizard and the local file system to retrieve the tabular data sources, for transformation.  The general user will activate the communications to the file system via the user interface.
+
 - Communications between the LD Wizard and the local file system to store the linked data result file, the transformation script, and the original tabular source data file.  The end-user will activate the communications to the file system via the user interface.
+
 - Communications between the LD Wizard and a external linked data publication platform, in order to store the linked data result, the transformation script, and the tabular source data.  Publication on such a platform typically requires authorization and authentication.  The LD Wizard Interface must be extendable to facilitate interaction with linked data publication platforms.  For the purpose of authorization and authentication, the general user must supply additional information.  Additional information consist of a user name and password combination, or it may consist of an API token that the general user has created for the intended linked data publication platform.
 
 ## 4. System Features
@@ -257,11 +252,13 @@ The import component ([Figure 5](#ImportComponent)) allows a general user to pro
 The import component allows the initial information that is needed by an LD Wizard Application to be specified by a general user.  There are two kinds of initial information that a general user might provide:
 
 1. Exactly one tabular source data file (high priority).
+
 2. At most one transformation script file (low priority).
 
 There are two ways in which this initial information can be provided by a user:
 
 1. Import from a local file (high priority).
+
 2. Import from a remote HTTPS URL (low priority).
 
 #### 4.1.1.a Tabular source data formats
@@ -271,7 +268,9 @@ In order to keep things simple, tabular source data is expected to be available 
 Most spreadsheet applications have the ability to export to CSV.  Such conversions generally yield standard-compliant CSV.  Because CSV is a relatively simple format, not all aspects of the tabular source format are preserved, specifically:
 
 - Workbooks with multiple sheets are not supported.  Only the first sheet is used.
+
 - Complex visual layouts are not supported.  For example, nested columns are not supported.
+
 - Complex visual markup is not preserved.  For example, colors and fonts are not preserved, neither are bold and italic text markup.
 
 #### 4.1.1.b CSV formats
@@ -304,14 +303,18 @@ LD Wizard assumes that the first row of the CSV source data file encodes the hea
 LD Wizard places limits on the size and dimensions of the CSV source data that are supported.
 
 Firstly, the maximum (byte)size of the CSV source data file is determined by the following two factors:
-- the maximum file size supported by modern web browsers
-- the performance of the conversion script
+
+- The maximum file size supported by modern web browsers
+
+- The performance of the conversion script
 
 To stay well within these limits, LD Wizard supports CSV source files of at most 50 MB (uncompressed) in size.
 
 Secondly, LD Wizard sets a limit to the number of rows and columns that it supports:
-- the maximum number of columns is 30.
-- the maximum number of rows is 1,048,576.
+
+- The maximum number of columns is 30.
+
+- The maximum number of rows is 1,048,576.
 
 ### 4.1.2 Stimulus/Response Sequences
 
@@ -319,16 +322,22 @@ This section specifies the sequence of user actions that results in a transforma
 
 1. *The user imports a correct CSV file.*
    The continue/transform button will be enabled and the tabular source file will be stored in the web browser memory.
+
 2. *The user imports a CSV file that is too large.*
    The user receives an error stating that the file exceeds the maximum supported file size.
+
 3. *The user imports a CSV file from a remote HTTPS URL, but the resource denoted by that URL is not available*
    The user receives an error stating that the remote file could not be retrieved.
+
 4. *The user imports a syntactically incorrect CSV file*
    The user receives an error message stating that the file is incorrect.  The error message includes an overview of the part of the source data file that caused the error.
+
 5. *The user imports more than one CSV file.*
    The user receives an error message stating that only one tabular source file can be imported.
+
 6. *The user imports a correct conversion script.*
    The script is handled accordingly.  The user will see a transform instead of a continue button.
+
 7. *The user imports an incorrect script.*
    The user receives an error message stating that the script is incorrect.
 
@@ -337,26 +346,39 @@ This section specifies the sequence of user actions that results in a transforma
 Core requirements:
 
 - The ability to import exactly one data source file.
+
 - The ability to import at most one transformation script.
+
 - The ability to import from a local file.
+
 - The ability to import from a publicly accessible online location (URL).
 
 Additional requirements:
 
 - Specify a soft limit for the file size:
+
   - There may be a limit to the file size that can be held in browser memory.
+
   - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.
+
 - Automatically recognize the file format:
+
   - Not at all: the function signature determines how the file will be processed.
+
   - Based on file name: `.csv` for data imports.
+
   - Based on a (partial) parse of the file.
 
 Limiting scope:
 
 - Importing from non-SSL URLs (i.e., HTTP rather than HTTPS) is not supported.
+
 - Importing from SSL URLs on servers that do not emit the correct headers (e.g., CORS) is not supported.
+
 - It is not possible to import multiple source files.
+
 - Only CSV source data is supported.
+
 - Compressed files are not supported.
 
 ### 4.2 LD Wizard configuration component
