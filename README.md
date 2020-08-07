@@ -1,4 +1,4 @@
-<img src="/docs/img/LDWizard.png" height="100">
+<img src="docs/img/LDWizard-square.png" align="right" height="150">
 
 # LD Wizard: Create Linked Data in One Spell
 

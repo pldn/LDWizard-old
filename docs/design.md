@@ -1,3 +1,5 @@
+<img src="img/LDWizard-square.png" align="right" height="150">
+
 # LD Wizard Design Document
 
 This document specifies the requirements and design of LD Wizard.  This document follows the *IEEE Recommended Practice for Software Requirements Specifications* (IEEE Std 830-1998 , vol., no., pp.1-40, 20 Oct. 1998, doi: 10.1109/IEEESTD.1998.88286).
