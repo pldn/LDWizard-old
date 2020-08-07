@@ -438,8 +438,8 @@ If the values that appear in the key column are not unique, a dialog with the fo
 <dl>
   <dt>Modify</dt>
   <dd>The subject IRIs are suffixed with `-1`, `-2`, etc. to force them to be unique.
-  <dt>Continue</dt>
-  <dd>The subject IRIs are not modified.  Information in two or more rows will be merged into one RDF record.</dd>
+  <!--dt>Continue</dt>
+  <dd>The subject IRIs are not modified.  Information in two or more rows will be merged into one RDF record.</dd-->
   <dt>Cancel</dt>
   <dd>Undoes the selection of the key column.  The user must choose a different key column or must use the default option (i.e., the respective row numbers).</dd>
 </dl>
@@ -458,7 +458,7 @@ If the user does not specify a class, then `rdfs:Resource` will be used.
 
 A column scope configuration that allows one RDF predicate term to be selected for each column.
 
-The developer is able to pre-configure this component to provide predicate suggestions form a specific vocabulary or domain.
+The developer is able to pre-configure this component to provide predicate suggestions from a specific vocabulary or domain.
 
 Ideally, the header label of each column can be used to provide an initial suggestion for the general user.
 
