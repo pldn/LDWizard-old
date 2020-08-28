@@ -52,11 +52,11 @@ The transformation of linked data requires the combination of expertise in the f
   <dd>Has knowledge about the domain that is described in the source data.</dd>
   <dt>Linked Data Expert</dt>
   <dd>Is able to create a semantic data model, and is able to define the structure of the source data in linked data.</dd>
-  <dt>Programmer</dt>
+  <dt>Developer</dt>
   <dd>Is able to implement the transformation from tabular source data to linked data, using a programming language.</dd>
 </dl>
 
-Because the combination of expertise of these three roles in one person is quite rare, linked data transformation often required multiple people working together. This also means that the Domain Expert depends on the Linked Data Expert and the Programmer in order to make a change to the transformation (even for small changes).
+Because the combination of expertise of these three roles in one person is quite rare, linked data transformation often required multiple people working together. This also means that the Domain Expert depends on the Linked Data Expert and the Developer in order to make a change to the transformation (even for small changes).
 
 This traditional linked data transformation approach is depicted in [Figure 1](#traditional-etl).
 
@@ -67,23 +67,23 @@ This traditional linked data transformation approach is depicted in [Figure 1](#
   </figcaption>
 </figure>
 
-Linked data tools generalize work normally performed by a Programmer, so that a Domain Expert and a Linked Data Expert are able to transform linked data without the involvement of a Programmer.  Examples of such approaches are COW and RML.
+Linked data tools generalize work normally performed by a Developer, so that a Domain Expert and a Linked Data Expert are able to transform linked data without the involvement of a Developer.  Examples of such approaches are COW and RML.
 
-LD Wizard further separates the roles required for linked data transformation: it also generalizes work normally performed by a linked data Expert, so that a Domain Expert is able to transform linked data
+LD Wizard further separates the roles required for linked data transformation: it also generalizes work normally performed by a Linked Data Expert, so that a Domain Expert is able to transform linked data
 herself.
 
-The LD Wizard approach is depicted in [Figure 2](#ld-wizard-approach).  The horizontal bar represents the ‘happy flow’ of a general user.  This user is able to transform tabular source data into standards-compliant linked data without dependencies on a linked data Expert or Developer.
+The LD Wizard approach is depicted in [Figure 2](#ld-wizard-approach).  The horizontal bar represents the ‘happy flow’ of the Domain Expert.  This Domain Expert is able to transform tabular source data into standards-compliant linked data without dependencies on a Linked Data Expert or Developer.
 
-Developers are able to create new LD Wizard Applications, to support general users in specific domains or use cases.  Linked Data Experts are able to take the transformation that a Domain Expert has created, allowing them to extend it using more advanced transformation tools (i.e., outside LD Wizard).
+Developers are able to create new LD Wizard Applications, in order to tune specific wizards to specific domains or use cases.  Linked Data Experts are able to take the transformation that a Domain Expert has created, allowing them to extend it using more advanced transformation tools (i.e., outside LD Wizard).
 
 <figure id="ld-wizard-approach">
   <img src="/docs/img/ld-wizard-approach.svg" width="70%" height="50%">
   <figcaption>
-    Figure 2 ― Schematic overview of the LD Wizard approach.  The grey horizontal bar represents the 'happy flow' of a general user.
+    Figure 2 ― Schematic overview of the LD Wizard approach.  The grey horizontal bar represents the ‘happy flow’ of a Domain Expert.
   </figcaption>
 </figure>
 
-As can be seen in [Figure 2](#2), LD Wizard still brings together expertise from the same three roles as in [Figure 1](#1).  However, LD Wizard changes the dependencies between these three roles, removing the serial reliance of the Linked Data Expert on a Developer (as so other existing tools do), ánd  the serial reliance of the Domain Expert on a Linked Data Expert (which no other tools does yet).  In the LD Wizard setting, the three roles can be described as follows:
+As can be seen in [Figure 2](#2), LD Wizard still brings together expertise from the same three roles as in [Figure 1](#1).  However, LD Wizard changes the dependencies between these three roles, removing the serial reliance of the Linked Data Expert on a Developer (as is already the case in some other tools), ánd  the serial reliance of the Domain Expert on a Linked Data Expert (which no other tool currently does).  In the LD Wizard setting, the three roles can be described as follows:
 
 <dl>
   <dt>Domain Expert</dt>
@@ -106,14 +106,7 @@ An implementation of the LD Wizard Interface results in a specific LD Wizard App
 
 #### 2.2.2 LD Wizard Applications
 
-The following LD Wizard Applications are part of this repository.  They serve as concrete examples of how the generic LD Wizard Interface can be made concrete:
-
-<dl>
-  <dt>Hello World Wizard</dt>
-  <dd>A minimal configuration that implements the LD Wizard Interface.  This wizard is fully functional, but does not serve a particular domain.  It is intended to be used by developers who want to configure their own wizard, since it shows how interfaces can be implemented in practice.  The Hello World Wizard is also an ideal basis for a new, domain-specific configuration.</dd>
-  <dt>NDE Wizard</dt>
-  <dd>A configuration that implements the LD Wizard Interface for the cultural heritage domain.  This wizard is fully functional and serves a particular domain.  It is intended to be used by domain experts from the cultural heritage domain who want to transform their tabular source data into standards-compliant linked data.</dd>
-</dl>
+This document only describes the LD Wizard Interface.  LD Wizard Applications are specific implementation of this interface.  See [the main page of this repository](/netwerk-digitaal-erfgoed/LDWizard) for pointers to such applications.
 
 ### 2.3 Operating Environment
 
@@ -150,18 +143,17 @@ We make the following assumptions regarding the three user groups.
 
 Assumptions for general users:
 
-- General users are assumed to be able to export their tabular source data to CSV prior to loading it in an LD Wizard Application.
+- Domain Experts are assumed to be able to export their tabular source data to CSV prior to loading it in an LD Wizard Application.  See [this issue](TODO) which would allow this assumption to be dropped.
 
 Assumptions for developers:
 
 - Must have a general knowledge of JavaScript (required) and TypeScript (optional, but advised).
-- May need some knowledge of linked data (TBD).
 
 #### 2.4.3 Publication platform assumptions
 
 Assumptions for publication platforms:
 
-- The publication platform must be able to process RDF data in the [TriG]() serialization format.
+- The publication platform must be able to process RDF data in the [TriG](TODO) serialization format.
 
 ## 3. External Interface Requirements
 
@@ -171,9 +163,9 @@ This section specifies how LD Wizard communicates with external components.
 
 While LD Wizard developers are able to customize the appearance of their LD Wizard Applications, the LD Wizard Interface does specify some generic properties of the LD Wizard user interface.  This is done for the following reasons:
 
-1. It ensures that all LD Wizard Applications look and work similar from the perspective of the general user.  Specifically, a user who has interacted with one LD Wizard Application should feel comfortable to use another LD Wizard Application, because the generic appearance and interaction pattern are the same.
+1. It ensures that all LD Wizard Applications look and work similar from the perspective of the Domain Expert.  If somebody has interacted with one LD Wizard Application, they should feel comfortable to use another LD Wizard Application as well.  This is supported by the notion of [transfer](TODO), which is supported by the fact that the generic appearance and interaction pattern of each wizard application is the same.
 
-2. It simplifies the job of the developer.  She can focus on customizing the domain-specific parts while reusing the generic parts.
+2. It simplifies the job of the Developer.  She can focus on customizing the domain-specific parts while reusing the generic parts.
 
 The generic interface is shown in [Figure 3](#GenericUserInterface).  The inner rectangle is where specific interfaces for specific interaction steps are located.  The goal of the generic interface is twofold:
 
@@ -181,7 +173,7 @@ The generic interface is shown in [Figure 3](#GenericUserInterface).  The inner 
 
 2. Provide the overall interaction flow between the various interaction steps.
 
-The benefit of a generic interface is that it provides continuity for generic users, when they move between the various interaction steps.  Links to documentation and the LD Wizard project are also included in the branding component that is positioned in the bottom-right corner.
+The benefit of a generic interface is that it provides continuity for Domain Experts, when they move between the various interaction steps.  Links to documentation and the LD Wizard project are also included in the branding component that is positioned in the bottom-right corner.
 
 <figure id="GenericUserInterface">
   <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
@@ -208,11 +200,11 @@ The following interaction steps are located within the inner rectangle:
 
 Three types of communication are expected between the LD Wizard and other applications.
 
-- Communications between the LD Wizard and the local file system to retrieve the tabular data sources, for transformation.  The general user will activate the communications to the file system via the user interface.
+- Communications between the LD Wizard and the local file system to retrieve the tabular data sources, for transformation.  The Domain Expert will activate the communications to the file system via the user interface.
 
-- Communications between the LD Wizard and the local file system to store the linked data result file, the transformation script, and the original tabular source data file.  The end-user will activate the communications to the file system via the user interface.
+- Communications between the LD Wizard and the local file system to store the linked data result file, the transformation script, and a standard-compliant CSV file based on the original tabular source data file.  The Domain Expert will activate the communications to the file system via the user interface.
 
-- Communications between the LD Wizard and a external linked data publication platform, in order to store the linked data result, the transformation script, and the tabular source data.  Publication on such a platform typically requires authorization and authentication.  The LD Wizard Interface must be extendable to facilitate interaction with linked data publication platforms.  For the purpose of authorization and authentication, the general user must supply additional information.  Additional information consist of a user name and password combination, or it may consist of an API token that the general user has created for the intended linked data publication platform.
+- Communications between the LD Wizard and an external linked data publication platform, in order to store the linked data result, the transformation script, and the tabular source data.  Publication on such a platform typically requires authorization and authentication.  The LD Wizard Interface must be extendable to facilitate interaction with various linked data publication platforms.  For the purpose of authorization and authentication, the Domain Expert must supply additional information.  Additional information consist of a user name and password combination, or it may consist of an API token that the Domain Expert has created for the intended linked data publication platform.
 
 ## 4. System Features
 
@@ -251,13 +243,13 @@ The import component ([Figure 5](#ImportComponent)) allows a general user to pro
 
 ### 4.1.1 Description and Priority
 
-The import component allows the initial information that is needed by an LD Wizard Application to be specified by a general user.  There are two kinds of initial information that a general user might provide:
+The import component allows the initial information that is needed by an LD Wizard Application to be specified by the Domain Expert.  There are two kinds of initial information that can be provided:
 
 1. Exactly one tabular source data file (high priority).
 
 2. At most one transformation script file (low priority).
 
-There are two ways in which this initial information can be provided by a user:
+There are two ways in which this initial information can be provided:
 
 1. Import from a local file (high priority).
 
@@ -294,7 +286,7 @@ At the same time, some hand-crafted CSV files may deviate from the standard in t
   <dd>While many character encodings exist and are in use, UTF-8 (which includes ASCII) is by far the most common one.  Automatic character encoding detection is relatively difficult and error-prone, so LD Wizard assumes that the CSV source data file uses UTF-8 encoding.</dd>
 </dl>
 
-The LD Wizard import component supports *all* CSV files that follow the [RFC 4180](https://tools.ietf.org/html/rfc4180) standard, and *some* CSV files that deviate from the standard.  Support for standard CSV files is guaranteed, while support for non-standard CSV files is best effort.
+The LD Wizard import component supports *all* CSV files that follow the [RFC 4180](https://tools.ietf.org/html/rfc4180) standard, and *some* CSV files that deviate from the standard.  Support for standard CSV files is guaranteed, while support for non-standard CSV files is best effort-based.
 
 #### 4.1.1.c CSV header
 
@@ -385,7 +377,7 @@ Limiting scope:
 
 ### 4.2 LD Wizard configuration component
 
-This section specifies the LD Wizard configuration component and its interfaces.  This component presents the Graphical User Interface (GUI) that the general user will interact with after they have successfully uploaded a tabular source file.
+This section specifies the LD Wizard configuration component and its interfaces.  This component presents the Graphical User Interface (GUI) that the Domain Expert will interact with after they have successfully uploaded a tabular source data file.
 
 <figure id="GUIComponent">
   <img src="/docs/img/GUIComponent.svg" width="70%" height="50%">
@@ -399,37 +391,43 @@ This section specifies the LD Wizard configuration component and its interfaces.
 The configuration is composed of a number of smaller sub-components that together compose the full transformation configuration.  We can distinguish between the different types of transformation sub-components, based on their transformation scope:
 
 <dl>
-  <dt>Table scope</dt>
+  <dt id="table-scope">Table scope</dt>
   <dd>Transformations that modify (aspects of) the entire table.  For example, setting the base IRI impacts all rows, columns, and possibly cells.</dd>
-  <dt>Column scope</dt>
+  <dt id="column-scope">Column scope</dt>
   <dd>Transformations that modify the property that corresponds to a column, and transformations that modify every cell within the same column.</dd>
-  <dt>Row scope</dt>
+  <dt id="row-scope">Row scope</dt>
   <dd>Transformations that modify the subject term that corresponds to a row.</dd>
-  <dt>Cell scope</dt>
+  <dt id="cell-scope">Cell scope</dt>
   <dd>Transformation that modify individual cell values.</dd>
 </dl>
 
-Notice that configuration sub-component types become increasingly more complex to configure by a general user, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it mainly focuses on configuration sub-components of table and column scope (high priority).  Configuration sub-components of row and cell scope have low priority.
+Notice that configuration sub-component types become increasingly more complex to configure by a Domain Expert, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it primarily focuses on configuration sub-components of table and column scope (high priority), and only secondarily focuses on configuration sub-components of row and cell scope (low priority).
 
 #### 4.2.1.a Setting a base IRI
 
-A table scope configuration that determines the string prefix for all RDF subject terms and non-mapped RDF predicate terms.
+A [table scope](#table-scope) configuration that determines the IRI prefix for all RDF subject terms.
 
 The base IRI must be a valid absolute IRI.
 
-The developer is able to configure a default base IRI.  This IRI will be used if the general user does not specify one.
+The developer is able to configure a default base IRI.  This IRI will be used if the Domain Expert does not specify one.
+
+Since this setting requires knowledge of linked data, it is an [advanced configuration feature](#advanced-feature).
 
 #### 4.2.1.b Setting a vocabulary prefix
 
-General configuration setting the prefixes for the document. The prefixes can be used to generate IRI's from data points in the CSV.
+A [table scope](#table-scope) configuration that determines that IRI prefix for all non-linked properties and classes.  The prefixes can be used to generate IRI's from data points in the CSV.
 
 The vocabulary prefix must be a valid absolute IRI.
 
-The developer is able to configure a default vocabulary prefix.  This vocabulary prefix will be used if the user does not specify one.
+The developer is able to configure a default vocabulary prefix.  This will be used if the Domain Expert does not specify one.
+
+If the developer did not configure a default vocabulary prefix, the base IRI is used in order to determine a vocabulary prefix.
+
+Since this setting requires knowledge of linked data, it is an [advanced configuration feature](#advanced-feature).
 
 #### 4.2.1.c Setting a key column
 
-A table scope configuration that determines the column whose cell values will be used to compose RDF subject terms.
+A [table scope](#table-scope) configuration that determines the column whose cell values will be used to compose RDF subject terms.
 
 RDF subject terms are composed by concatenating the base IRI with a normalized version of the value in the key column cell.  Normalization is needed to ensure that all subject terms are valid IRIs.
 
@@ -444,31 +442,33 @@ If the values that appear in the key column are not unique, a dialog with the fo
   <dd>Undoes the selection of the key column.  The user must choose a different key column or must use the default option (i.e., the respective row numbers).</dd>
 </dl>
 
-If the user does not specify a key column, the row number will be used.  The first row receives row number 1.  Row numbers are guaranteed to be unique.
+If the user does not specify a key column, the row number will be used instead.  The first row receives row number 1.  Row numbers are guaranteed to be unique.  **See [#27](TODO) for an idea to change, and possibly improve, this.**
 
 #### 4.2.1.d Setting a class
 
-A table scope configuration that determines the class that every RDF subject term will be an instance of.
+A [table scope](#table-scope) configuration that determines the class that every RDF subject term will be an instance of.
 
-The developer is able to pre-configure this component to provide class suggestions from a specific vocabulary or domain.
+The developer is able to configure this component to provide class suggestions from a specific vocabulary or domain.
 
-If the user does not specify a class, then `rdfs:Resource` will be used.
+The developer is able to configure a default class that will be used if no class is configured by the Domain Expert.
 
-#### 4.2.1.e Setting a predicate term
+If the developer does not configure a default class, the most generic class `rdfs:Resource` will be used.
 
-A column scope configuration that allows one RDF predicate term to be selected for each column.
+#### 4.2.1.e Setting properties
 
-The developer is able to pre-configure this component to provide predicate suggestions from a specific vocabulary or domain.
+A [column scope](#column-scope) configuration that allows one RDF property to be configured for one or more columns.
 
-Ideally, the header label of each column can be used to provide an initial suggestion for the general user.
+The developer is able to pre-configure this component to provide property suggestions from a specific vocabulary or domain.
 
-If a column was chosen as the key column (Section [TODO](#todo)), then this column cannot be configured in this configuration.
+Ideally, the header label of each column can be used to provide an initial suggestion.  For example, if the header label is "author" the initial suggestion may be TODO when the XYZ vocabulary is used.
 
-If the general user does not specify a predicate for a column, a new IRI will be composed out of the base IRI followed by a normalized version of the header label.  Normalization is needed to ensure that all predicate terms are valid IRIs.
+If a column was chosen as the key column (Section [4.2.1.c](#TODO)), then that column cannot be configured in this configuration.  (The key column will always use the `rdf:type` property.)
 
-The user is able to skip columns on a per-column basis (e.g., a skip option could be part of the predicate selection element).
+If the Domain Expert does not specify a property for one or more columns, a new property IRI will be created based on the header label and the vocabulary prefix (Section [4.2.1.b](#TODO)).  For this, the header label will be normalized to ensure that the resulting property IRI is syntactically valid.
 
-If the predicate IRIs are not unique, a dialog with the following options is presented to the user:
+The Domain Expert is able to skip one or more columns.  For example, a "skip option" choice could be part of the property selection element.
+
+If the property IRIs are not unique, a dialog with the following options is presented to the Domain Expert:
 
 <dl>
   <dt>Modify</dt>
@@ -479,13 +479,13 @@ If the predicate IRIs are not unique, a dialog with the following options is pre
 
 #### 4.2.1.f Setting a datatype IRI
 
-A column scope configuration that allows one datatype IRI to be specified for each column.  The selected datatype IRI will be used for each cell value in that column.
+A [column scope](#column-scope) configuration that allows one datatype IRI to be specified for each column.  The selected datatype IRI will be used for each cell value in that column.
 
 Values that appear in the selected column are assumed to be valid lexical expressions in the configured datatype IRI.  See the [XML Schema Datatypes](https://www.w3.org/TR/xmlschema11-2) standard for more information.
 
 The developer is able to pre-configure this component to provide datatype IRI suggestions from a specific vocabulary or domain.
 
-If the user does not specify a datatype IRI or language tag, the datatype IRI `xsd:string` is used as a default.
+If the Domain Expert does not specify a datatype IRI or language tag, the datatype IRI `xsd:string` is used as a default.
 
 #### 4.2.1.g Setting a language tag
 

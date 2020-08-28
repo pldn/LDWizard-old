@@ -16,9 +16,9 @@ The LD Wizard project seeks to deliver the following products:
 
 The following LD Wizard Applications will be created:
 <dl>
-  <dt>“Hello, world!”-wizard</dt>
-  <dd>Provides a minimal implementation of the LD Wizard Interface.  As such, it is a fully functional wizard that allows linked data to be created from tabular source data, and published online.  This application serves as an example for developer who wish to create their own LD Wizard Application: this can take the “Hello, World!” wizard as a starting point.</dd>
-  <dt>Cultural heritage wizard</dt>
+  <dt><a href="https://github.com/netwerk-digitaal-erfgoed/LDWizard-HelloWorld" target="_blank">“Hello, World!” Wizard</a></dt>
+  <dd>Provides a minimal implementation of the LD Wizard Interface.  As such, it is a fully functional wizard that allows linked data to be created from tabular source data, and published online.  This application serves as an example for developers who want to create their own LD Wizard Application.  They can use the “Hello, World!” Wizard as a starting point.</dd>
+  <dt><a href="TODO" target="_blank">Cultural Heritage Wizard</a></dt>
   <dd>Provides a wizard that can be used to create and publish simple linked datasets in the cultural heritage domain.</dd>
 </dl>
 
