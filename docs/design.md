@@ -182,19 +182,11 @@ The benefit of a generic interface is that it provides continuity for Domain Exp
   </figcaption>
 </figure>
 
-For the implementation of the interface, LD Wizard will make use of the following commonly used and well-maintained web libraries:
-
-- [Font Awesome](https://fontawesome.com)
-- [Material-UI](https://material-ui.com)
-- [React](https://reactjs.org).
-- [Recoil](https://recoiljs.org)
-
 The following interaction steps are located within the inner rectangle:
 
-1. Import
-2. Configuration
-3. Export
-4. Publish
+1. Upload
+2. Configure
+3. Publish
 
 ### 3.2 Communications Interface
 
