@@ -203,7 +203,7 @@ Three types of communication are expected between the LD Wizard and other applic
 LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramforLD Wizard):
 
 <dl>
-  <dt>Import component</dt>
+  <dt>Upload component</dt>
   <dd>The component that is used to upload tabular source data.</dd>
   <dt>Configuration component</dt>
   <dd>The component that is used to specify the data transformation from the tabular source format to a standards-compliant linked data.</dd>
@@ -222,20 +222,20 @@ LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramf
 
 The following subsections specify the four LD Wizard components in more detail.
 
-### 4.1 Import component
+### 4.1 Upload component
 
-The import component ([Figure 5](#ImportComponent)) allows a general user to provide the initial information that is needed in order to start a data transformation.
+The Upload component ([Figure 5](#ImportComponent)) allows a general user to provide the initial information that is needed in order to start a data transformation.
 
 <figure id="ImportComponent">
   <img src="/docs/img/ImportComponent.svg" width="70%" height="50%">
   <figcaption>
-    Figure 5 ― Schematic overview of the LD Wizard import process.
+    Figure 5 ― Schematic overview of the upload component of the LD Wizard.
   </figcaption>
 </figure>
 
 ### 4.1.1 Description and Priority
 
-The import component allows the initial information that is needed by an LD Wizard Application to be specified by the Domain Expert.  There are two kinds of initial information that can be provided:
+The upload component allows the initial information that is needed by an LD Wizard Application to be specified by the Domain Expert.  There are two kinds of initial information that can be provided:
 
 1. Exactly one tabular source data file (high priority).
 
@@ -243,9 +243,9 @@ The import component allows the initial information that is needed by an LD Wiza
 
 There are two ways in which this initial information can be provided:
 
-1. Import from a local file (high priority).
+1. Upload from a local file (high priority).
 
-2. Import from a remote HTTPS URL (low priority).
+2. Upload from a remote HTTPS URL (low priority).
 
 #### 4.1.1.a Tabular source data formats
 
@@ -278,7 +278,7 @@ At the same time, some hand-crafted CSV files may deviate from the standard in t
   <dd>While many character encodings exist and are in use, UTF-8 (which includes ASCII) is by far the most common one.  Automatic character encoding detection is relatively difficult and error-prone, so LD Wizard assumes that the CSV source data file uses UTF-8 encoding.</dd>
 </dl>
 
-The LD Wizard import component supports *all* CSV files that follow the [RFC 4180](https://tools.ietf.org/html/rfc4180) standard, and *some* CSV files that deviate from the standard.  Support for standard CSV files is guaranteed, while support for non-standard CSV files is best effort-based.
+The LD Wizard upload component supports *all* CSV files that follow the [RFC 4180](https://tools.ietf.org/html/rfc4180) standard, and *some* CSV files that deviate from the standard.  Support for standard CSV files is guaranteed, while support for non-standard CSV files is best effort-based.
 
 #### 4.1.1.c CSV header
 
@@ -306,38 +306,38 @@ Secondly, LD Wizard sets a limit to the number of rows and columns that it suppo
 
 This section specifies the sequence of user actions that results in a transformation to linked data.  Earlier steps in this sequence block later steps to maintain an orderly flow.
 
-1. *The user imports a correct CSV file.*
+1. *The user uploads a correct CSV file.*
    The continue/transform button will be enabled and the tabular source file will be stored in the web browser memory.
 
-2. *The user imports a CSV file that is too large.*
+2. *The user uploads a CSV file that is too large.*
    The user receives an error stating that the file exceeds the maximum supported file size.
 
-3. *The user imports a CSV file from a remote HTTPS URL, but the resource denoted by that URL is not available*
+3. *The user uploads a CSV file from a remote HTTPS URL, but the resource denoted by that URL is not available*
    The user receives an error stating that the remote file could not be retrieved.
 
-4. *The user imports a syntactically incorrect CSV file*
+4. *The user uploads a syntactically incorrect CSV file*
    The user receives an error message stating that the file is incorrect.  The error message includes an overview of the part of the source data file that caused the error.
 
-5. *The user imports more than one CSV file.*
-   The user receives an error message stating that only one tabular source file can be imported.
+5. *The user uploads more than one CSV file.*
+   The user receives an error message stating that only one tabular source file can be uploaded.
 
-6. *The user imports a correct conversion script.*
+6. *The user uploads a correct conversion script.*
    The script is handled accordingly.  The user will see a transform instead of a continue button.
 
-7. *The user imports an incorrect script.*
+7. *The user uploads an incorrect script.*
    The user receives an error message stating that the script is incorrect.
 
 ### 4.1.3 Functional Requirements
 
 Core requirements:
 
-- The ability to import exactly one data source file.
+- The ability to upload exactly one data source file.
 
-- The ability to import at most one transformation script.
+- The ability to upload at most one transformation script.
 
-- The ability to import from a local file.
+- The ability to upload from a local file.
 
-- The ability to import from a publicly accessible online location (URL).
+- The ability to upload from a publicly accessible online location (URL).
 
 Additional requirements:
 
@@ -351,17 +351,17 @@ Additional requirements:
 
   - Not at all: the function signature determines how the file will be processed.
 
-  - Based on file name: `.csv` for data imports.
+  - Based on file name: `.csv` for data uploads.
 
   - Based on a (partial) parse of the file.
 
 Limiting scope:
 
-- Importing from non-SSL URLs (i.e., HTTP rather than HTTPS) is not supported.
+- Uploading from non-SSL URLs (i.e., HTTP rather than HTTPS) is not supported.
 
-- Importing from SSL URLs on servers that do not emit the correct headers (e.g., CORS) is not supported.
+- Uploading from SSL URLs on servers that do not emit the correct headers (e.g., CORS) is not supported.
 
-- It is not possible to import multiple source files.
+- It is not possible to upload multiple source files.
 
 - Only CSV source data is supported.
 
@@ -612,18 +612,6 @@ Additional requirements:
 Limiting scope:
 
 - All core requirements, that are (M)andatory are at a minimum required to have a working LD Wizard.
-
-```
-set-baseIRI(baseIRI)
-set-Prefix(IRI)
-import-vocabulary(URL)
-set-subjectColumn(Column)
-set-class(IRI)
-set-predicate(column,IRI)
-set-cleaningOperation(function|template)
-set-datatype(datatype)
-convert()
-```
 
 ### 4.3 Export component
 
