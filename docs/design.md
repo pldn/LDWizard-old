@@ -639,7 +639,7 @@ The export component allows the results of an LD Wizard transformation to be sto
 - To improve/change and understand the transformation steps of the LD Wizard.
 - To import to the ETL-script for a different CSV in the LD Wizard.
 
-The LD Wizard will be able to export the transformation script into different languages. The LD Wizard will make it possible to export the ETL-script into ([RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt), [RMLeditor](https://rml.io/tools/rmleditor/) or [CoW](https://github.com/clariah/cow/wiki)) language. The default exportation language will be [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt)
+The LD Wizard will be able to export the transformation script into different languages. The LD Wizard will make it possible to export the ETL-script into ([RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt), [RML](https://rml.io/specs/rml/) or [CoW](https://github.com/clariah/cow/wiki)) language. The default exportation language will be [RATT (RDF All The Things)](https://www.npmjs.com/package/@triply/ratt)
 
 **Priority: High**
 
@@ -670,7 +670,7 @@ Additional requirements:
 
 - Potential export formats for scripts:
   - [CoW](https://github.com/clariah/cow/wiki).
-  - [RMLeditor](https://rml.io/tools/rmleditor/)
+  - [RML](https://rml.io/specs/rml/) 
   - RATT (RDF All The Things)
 
 ```
@@ -739,7 +739,7 @@ Additional requirements:
 
 - Potential publish formats for scripts:
   - [CoW](https://github.com/clariah/cow/wiki).
-  - [RMLeditor](https://rml.io/tools/rmleditor/)
+  - [RML](https://rml.io/specs/rml/)
   - RATT (RDF All The Things)
 
 ```
@@ -768,7 +768,7 @@ For a particular csv: [csv](/docs/conversionScripts/example-1.csv)</br>
 We expect that the following conversionscripts result in the same linked data.</br>
 For [RATT](https://www.npmjs.com/package/@triply/ratt) we created the [conversion script](/docs/conversionScripts/example-1-RATT.ts) to convert the tabular data source to linked data.</br>
 For [CoW](https://github.com/clariah/cow/wiki): we created the [conversion script](/docs/conversionScripts/example-1.csv-metadata.json) to convert the tabular data source to linked data.</br>
-For [RMLeditor](https://rml.io/tools/rmleditor/): we created the [conversion script](/docs/conversionScripts/example-1-RML.ttl) to convert the tabular data source to linked data.</br>
+For [RML](https://rml.io/specs/rml/): we created the [conversion script](/docs/conversionScripts/example-1-RML.ttl) to convert the tabular data source to linked data.</br>
 
 **Priority: Medium**
 
