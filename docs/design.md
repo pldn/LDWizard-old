@@ -239,13 +239,13 @@ The upload component allows the initial information that is needed by an LD Wiza
 
 1. Exactly one tabular source data file.
 
-2. At most one transformation script file.  **Not yet implemented, see [#upload-script]().**
+2. At most one transformation script file.  **Not yet implemented, see [#17](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/17).**
 
 There are two ways in which this initial information can be provided:
 
 1. Upload from a local file.
 
-2. Upload from a remote HTTPS URL.  **Not yet implemented, see [#upload-from-url]().**
+2. Upload from a remote HTTPS URL.  **Not yet implemented, see [#38](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/38).**
 
 #### 4.1.1.a Tabular source data formats
 
@@ -307,16 +307,16 @@ Secondly, LD Wizard sets a limit to the number of rows and columns that it suppo
 This section specifies the sequence of user actions that results in a transformation to linked data.  Earlier steps in this sequence block later steps to maintain an orderly flow.
 
 1. *The user uploads a correct CSV file.*
-   The configure button will be enabled and the tabular source file will be stored in the web browser memory.  **See also [#upload-script]().**
+   The configure button will be enabled and the tabular source file will be stored in the web browser memory.  **See also [#17](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/17).**
 
 2. *The user uploads a CSV file that is too large.*
    The user receives an error stating that the file exceeds the maximum supported file size.
 
 3. *The user uploads a CSV file from a remote HTTPS URL, but the resource denoted by that URL is not available*
-   The user receives an error stating that the remote file could not be retrieved.  **See [#upload-from-url]().**
+   The user receives an error stating that the remote file could not be retrieved.  **See [#17](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/17).**
 
 4. *The user uploads a syntactically incorrect CSV file*
-   The user receives an error message stating that the file is incorrect.  The error message includes an overview of the part of the source data file that caused the error.  **See [#csv-error]().**
+   The user receives an error message stating that the file is incorrect.  The error message includes an overview of the part of the source data file that caused the error.  **See [#39](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/39).**
 
 5. *The user uploads another CSV file.*
    This should replace the previously uploaded CSV file.
@@ -325,7 +325,7 @@ This section specifies the sequence of user actions that results in a transforma
    The script is handled accordingly.  The user will see a transform instead of a continue button.  **See [#upload-script]().**
 
 7. *The user uploads an incorrect script.*
-   The user receives an error message stating that the script is incorrect. **See [#upload-script]().**
+   The user receives an error message stating that the script is incorrect. **See [#17](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/17).**
 
 ### 4.1.3 Functional Requirements
 
@@ -333,11 +333,11 @@ Core requirements:
 
 - The ability to upload exactly one data source file.
 
-- The ability to upload at most one transformation script.  **See [#upload-script]().**
+- The ability to upload at most one transformation script.  **See [#17](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/17).**
 
 - The ability to upload from a local file.
 
-- The ability to upload from a publicly accessible online location (URL).  **See [#upload-from-url]().**
+- The ability to upload from a publicly accessible online location (URL).  **See [#38](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/38).**
 
 Additional requirements:
 
@@ -345,7 +345,7 @@ Additional requirements:
 
   - There may be a limit to the file size that can be held in browser memory.
 
-  - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.  **See [#upload-from-url]().**
+  - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.  **See [#38](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/38).**
 
 - Automatically recognize the file format:
 
@@ -363,7 +363,7 @@ Limiting scope:
 
 - It is not possible to upload multiple source files.
 
-- Only CSV source data is supported.
+- Only CSV source data is supported.  **See [13](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/13).**
 
 - Compressed files are not supported.
 
@@ -397,7 +397,7 @@ Notice that configuration sub-component types become increasingly more complex t
 
 #### 4.2.1.a Setting a base IRI
 
-A [table scope](#table-scope) configuration that determines the IRI prefix for all RDF subject terms.
+A *table scope* configuration that determines the IRI prefix for all RDF subject terms.
 
 The base IRI must be a valid absolute IRI.
 
@@ -409,7 +409,7 @@ Since this setting requires knowledge of linked data, it is an [advanced configu
 
 #### 4.2.1.b Setting a class
 
-A [table scope](#table-scope) configuration that determines the class that every RDF subject term will be an instance of.
+A *table scope* configuration that determines the class that every RDF subject term will be an instance of.
 
 The developer is able to configure this component to provide class suggestions from a specific vocabulary or domain.
 
@@ -419,7 +419,7 @@ If the developer does not configure a default class, the most generic class `rdf
 
 #### 4.2.1.c Setting a key column
 
-A [table scope](#table-scope) configuration that determines the column whose cell values will be used to compose RDF subject terms.
+A *table scope* configuration that determines the column whose cell values will be used to compose RDF subject terms.
 
 RDF subject terms are composed by concatenating the base IRI with `id/`, followed by a normalized version of the value in the key column cell.
 
@@ -431,30 +431,21 @@ If the user does not specify a key column, the row number will be used instead. 
 
 #### 4.2.1.d Setting properties
 
-A [column scope](#column-scope) configuration that allows one RDF property to be configured for one or more columns.
+A *column scope* configuration that allows one RDF property to be configured for one or more columns.
 
-The developer is able to pre-configure this component to provide property suggestions from a specific vocabulary or domain.
+The developer is able to pre-configure this component to provide property suggestions from a specific vocabulary or domain.  The developer is also able to use various APIs for this: SPARQL, ElastisSearch, etc.
 
-Ideally, the header label of each column can be used to provide an initial suggestion.  For example, if the header label is "author" the initial suggestion may be TODO when the XYZ vocabulary is used.
+If a column was chosen as the key column (Section [4.2.1.c](#4-2-1-c-setting-a-key-column)), then that column cannot be configured in this configuration.  (The key column will always use the `rdf:type` property.)
 
-If a column was chosen as the key column (Section [4.2.1.c](#TODO)), then that column cannot be configured in this configuration.  (The key column will always use the `rdf:type` property.)
+If the Domain Expert does not specify a property for one or more columns, a new property IRI will be created based on the header label and the base IRI (Section [4.2.1.a](#4-2-1-a-setting-a-base-iri)).  For this, the header label will be normalized to ensure that the resulting property IRI is syntactically valid.
 
-If the Domain Expert does not specify a property for one or more columns, a new property IRI will be created based on the header label and the vocabulary prefix (Section [4.2.1.b](#TODO)).  For this, the header label will be normalized to ensure that the resulting property IRI is syntactically valid.
-
-The Domain Expert is able to skip one or more columns.  For example, a "skip option" choice could be part of the property selection element.
-
-If the property IRIs are not unique, a dialog with the following options is presented to the Domain Expert:
-
-<dl>
-  <dt>Modify</dt>
-  <dd>The predicate IRIs are suffixed with <code>-1</code>, <code>-2</code>, etc. to force them to be unique.
-  <dt>Continue</dt>
-  <dd>The predicate IRIs are not modified.  Values from two or more rows will be exported for the same subject/predicate combination.</dd>
-</dl>
+The Domain Expert is able to skip one or more columns.  For example, a "skip option" choice could be part of the property selection element.  **See [#37](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/37).**
 
 #### 4.2.1.e Setting a datatype IRI
 
-A [column scope](#column-scope) configuration that allows one datatype IRI to be specified for each column.  The selected datatype IRI will be used for each cell value in that column.
+**See [#42](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/42).**
+
+A *column scope* configuration that allows one datatype IRI to be specified for each column.  The selected datatype IRI will be used for each cell value in that column.
 
 Values that appear in the selected column are assumed to be valid lexical expressions in the configured datatype IRI.  See the [XML Schema Datatypes](https://www.w3.org/TR/xmlschema11-2) standard for more information.
 
@@ -464,7 +455,7 @@ If the Domain Expert does not specify a datatype IRI or language tag, the dataty
 
 #### 4.2.1.f Setting a language tag
 
-A column scope configuration that allows one language tag to be specified for each.  The selected language tag will be used for each cell value in that column.
+A *column scope* configuration that allows one language tag to be specified for each.  The selected language tag will be used for each cell value in that column.
 
 Values that appear in the selected column are assumed to be valid lexical expressions for datatype IRI `rdf:langString`.  See the [RDF 1.1 Concepts and Abstract Syntax](https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225) standard for more information.
 
@@ -472,17 +463,19 @@ If the user does not specify a datatype IRI or language tag, the datatype IRI `x
 
 #### 4.2.1.g Creating IRIs for cells
 
-TBD
+A *column scope* configuration that allows IRIs to be created out of cell values.
 
 #### 4.2.1.h Skip empty cells
 
-A table scope configuration that allows empty cells to be excluded from the RDF export.
+A *table scope* configuration that allows empty cells to be excluded from the RDF export.
+
+When this option is enabled, no triples will be exported for cells that are empty.  This step may be applied after steps that clean values, e.g., that remove trailing whitespaces, thereby resulting in more cells being excluded from the transformation.
 
 #### 4.2.1.i Cleaning values in a column
 
-A column scope configuration that allows values in individual cells to be modified.
+A **table scope** or **column scope** configuration that allows values in individual cells to be modified.
 
-The user is able to create a function or template which the conversion script can use to format/clean a column following a certain description.<!--  Here we need to be more specific -->
+For example, a Developer could allow all trailing whitespace to be removed from all cells in the table.
 
 ### 4.2.2 Stimulus/Response Sequences
 
@@ -531,18 +524,25 @@ The user is able to create a function or template which the conversion script ca
 
 #### 4.2.2.e Setting a datatype IRI
 
-- *The user sets a datatype for a column.*
-  The datatype IRI is stored in the configuration.
+- *The user sets a datatype IRI for a column.*
+  The datatype IRI is used in the transformation.
 
 - *The user does not set a datatype IRI for a column.*
-  The datatype `xsd:string` is used in the configuration.
+  The datatype `xsd:string` is used in the transformation.
 
 - *The user removes a previously set datatype IRI for a column .*
-  The datatype IRI `xsd:string` is used in the configuration.
+  The datatype IRI `xsd:string` is used in the transformation.
 
 #### 4.2.2.f Setting a language tag
 
-TBD
+- *The user sets a language tag for a column.*
+  The language tag is used in the transformation.
+
+- *The user does not set a language tag for a column.*
+  The datatype IRI that is set for that column (by default `xsd:string`) is used in the transformation.
+
+- *The user removes a previously set language tag for a column .*
+  The datatype IRI that is set for that column (by default `xsd:string`) is used in the transformation.
 
 #### 4.2.2.g Cleaning cell values
 
@@ -560,31 +560,21 @@ TBD
 Core requirements:
 
 - The ability to set a base IRI.
-- The ability to set one or more vocabularies to search in.
-- The ability to select a key column.
-- The ability to set an class for a subject.
-- The ability to set a predicate for each column. (M)
-- The ability to clean the values in a column for each column.
-- The ability to set a datatype for the values in a column for each column. (M)
+- The ability to set a key column.
+- The ability to set a class.
+- The ability to set properties for columns.
 
 Additional requirements:
-
-- For all of the mandatory core requirements a basic solution is required, thus are required to have default behavior.
-  - Use the URL of the instance, account, and datasetName (The ability to set a baseIRI).
-  - Use the row number to create the IRI (The ability to select a subject).
-  - Use the column header names to to create the predicate terms (The ability to set a predicate for each column).
-  - Set `xsd:string` as datatype for all object terms(The ability to set a datatype for the values in a column for each column).
-
-Limiting scope:
-
-- All core requirements, that are (M)andatory are at a minimum required to have a working LD Wizard.
+- The ability to set datatype IRIs for columns.
+- The ability to set language tags for columns.
+- The ability to clean the cell values.
 
 ### 4.3 Export component
 
 The export component of the LD Wizard. This component describes all the export features.
 
 <figure id="exportComponent">
-  <img src="/docs/img/exportComponent.svg" width="70%" height="50%">
+  <img src="img/exportComponent.svg" width="70%" height="50%">
   <figcaption>
     Figure 7 ― LD Wizard Export component.
   </figcaption>
@@ -636,7 +626,7 @@ Additional requirements:
 
 - Potential export formats for scripts:
   - [CoW](https://github.com/clariah/cow/wiki).
-  - [RML](https://rml.io/specs/rml/) 
+  - [RML](https://rml.io/specs/rml/)
   - RATT (RDF All The Things)
 
 ```
