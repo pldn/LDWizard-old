@@ -61,7 +61,7 @@ Because the combination of expertise of these three roles in one person is quite
 This traditional linked data transformation approach is depicted in [Figure 1](#traditional-etl).
 
 <figure id="traditional-etl">
-  <img src="/docs/img/traditional-etl.svg" width="70%" height="50%">
+  <img src="img/traditional-etl.svg" width="70%" height="50%">
   <figcaption>
     Figure 1 ― Schematic overview of a traditional linked data publication pipeline.
   </figcaption>
@@ -77,7 +77,7 @@ The LD Wizard approach is depicted in [Figure 2](#ld-wizard-approach).  The hori
 Developers are able to create new LD Wizard Applications, in order to tune specific wizards to specific domains or use cases.  Linked Data Experts are able to take the transformation that a Domain Expert has created, allowing them to extend it using more advanced transformation tools (i.e., outside LD Wizard).
 
 <figure id="ld-wizard-approach">
-  <img src="/docs/img/ld-wizard-approach.svg" width="70%" height="50%">
+  <img src="img/ld-wizard-approach.svg" width="70%" height="50%">
   <figcaption>
     Figure 2 ― Schematic overview of the LD Wizard approach.  The grey horizontal bar represents the ‘happy flow’ of a Domain Expert.
   </figcaption>
@@ -176,7 +176,7 @@ The generic interface is shown in [Figure 3](#GenericUserInterface).  The inner 
 The benefit of a generic interface is that it provides continuity for Domain Experts, when they move between the various interaction steps.  Links to documentation and the LD Wizard project are also included in the branding component that is positioned in the bottom-right corner.
 
 <figure id="GenericUserInterface">
-  <img src="/docs/img/GeneralUserInterface.svg" width="70%" height="50%">
+  <img src="img/GeneralUserInterface.svg" width="70%" height="50%">
   <figcaption>
     Figure 3 ― Schematic overview of the generic LD Wizard user interface.
   </figcaption>
@@ -214,7 +214,7 @@ LD Wizard consists of four basic components as shown in [Figure 4](#FlowDiagramf
 </dl>
 
 <figure id="FlowDiagramforLD Wizard">
-  <img src="/docs/img/FlowDiagramforLDWizard.svg">
+  <img src="img/FlowDiagramforLDWizard.svg">
   <figcaption>
     Figure 4 ― Schematic overview of the overall LD Wizard process.  The process is subdivided into sub-processes that correspond to the four LD Wizard components.
   </figcaption>
@@ -227,7 +227,7 @@ The following subsections specify the four LD Wizard components in more detail.
 The Upload component ([Figure 5](#ImportComponent)) allows a general user to provide the initial information that is needed in order to start a data transformation.
 
 <figure id="ImportComponent">
-  <img src="/docs/img/ImportComponent.svg" width="70%" height="50%">
+  <img src="img/ImportComponent.svg" width="70%" height="50%">
   <figcaption>
     Figure 5 ― Schematic overview of the upload component of the LD Wizard.
   </figcaption>
@@ -237,15 +237,15 @@ The Upload component ([Figure 5](#ImportComponent)) allows a general user to pro
 
 The upload component allows the initial information that is needed by an LD Wizard Application to be specified by the Domain Expert.  There are two kinds of initial information that can be provided:
 
-1. Exactly one tabular source data file (high priority).
+1. Exactly one tabular source data file.
 
-2. At most one transformation script file (low priority).
+2. At most one transformation script file.  **Not yet implemented, see [#upload-script]().**
 
 There are two ways in which this initial information can be provided:
 
-1. Upload from a local file (high priority).
+1. Upload from a local file.
 
-2. Upload from a remote HTTPS URL (low priority).
+2. Upload from a remote HTTPS URL.  **Not yet implemented, see [#upload-from-url]().**
 
 #### 4.1.1.a Tabular source data formats
 
@@ -298,34 +298,34 @@ To stay well within these limits, LD Wizard supports CSV source files of at most
 
 Secondly, LD Wizard sets a limit to the number of rows and columns that it supports:
 
-- The maximum number of columns is 30.
+- The maximum number of columns is **30**.
 
-- The maximum number of rows is 1,048,576.
+- The maximum number of rows is **1,048,576**.
 
 ### 4.1.2 Stimulus/Response Sequences
 
 This section specifies the sequence of user actions that results in a transformation to linked data.  Earlier steps in this sequence block later steps to maintain an orderly flow.
 
 1. *The user uploads a correct CSV file.*
-   The continue/transform button will be enabled and the tabular source file will be stored in the web browser memory.
+   The configure button will be enabled and the tabular source file will be stored in the web browser memory.  **See also [#upload-script]().**
 
 2. *The user uploads a CSV file that is too large.*
    The user receives an error stating that the file exceeds the maximum supported file size.
 
 3. *The user uploads a CSV file from a remote HTTPS URL, but the resource denoted by that URL is not available*
-   The user receives an error stating that the remote file could not be retrieved.
+   The user receives an error stating that the remote file could not be retrieved.  **See [#upload-from-url]().**
 
 4. *The user uploads a syntactically incorrect CSV file*
-   The user receives an error message stating that the file is incorrect.  The error message includes an overview of the part of the source data file that caused the error.
+   The user receives an error message stating that the file is incorrect.  The error message includes an overview of the part of the source data file that caused the error.  **See [#csv-error]().**
 
-5. *The user uploads more than one CSV file.*
-   The user receives an error message stating that only one tabular source file can be uploaded.
+5. *The user uploads another CSV file.*
+   This should replace the previously uploaded CSV file.
 
 6. *The user uploads a correct conversion script.*
-   The script is handled accordingly.  The user will see a transform instead of a continue button.
+   The script is handled accordingly.  The user will see a transform instead of a continue button.  **See [#upload-script]().**
 
 7. *The user uploads an incorrect script.*
-   The user receives an error message stating that the script is incorrect.
+   The user receives an error message stating that the script is incorrect. **See [#upload-script]().**
 
 ### 4.1.3 Functional Requirements
 
@@ -333,11 +333,11 @@ Core requirements:
 
 - The ability to upload exactly one data source file.
 
-- The ability to upload at most one transformation script.
+- The ability to upload at most one transformation script.  **See [#upload-script]().**
 
 - The ability to upload from a local file.
 
-- The ability to upload from a publicly accessible online location (URL).
+- The ability to upload from a publicly accessible online location (URL).  **See [#upload-from-url]().**
 
 Additional requirements:
 
@@ -345,7 +345,7 @@ Additional requirements:
 
   - There may be a limit to the file size that can be held in browser memory.
 
-  - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.
+  - There may be a limit to the file size that can be submitted within one HTTP request without receiving a timeout signal from the server.  **See [#upload-from-url]().**
 
 - Automatically recognize the file format:
 
@@ -372,7 +372,7 @@ Limiting scope:
 This section specifies the LD Wizard configuration component and its interfaces.  This component presents the Graphical User Interface (GUI) that the Domain Expert will interact with after they have successfully uploaded a tabular source data file.
 
 <figure id="GUIComponent">
-  <img src="/docs/img/GUIComponent.svg" width="70%" height="50%">
+  <img src="img/GUIComponent.svg" width="70%" height="50%">
   <figcaption>
     Figure 6 ― Schematic overview of the LD Wizard GUI component.
   </figcaption>
@@ -401,42 +401,13 @@ A [table scope](#table-scope) configuration that determines the IRI prefix for a
 
 The base IRI must be a valid absolute IRI.
 
-The developer is able to configure a default base IRI.  This IRI will be used if the Domain Expert does not specify one.
+The developer is able to configure a default IRI prefix.  This default IRI prefix will be suffixed with a hash value to provide the default base IRI.  This default base IRI is used if the Domain Expert does not explicitly set their own base IRI.  By adding the hash suffix, LD Wizard ensures that users who do not explicitly set the base IRI do not accidentally create identical IRIs to denote different resources.  (For example, `{prefix}/{hash}/1` is more unique than `{prefix}/1`.)
+
+For definition IRIs (classes and properties), the base IRI is suffixed with `def/`.  For instance IRIs, the base IRI is suffixed with `id/`.
 
 Since this setting requires knowledge of linked data, it is an [advanced configuration feature](#advanced-feature).
 
-#### 4.2.1.b Setting a vocabulary prefix
-
-A [table scope](#table-scope) configuration that determines that IRI prefix for all non-linked properties and classes.  The prefixes can be used to generate IRI's from data points in the CSV.
-
-The vocabulary prefix must be a valid absolute IRI.
-
-The developer is able to configure a default vocabulary prefix.  This will be used if the Domain Expert does not specify one.
-
-If the developer did not configure a default vocabulary prefix, the base IRI is used in order to determine a vocabulary prefix.
-
-Since this setting requires knowledge of linked data, it is an [advanced configuration feature](#advanced-feature).
-
-#### 4.2.1.c Setting a key column
-
-A [table scope](#table-scope) configuration that determines the column whose cell values will be used to compose RDF subject terms.
-
-RDF subject terms are composed by concatenating the base IRI with a normalized version of the value in the key column cell.  Normalization is needed to ensure that all subject terms are valid IRIs.
-
-If the values that appear in the key column are not unique, a dialog with the following options is presented to the user:
-
-<dl>
-  <dt>Modify</dt>
-  <dd>The subject IRIs are suffixed with `-1`, `-2`, etc. to force them to be unique.
-  <!--dt>Continue</dt>
-  <dd>The subject IRIs are not modified.  Information in two or more rows will be merged into one RDF record.</dd-->
-  <dt>Cancel</dt>
-  <dd>Undoes the selection of the key column.  The user must choose a different key column or must use the default option (i.e., the respective row numbers).</dd>
-</dl>
-
-If the user does not specify a key column, the row number will be used instead.  The first row receives row number 1.  Row numbers are guaranteed to be unique.  **See [#27](TODO) for an idea to change, and possibly improve, this.**
-
-#### 4.2.1.d Setting a class
+#### 4.2.1.b Setting a class
 
 A [table scope](#table-scope) configuration that determines the class that every RDF subject term will be an instance of.
 
@@ -446,7 +417,19 @@ The developer is able to configure a default class that will be used if no class
 
 If the developer does not configure a default class, the most generic class `rdfs:Resource` will be used.
 
-#### 4.2.1.e Setting properties
+#### 4.2.1.c Setting a key column
+
+A [table scope](#table-scope) configuration that determines the column whose cell values will be used to compose RDF subject terms.
+
+RDF subject terms are composed by concatenating the base IRI with `id/`, followed by a normalized version of the value in the key column cell.
+
+Normalization is needed to ensure that all subject terms are valid IRIs.
+
+Only columns whose values are unique can be set.
+
+If the user does not specify a key column, the row number will be used instead.  The first row receives row number 1.  Row numbers are guaranteed to be unique.
+
+#### 4.2.1.d Setting properties
 
 A [column scope](#column-scope) configuration that allows one RDF property to be configured for one or more columns.
 
@@ -469,7 +452,7 @@ If the property IRIs are not unique, a dialog with the following options is pres
   <dd>The predicate IRIs are not modified.  Values from two or more rows will be exported for the same subject/predicate combination.</dd>
 </dl>
 
-#### 4.2.1.f Setting a datatype IRI
+#### 4.2.1.e Setting a datatype IRI
 
 A [column scope](#column-scope) configuration that allows one datatype IRI to be specified for each column.  The selected datatype IRI will be used for each cell value in that column.
 
@@ -479,7 +462,7 @@ The developer is able to pre-configure this component to provide datatype IRI su
 
 If the Domain Expert does not specify a datatype IRI or language tag, the datatype IRI `xsd:string` is used as a default.
 
-#### 4.2.1.g Setting a language tag
+#### 4.2.1.f Setting a language tag
 
 A column scope configuration that allows one language tag to be specified for each.  The selected language tag will be used for each cell value in that column.
 
@@ -487,15 +470,15 @@ Values that appear in the selected column are assumed to be valid lexical expres
 
 If the user does not specify a datatype IRI or language tag, the datatype IRI `xsd:string` is used as a default.
 
-#### 4.2.1.h Creating IRIs for cells
+#### 4.2.1.g Creating IRIs for cells
 
 TBD
 
-#### 4.2.1.i Skip empty cells
+#### 4.2.1.h Skip empty cells
 
 A table scope configuration that allows empty cells to be excluded from the RDF export.
 
-#### 4.2.1.j Cleaning values in a column
+#### 4.2.1.i Cleaning values in a column
 
 A column scope configuration that allows values in individual cells to be modified.
 
@@ -507,63 +490,46 @@ The user is able to create a function or template which the conversion script ca
 
 #### 4.2.2.a Setting a base IRI
 
-- *The user sets an correct baseIRI*
-  The baseIRI is stored in the ETL-configuration and will be applied to all selected columns
+- *The user sets a correct base IRI*
+  The base IRI is stored in the ETL-configuration and will be applied to all selected columns
 
-- *The user sets an incorrect baseIRI*
-  The baseIRI is validated and an error is returned to the user to set a correct baseIRI.
+- *The user sets an incorrect base IRI*
+  The base IRI is validated and an error is returned to the user to set a correct base IRI.
 
-#### 4.2.2.b Setting a vocabulary prefix
+#### 4.2.2.b Setting a class
 
-- *The user sets an correct prefix*
-  The prefix is stored in the ETL-configuration and will be applied to all selected columns.
+- *The user enters a valid IRI.*
+  The entered IRI is used as the class in the transformation.
 
-- *The user sets an incorrect prefix*
-  The prefix is validated and an error is returned to the user to set a correct prefix.
+- *The user enters an invalid IRI.*
+  The user is shown a warning that the input is not valid.
+
+- *The user removes the class IRI.*
+  The default class IRI is used in the transformation.
 
 #### 4.2.2.c Setting a key column
 
 - *The user selects a valid key column.*
-  The key column becomes part of the configuration.
+  Subject terms will be generated based on the content of the cells that appear in that columns.
 
-- *The user does not set an key column.*
-  Subject terms will be generated based on the row number and base IRI.
+- *The user does not select an key column.*
+  Subject terms will be generated based on the row number.
 
-- *The user removes the key column selection.*
-  The key column is not longer configured.  Subject terms will be generated based on the row number and base IRI.
-
-- *The user selects a different column as the key column.*
-  The user is shown a warning that the subject column will be changed to the new column.
-
-- *The user sets a different column as a key/subject column.*
-  The old subject column is removed from the ETL-configuration and the new column is added as subject column to the ETL-configuration.
-
-#### 4.2.2.d Setting a class
-
-- *The user sets an allowed subject type.*
-  The subject type is stored in the ETL-configuration.
-
-- *The user removes the subject type.*
-  The user is shown a warning that it should set a subject type. The subject type is removed from the ETL-configuration.
-
-- *The user removes the class/type column selection.*
-  The subject type is removed from the ETL-configuration.
-
-#### 4.2.2.e Setting a predicate
+#### 4.2.2.d Setting a predicate
 
 - *The user sets a predicate IRI for a column.*
-  The predicate IRI is stored in the configuration.
+  The IRI is used as the property in the transformation.
 
 - *The user does not set a predicate for a column.*
-  A predicate IRI is constructed, based on the vocabulary prefix and the normalized header label, and added to the configuration.
+  A property is generated based on the base IRI and the column header label.
 
 - *The user sets the 'Skip column' option.*
-  The column will not be mapped to a predicate term and will not appear in the RDF export.
+  The column will not be mapped to a property and will not appear in the RDF export.  **See [#37](https://github.com/netwerk-digitaal-erfgoed/LDWizard/issues/37).**
 
-- *The user removes a previously set predicate.*
-  The previous predicate IRI is removed from the configuration and a predicate IRI is constructed, based on the vocabulary prefix and the normalized header label, and added to the configuration.
+- *The user removes a previously set predicate IRI.*
+  The configuration reverts to using a generated property, based on the base IRI and column header label.
 
-#### 4.2.2.f Setting a datatype IRI
+#### 4.2.2.e Setting a datatype IRI
 
 - *The user sets a datatype for a column.*
   The datatype IRI is stored in the configuration.
@@ -574,11 +540,11 @@ The user is able to create a function or template which the conversion script ca
 - *The user removes a previously set datatype IRI for a column .*
   The datatype IRI `xsd:string` is used in the configuration.
 
-#### 4.2.2.g Setting a language tag
+#### 4.2.2.f Setting a language tag
 
 TBD
 
-#### 4.2.2.h Cleaning cell values
+#### 4.2.2.g Cleaning cell values
 
 - *The user sets a cleaning function for a column.*
   The cleaning function is stored in the configuration.
