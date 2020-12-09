@@ -393,7 +393,7 @@ The configuration is composed of a number of smaller sub-components that togethe
   <dd>Transformation that modify individual cell values.</dd>
 </dl>
 
-Notice that configuration sub-component types become increasingly more complex to configure by a Domain Expert, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it primarily focuses on configuration sub-components of table and column scope (high priority), and only secondarily focuses on configuration sub-components of row and cell scope (low priority).
+Notice that configuration sub-component types become increasingly more complex to configure by a Domain Expert, as they progress from table to cell scope.  For example, there is only one input table and there are at most 30 columns, but there can be over one million rows and there can be millions of cells.  Because LD Wizard focuses on simplicity, it primarily focuses on configuration sub-components of table and column scope, and only secondarily focuses on configuration sub-components of row and cell scope.
 
 #### 4.2.1.a Setting a base IRI
 
@@ -641,7 +641,7 @@ export-transformationOutput(location)
 The LD Wizard Upload/publish component and interfaces. This publish component is the final component of the LD Wizard and is bridge between the LD Wizard and specialized Linked data tools.
 
 <figure id="PublishComponent">
-  <img src="/docs/img/PublishComponent.svg" width="70%" height="50%">
+  <img src="img/PublishComponent.svg" width="70%" height="50%">
   <figcaption>
     Figure 8 ― LD Wizard publish component.
   </figcaption>
@@ -993,24 +993,18 @@ The predicate for a particular column for a particular predicateObjectMap is def
 
 ## 5. Other (Non)functional Requirements
 
-Each of the requirements below are requirements important to note, but do not belong to an interface, or a functional component.
-
 ### 5.1 Performance Requirements
 
-There are no explicit performance requirements. The performance of the application should feel smooth while clicking through the steps. When the conversion process is running let's give the user then feedback on how the process is doing.
+LD Wizard must perform well in direct interaction with a user.  Most operations should take milliseconds.  Only operations that involve large quantities of data are allowed to take seconds, specifically: loading the source data, exporting the RDF data, and publishing the RDF data.
 
 ### 5.2 Safety Requirements
 
-The app is a client-side only app. This will limit the number of safety requirements needed for the software application stack.
+LD Wizard is a client-side only application.  This means that data only leaves the local machine when the publish step is performed.  This also means that every user is able to access all the components of the LD Wizard without additional privileges (e.g., go from the Publish view back to the Configure view).
 
 ### 5.3 Security Requirements
 
-The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so. The user should be able to access all the components of the LD Wizard without needing additional privileges.
+The product should protect any sensitive information from being uploaded/accessed outside of the product, when the user has not given explicit confirmation to do so.
 
-### 5.4 User Documentation
+The publish step should by default publish datasets as non-open.  This avoids unwanted situations in which a user openly publishes data that is not (yet) intended to be open.
 
-For this product we will need to types of documentation. User documentation for an instantiated product and a second developers documentation for an uninstantiated product.
-
-<!-- ### 5.5 Software Quality Attributes -->
-
-<!-- ## 6. Other Requirements -->
+When publishing through an API key is used, the API issuing linked data environment must handle API keys securely.  This is outside of the scope of LD Wizard.

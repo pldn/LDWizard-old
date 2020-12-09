@@ -4,33 +4,110 @@
 
 LD Wizard is a framework for creating end-user focused Graphical User Interfaces (GUIs) that simplify the creation and publication of linked data.
 
-## LD Wizard Project
+## 1. LD Wizard Project
 
-The LD Wizard project seeks to deliver the following products:
+The LD Wizard project delivers the following products:
 <dl>
-  <dt>LD Wizard Interface</dt>
-  <dd>The generic template that includes the technical framework and the various operational steps, without filling them in for any specific domain or use case.</dd>
-  <dt>Two LD Wizard Applications</dt>
-  <dd>Specific implementations of the one LD Wizard Interface.  These implementations are optimized for a specific domain or use case.</dd>
-</dt>
-
-The following LD Wizard Applications will be created:
-<dl>
-  <dt><a href="https://github.com/netwerk-digitaal-erfgoed/LDWizard-HelloWorld" target="_blank">“Hello, World!” Wizard</a></dt>
-  <dd>Provides a minimal implementation of the LD Wizard Interface.  As such, it is a fully functional wizard that allows linked data to be created from tabular source data, and published online.  This application serves as an example for developers who want to create their own LD Wizard Application.  They can use the “Hello, World!” Wizard as a starting point.</dd>
+  <dt><a href="docs/design.md">LD Wizard Design</a></dt>
+  <dd>A detailed design document that consolidates the requirements, limitations and structural components for the LD Wizard approach.
+  <dt><a href="https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core" target="_blank">LD Wizard Core</a></dt>
+  <dd>A separate repository where the LD Wizard Core codebase is developed and maintained.</dd>
   <dt><a href="https://github.com/netwerk-digitaal-erfgoed/LDWizard-ErfgoedWizard" target="_blank">Cultural Heritage Wizard</a></dt>
-  <dd>Provides a wizard that can be used to create and publish simple linked datasets in the cultural heritage domain.</dd>
+  <dd>A specific application of the LD Wizard configured for the Dutch Digital Heritage Network.</dd>
 </dl>
 
-## LD Wizard Design Document
+## 2. Create your own LD Wizard!
 
-The design for the LD Wizard Interface is maintained in [this document](docs/design.md).
+You can create your own LD Wizard application by following these steps:
 
-## Attribution
+1. Install [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com).
+
+   On Ubuntu this is done with the following commands. Check the project
+   websites for installation on other operating systems.
+
+   ```sh
+   curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+   echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+   sudo apt update
+   sudo apt install nodejs yarn
+   ```
+
+2. Create a directory for your application:
+
+   ```sh
+   mkdir my-wizard
+   cd my-wizard
+     ```
+
+3. Add the LD Wizard dependency:
+
+   ```sh
+   yarn add @netwerkdigitaalerfgoed/ldwizard
+   ```
+
+4. Create a configuration file called `config.ts` and enter the following content:
+
+   ```ts
+   // This is a template file
+   import WizardConfig from "@netwerkdigitaalerfgoed/ldwizard/types/WizardConfig";
+   const wizardConfig: WizardConfig = {};
+   export default wizardConfig;
+   ```
+
+5. Run the following command to build your application:
+
+     ```sh
+     yarn exec ldwizard-build config.ts
+     ```
+
+Your LD Wizard application can now be found inside the `lib/` directory.
+
+### 2a. Run locally
+
+You can upload your LD Wizard application to an online location and use it there.  But you can also run the application locally by starting an HTTP server.  For example:
+
+```sh
+cd lib
+http-server .
+```
+
+Open <http://localhost:8080> in a web browser.
+
+### 2b. Configuration options
+
+You can customize your LD Wizard application by adding the following configuration options to your configuration file (`config.ts`).
+
+| setting | type | default | description |
+| ------- | ---- | ------- | ----------- |
+| `appName` | `string` | LD Wizard | The name of the LD Wizard instance. |
+| `icon` | `string` | ![default icon]("./src/config/assets/LDWizard.png") | The icon that is used inside the application. |
+| `favIcon` | `string` | ![default favIcon]("./src/config/assets/favIcon.svg") | The icon that is used as the 'favicon'. This icon commonly appears in web browser tabs. |
+| `primaryColor` | `string` | #6d1e70 <svg height="20" viewBox="0 -10 20 30" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" fill="#6d1e70" r="10"/></svg> | The primary color that is used in the application. |
+| `secondaryColor` | `string` | #a90362 <svg height="20" viewBox="0 -10 20 30" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" fill="#a90362" r="10"/></svg> | The secondary color that is used in the application. |
+| `homepageMarkdown` | `string` | `undefined` | Optional name of a Markdown file that acts as the homepage for the LD Wizard application. |
+| `defaultBaseIri` | `string` | <https://data.netwerkdigitaalerfgoed.nl/> | The default base IRI that is used for linked data transformations. |
+| `classConfig`        | `{method: "elastic" \| "sparql"; endpoint: string;}` | `{method:"sparql"; endpoint: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql"}` | The service that is used for giving class suggestions. |
+| `predicateConfig`    | `{method: "elastic" \| "sparql"; endpoint: string;}` | `{method:"sparql"; endpoint: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql"}` | The service that is used for giving property suggestions. |
+| `getAllowedPrefixes` | `() => Promise<{prefixLabel:string; iri:string}[]>` | `() => []` | A function that is used to return prefix declarations. |
+| `publishOrder` | `("download" \| "triplydb")[]` | `["download","triplydb"]` | The order in which publishing options are shown in the 'publish' step. It is also possible to exclude publication options by removing them from this list. |
+| `dataplatformLink`   | `string` | <https://data.netwerkdigitaalerfgoed.nl> | Link to the data platform that is used in the footer. This data platform is also used for creating API tokens during the 'publish' step. |
+| `documentationLink` | `string` | <https://github.com/netwerk-digitaal-erfgoed/LDWizard> | Link to the generic LD Wizard project. |
+| `repositoryLink` | `string` | <https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core> | Link to the specific LD Wizard configuration. |
+
+### 2c. Building your own Docker container
+
+You can create a Docker container for your LD Wizard application by running the following command:
+
+```sh
+docker build -f ./docker/Dockerfile -t "my-tag" --build-arg CONFIG_FILE=config.ts
+```
+
+# 3. Attribution
 
 LD Wizard is an initiative of the following organizations and people:
 
 - [Dutch Digital Heritage Network (NDE)](https://www.netwerkdigitaalerfgoed.nl/en), Enno Meijers & Ivo Zandhuis.
 -  [The Netherlands’ Cadastre, Land Registry and Mapping Agency (Kadaster)](https://www.kadaster.nl), Erwin Folmer.
 - [International Institute of Social History (IISH)](https://iisg.amsterdam/en) and [Clariah](https://www.clariah.nl), Richard Zijdeman.
-- [Triply](https://triply.cc), Thomas de Groot, Gerwin Bosch & Wouter Beek.
+- [Triply](https://triply.cc), Gerwin Bosch, Thomas de Groot, Laurens Rietveld & Wouter Beek.
