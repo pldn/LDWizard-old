@@ -81,8 +81,8 @@ You can customize your LD Wizard application by adding the following configurati
 | setting | type | default | description |
 | ------- | ---- | ------- | ----------- |
 | `appName` | `string` | LD Wizard | The name of the LD Wizard instance. |
-| `icon` | `string` | ![default icon](https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core/raw/master/src/config/assets/LDWizard.png) | The icon that is used inside the application. |
-| `favIcon` | `string` | ![default favIcon](https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core/raw/master/src/config/assets/favIcon.svg) | The icon that is used as the 'favicon'. This icon commonly appears in web browser tabs. |
+| `icon` | `string` | <img src="https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core/raw/master/src/config/assets/LDWizard.png" height="50"> | The icon that is used inside the application. |
+| `favIcon` | `string` | <img src="https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core/raw/master/src/config/assets/favIcon.svg" height="50"> | The icon that is used as the 'favicon'. This icon commonly appears in web browser tabs. |
 | `primaryColor` | `string` | #6d1e70 <svg height="20" viewBox="0 -10 20 30" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" fill="#6d1e70" r="10"/></svg> | The primary color that is used in the application. |
 | `secondaryColor` | `string` | #a90362 <svg height="20" viewBox="0 -10 20 30" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" fill="#a90362" r="10"/></svg> | The secondary color that is used in the application. |
 | `homepageMarkdown` | `string` | `undefined` | Optional name of a Markdown file that acts as the homepage for the LD Wizard application. |
