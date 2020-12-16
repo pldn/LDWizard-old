@@ -65,7 +65,13 @@ Your LD Wizard application can now be found inside the `lib/` directory.
 
 ### 2a. Run locally
 
-You can upload your LD Wizard application to an online location and use it there.  But you can also run the application locally by starting an HTTP server.  For example:
+You can upload your LD Wizard application to an online location and use it there.  But you can also run the application locally by starting an HTTP server.  If you do not yet have an HTTP server installed, run the following command:
+
+```sh
+npm install -g http-server
+```
+
+This particular HTTP server can be started in the following way:
 
 ```sh
 cd lib
