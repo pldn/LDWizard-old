@@ -121,8 +121,6 @@ These queries support class and property descriptions that follow linked data st
 
   - Use [`owl:Class`](https://triplydb.com/w3c/owl/browser?resource=http%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23Class) or [`rdfs:Class`](https://triplydb.com/w3c/rdfs/browser?resource=http%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23Class) to declare that something is a class.
   - Use [`owl:DatatypeProperty`](https://triplydb.com/w3c/owl/browser?resource=http%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23DatatypeProperty), [`owl:ObjectProperty`](https://triplydb.com/w3c/owl/browser?resource=http%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23ObjectProperty), or [`rdf:Property`](https://triplydb.com/w3c/rdf/browser?resource=http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23Property) to declare that something is a property.
-  - Use either OWL or RDF(S) for declaring whether something is a class or property.  Specifically:
-      - Use `owl 
   - Use [`rdfs:label`](https://triplydb.com/w3c/rdfs/browser?resource=http%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23label) for human-readable labels.
   - Use [`rdfs:comment`](https://triplydb.com/w3c/rdfs/browser?resource=http%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23comment) for human-readable descriptions.
 
