@@ -71,7 +71,7 @@ You can upload your LD Wizard application to an online location and use it there
 npm install -g http-server
 ```
 
-This particular HTTP server can be started in the following way:
+With this particular HTTP server the LDWizard can be started in the following way:
 
 ```sh
 cd lib
