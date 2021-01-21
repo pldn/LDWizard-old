@@ -109,7 +109,48 @@ You can create a Docker container for your LD Wizard application by running the 
 docker build -f ./docker/Dockerfile -t "my-tag" --build-arg CONFIG_FILE=config.ts
 ```
 
-# 3. Attribution
+# 3. Explanation of backend services
+
+LD Wizard runs entirely within the web browser, making it a client-side application.  In order to give the user sugesstions about their data, LD Wizard sends/reveives requests to/from external linked data services.  This section describes some of the external services that can be used by LD Wizard.
+
+## 3a Suggestions with SPARQL
+
+When `classConfig` and/or `predicateConfig` are set to `sparql`, LD Wizard uses one or two SPARQL endpoints to retrieve suggestions for classes and properties, respectively.  The SPARQL queries that are used can be found [in the LD Wizard Core repository](https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core/blob/master/src/config/sparqlSearch.ts).
+
+These queries support class and property descriptions that follow linked data standards and best practices:
+
+  - Use [`owl:Class`](https://triplydb.com/w3c/owl/browser?resource=http%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23Class) or [`rdfs:Class`](https://triplydb.com/w3c/rdfs/browser?resource=http%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23Class) to declare that something is a class.
+  - Use [`owl:DatatypeProperty`](https://triplydb.com/w3c/owl/browser?resource=http%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23DatatypeProperty), [`owl:ObjectProperty`](https://triplydb.com/w3c/owl/browser?resource=http%3A%2F%2Fwww.w3.org%2F2002%2F07%2Fowl%23ObjectProperty), or [`rdf:Property`](https://triplydb.com/w3c/rdf/browser?resource=http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23Property) to declare that something is a property.
+  - Use either OWL or RDF(S) for declaring whether something is a class or property.  Specifically:
+      - Use `owl 
+  - Use [`rdfs:label`](https://triplydb.com/w3c/rdfs/browser?resource=http%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23label) for human-readable labels.
+  - Use [`rdfs:comment`](https://triplydb.com/w3c/rdfs/browser?resource=http%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23comment) for human-readable descriptions.
+
+## 3b Suggestions with ElasticSearch
+
+When `classConfig` and/or `preficateConfig` are set to `elastic`, LD Wizard uses generic ElasticSearch text queries to retrieve suggestions for classes and properties.  The ElasticSearch queries that are used can be found [in the LD Wizard Core repository](https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core/blob/master/src/config/elasticSearch.ts).
+
+These queries support class and property descriptions that follow linked data standards and best practices.  See [Section 3a](#3a-suggestions-with-sparql) for details.
+
+In order to create an ElasticSearch service that can be queried in this way, your linked dataset must be indexed as a collection of JSON files.  The most standards-compatible way of doing this is to create one JSON-LD file per non-trivial node.  A JSON-LD file contains the Concise Bounded Description (CBD) for a particular node.  Trivial nodes are nodes that are already included in the CBD (e.g., blank nodes).  These trivial nodes should not be indexed separately.
+
+## 3c IRI prefix completion
+
+There is not currently a strandard way of exposing IRI prefixes in RDF.  However, there is [an initiative](https://github.com/w3c/sparql-12/issues/134) to potentially add this feature to a future version of SPARQL.
+
+In the meantime, programmers can configure `getAllowedPrefixes` to anything that returns a list of IRI prefix objects.  The following example does this for the TriplyDB backend:
+
+```typescript
+getAllowedPrefixes: async () => {
+  const response = await fetch("https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/prefixes");
+  if (response.ok) {
+    const prefixes: PrefixEntry[] = await response.json();
+    return prefixes;
+  }
+}
+```
+
+# 4. Attribution
 
 LD Wizard is an initiative of the following organizations and people:
 
