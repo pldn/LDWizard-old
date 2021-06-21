@@ -102,6 +102,7 @@ You can customize your LD Wizard application by adding the following configurati
 | `dataplatformLink`   | `string` | <https://data.netwerkdigitaalerfgoed.nl> | Link to the data platform that is used in the footer. This data platform is also used for creating API tokens during the 'publish' step. |
 | `documentationLink` | `string` | <https://github.com/netwerk-digitaal-erfgoed/LDWizard> | Link to the generic LD Wizard project. |
 | `repositoryLink` | `string` | <https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core> | Link to the specific LD Wizard configuration. |
+| `newDatasetAccessLevel` | `"public" \| "internal" \| "private"` | `"private"`  |  The access level to use for new datasets |
 
 ### 2c. Building your own Docker container
 
