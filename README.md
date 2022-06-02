@@ -11,7 +11,11 @@ The LD Wizard project delivers the following products:
   <dt><a href="https://github.com/netwerk-digitaal-erfgoed/LDWizard-Core" target="_blank">LD Wizard Core</a></dt>
   <dd>A separate repository where the LD Wizard Core codebase is developed and maintained.</dd>
   <dt><a href="https://github.com/netwerk-digitaal-erfgoed/LDWizard-ErfgoedWizard" target="_blank">Cultural Heritage Wizard</a></dt>
-  <dd>A specific application of the LD Wizard configured for the Dutch Digital Heritage Network.</dd>
+  <dd>A specific configuration of the LD Wizard by the Dutch Digital Heritage Network.</dd>
+  <dt><a href="https://github.com/MaastrichtU-IDS/ldwizard-humanities">UM - Humanities and Social Sciences</a></dt>
+  <dd>A specific configuration of the LD Wizard by the University of Maastricht for transforming tabular data in the humanities and the social sciences.</dd>
+  <dt><a href="https://github.com/MaastrichtU-IDS/ldwizard-biolink">UM - BioLink</a></dt>
+  <dd>A specific configuration of the LD Wizard by the University of Maastricht for transforming BioLink tables.</dd>
   <dt><a href="https://labs.kadaster.nl/demonstrators/geodatawizard/" target="_blank">GeoData Wizard</a></dt>
   <dd>A specific application of the LD Wizard configured for linking Dutch geo data to the BAG and BRT.</dd>
   <dt><a href="docs/design.md">LD Wizard Design</a></dt>
