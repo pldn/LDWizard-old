@@ -1,3 +1,5 @@
+**This is an old repo, the new one is over at <https://github.com/pldn/LDWizard>**
+
 <img src="docs/img/LDWizard-square.png" align="right" height="150">
 
 # LD Wizard: Create Linked Data in One Spell
